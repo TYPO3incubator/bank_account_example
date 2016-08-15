@@ -1,0 +1,20 @@
+{
+	"name": "h4ck3r31/bank-account-example",
+	"type": "typo3-cms-extension",
+	"description": "Bank Account Example - Event Sourcing in TYPO3 CMS",
+	"homepage": "https://h4ck3r31.net/",
+	"license": ["GPL-2.0+"],
+	"minimum-stability": "dev",
+	"require": {
+		"php" : "^7.0"
+	},
+	"replace": {
+		"bank-account-example": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"H4ck3r31\\BankAccountExample\\": "Classes/",
+			"H4ck3r31\\BankAccountExample\\Tests\\": "Tests/"
+		}
+	}
+}
