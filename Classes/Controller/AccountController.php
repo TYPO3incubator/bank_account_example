@@ -14,10 +14,12 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+
 /**
- * BankAccountController
+ * AccountController
  */
-class BankAccountController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class AccountController extends ActionController
 {
     /**
      * @inject

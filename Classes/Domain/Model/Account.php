@@ -32,7 +32,7 @@ class Account extends AbstractEntity
     protected $number = '';
 
     /**
-     * @var float
+     * @var double
      */
     protected $balance = 0.0;
 
@@ -53,7 +53,7 @@ class Account extends AbstractEntity
     /**
      * @param string $holder
      */
-    public function setHolder($holder)
+    public function setHolder(string $holder)
     {
         $this->holder = $holder;
     }
@@ -69,13 +69,13 @@ class Account extends AbstractEntity
     /**
      * @param string $number
      */
-    public function setNumber($number)
+    public function setNumber(string $number)
     {
         $this->number = $number;
     }
 
     /**
-     * @return float $balance
+     * @return double $balance
      */
     public function getBalance()
     {
@@ -83,9 +83,9 @@ class Account extends AbstractEntity
     }
 
     /**
-     * @param float $balance
+     * @param double $balance
      */
-    public function setBalance($balance)
+    public function setBalance(double $balance)
     {
         $this->balance = $balance;
     }
