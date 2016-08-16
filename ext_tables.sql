@@ -11,6 +11,9 @@ CREATE TABLE tx_bankaccountexample_domain_model_account (
 	balance double(11,2) DEFAULT '0.00' NOT NULL,
 	transactions int(11) unsigned DEFAULT '0' NOT NULL,
 
+	overdraft_limit double(11,2) DEFAULT '0.00' NOT NULL,
+	overdraft_rate double(11,2) DEFAULT '0.00' NOT NULL,
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
