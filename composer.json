@@ -9,7 +9,7 @@
 		"php" : "^7.0"
 	},
 	"replace": {
-		"bank-account-example": "*"
+		"bank_account_example": "*"
 	},
 	"autoload": {
 		"psr-4": {
