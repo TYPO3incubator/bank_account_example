@@ -37,7 +37,6 @@ class CreateCommand extends AbstractCommand implements Instantiable
     public static function create()
     {
         $command = static::instance();
-        $command->aggregateId = Uuid::uuid4()->toString();
         return $command;
     }
 }
