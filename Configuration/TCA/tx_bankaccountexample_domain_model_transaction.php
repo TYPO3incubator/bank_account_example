@@ -1,7 +1,7 @@
 <?php
 return [
     'ctrl' => [
-        'title'	=> 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_financialtransaction',
+        'title'	=> 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction',
         'label' => 'entry_date',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
@@ -12,7 +12,7 @@ return [
 
         'delete' => 'deleted',
         'searchFields' => 'entry_date,availability_date,reference,value,',
-        'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_financialtransaction.gif'
+        'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_transaction.gif'
     ],
     'interface' => [
         'showRecordFieldList' => 'entry_date, availability_date, reference, value',
@@ -32,7 +32,7 @@ return [
 
         'entry_date' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_financialtransaction.entry_date',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.entry_date',
             'config' => [
                 'dbType' => 'datetime',
                 'type' => 'input',
@@ -45,7 +45,7 @@ return [
         ],
         'availability_date' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_financialtransaction.availability_date',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.availability_date',
             'config' => [
                 'dbType' => 'datetime',
                 'type' => 'input',
@@ -58,7 +58,7 @@ return [
         ],
         'reference' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_financialtransaction.reference',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.reference',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
@@ -68,7 +68,7 @@ return [
         ],
         'value' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_financialtransaction.value',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.value',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
