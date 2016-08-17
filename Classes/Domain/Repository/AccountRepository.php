@@ -54,27 +54,27 @@ class AccountRepository extends Repository
 
     /**
      * @param string $uuid
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
+    public function removeByUuid(string $uuid)
+    {
+        $account = $this->fetchByUuid($uuid);
+        if (!empty($account)) {
+            $this->remove($account);
+        }
+    }
+
+    /**
+     * @param string $uuid
      * @return Account
      */
-    public function findByUuid(string $uuid)
+    public function fetchByUuid(string $uuid)
     {
         $query = $this->createQuery();
         $query->matching(
             $query->equals('uuid', $uuid)
         );
         return $query->execute()->getFirst();
-    }
-
-    /**
-     * @param string $uuid
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     */
-    public function removeByUuid(string $uuid)
-    {
-        $account = $this->findByUid($uuid);
-        if (!empty($account)) {
-            $this->remove($account);
-        }
     }
 
     /**
