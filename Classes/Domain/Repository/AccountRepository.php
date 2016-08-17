@@ -20,6 +20,7 @@ use H4ck3r31\BankAccountExample\Domain\Projection\AccountProjection;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -53,6 +54,19 @@ class AccountRepository extends Repository
     }
 
     /**
+     * @param string $number
+     * @return null|Account
+     */
+    public function findByNumber(string $number)
+    {
+        // @todo Handle requirement of projection with a separate RevisionStore
+        AccountProjection::instance()->project();
+        $query = $this->createQuery();
+        $query->matching($query->equals('number', $number));
+        return $query->execute()->getFirst();
+    }
+
+    /**
      * @param string $uuid
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
@@ -71,9 +85,7 @@ class AccountRepository extends Repository
     public function fetchByUuid(string $uuid)
     {
         $query = $this->createQuery();
-        $query->matching(
-            $query->equals('uuid', $uuid)
-        );
+        $query->matching($query->equals('uuid', $uuid));
         return $query->execute()->getFirst();
     }
 
