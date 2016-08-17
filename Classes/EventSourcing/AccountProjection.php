@@ -60,7 +60,7 @@ class AccountProjection implements Applicable
     public function project()
     {
         // fetch current UUIDs with accordant revisions
-        $this->entityReferences = AccountRepository::instance()->fetchEntityReferences();
+        $this->entityReferences = AccountRepository::instance()->fetchRevisionReferences();
 
         // process all account created events
         $epic = EventSelector::instance()

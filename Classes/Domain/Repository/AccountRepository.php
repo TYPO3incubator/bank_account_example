@@ -18,6 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\EventSourcing\AccountProjection;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
+use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
@@ -90,17 +91,17 @@ class AccountRepository extends Repository
     }
 
     /**
-     * @return EntityReference[]
+     * @return RevisionReference[]
      */
-    public function fetchEntityReferences()
+    public function fetchRevisionReferences()
     {
-        $entityReferences = [];
+        $revisionReferences = [];
         $query = $this->createQuery();
         foreach ($query->execute(true) as $account) {
-            $reference = EntityReference::fromRecord($this->getTableName(), $account);
-            $entityReferences[$reference->getUuid()] = $reference;;
+            $reference = RevisionReference::fromRecord($this->getTableName(), $account);
+            $revisionReferences[$reference->getEntityReference()->getUuid()] = $reference;;
         }
-        return $entityReferences;
+        return $revisionReferences;
     }
 
     /**
