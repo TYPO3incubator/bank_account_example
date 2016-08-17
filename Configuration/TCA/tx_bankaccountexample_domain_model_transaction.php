@@ -77,7 +77,7 @@ return [
 
         ],
 
-        'bankaccount' => [
+        'account' => [
             'config' => [
                 'type' => 'passthrough',
             ],

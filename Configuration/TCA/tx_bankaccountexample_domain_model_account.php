@@ -66,7 +66,7 @@ return [
             'config' => [
                 'type' => 'inline',
                 'foreign_table' => 'tx_bankaccountexample_domain_model_transaction',
-                'foreign_field' => 'bankaccount',
+                'foreign_field' => 'account',
                 'maxitems' => 9999,
                 'appearance' => [
                     'collapseAll' => 0,
