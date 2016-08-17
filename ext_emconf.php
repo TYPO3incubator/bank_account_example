@@ -14,6 +14,7 @@ $EM_CONF[$_EXTKEY] = array(
     'constraints' => array(
         'depends' => array(
             'data_handling' => '',
+            'bootstrap_package' => '',
         ),
         'conflicts' => array(),
         'suggests' => array(),
