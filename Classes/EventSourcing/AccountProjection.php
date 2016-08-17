@@ -19,7 +19,7 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
+use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\Extbase\Persistence\Generic\Session;
@@ -43,9 +43,9 @@ class AccountProjection implements Applicable
     protected $force = false;
 
     /**
-     * @var EntityReference[]
+     * @var RevisionReference[]
      */
-    protected $entityReferences;
+    protected $revisionReferences;
 
     /**
      * @param bool $force
@@ -60,7 +60,7 @@ class AccountProjection implements Applicable
     public function project()
     {
         // fetch current UUIDs with accordant revisions
-        $this->entityReferences = AccountRepository::instance()->fetchRevisionReferences();
+        $this->revisionReferences = AccountRepository::instance()->fetchRevisionReferences();
 
         // process all account created events
         $epic = EventSelector::instance()
@@ -68,8 +68,8 @@ class AccountProjection implements Applicable
         Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
             ->tell($this, $epic);
 
-        foreach ($this->entityReferences as $entityReference) {
-            AccountRepository::instance()->removeByUuid($entityReference->getUuid());
+        foreach ($this->revisionReferences as $revisionReference) {
+            AccountRepository::instance()->removeByUuid($revisionReference->getEntityReference()->getUuid());
         }
     }
 
@@ -80,7 +80,7 @@ class AccountProjection implements Applicable
         }
 
         $uuid = $event->getAccountId();
-        $entityReference = $this->getEntityReference($uuid);
+        $revisionReference = $this->getRevisionReference($uuid);
 
         // process the whole account events
         $account = Account::instance();
@@ -89,32 +89,32 @@ class AccountProjection implements Applicable
 
         // add/update if being forced or revisions are different
         if ($this->force || !$this->equalsRevision($uuid, $account->getRevision())) {
-            if ($entityReference !== null) {
+            if ($revisionReference !== null) {
                 // @todo Get rid of Extbase's session magic when updating a projected record
-                AccountRepository::instance()->removeByUuid($entityReference->getUuid());
+                AccountRepository::instance()->removeByUuid($revisionReference->getEntityReference()->getUuid());
             }
             AccountRepository::instance()->add($account);
         }
 
-        $this->purgeEntityReference($uuid);
+        $this->purgeRevisionReference($uuid);
     }
 
     /**
      * @param string $uuid
-     * @return EntityReference
+     * @return RevisionReference
      */
-    protected function getEntityReference(string $uuid)
+    protected function getRevisionReference(string $uuid)
     {
-        return ($this->entityReferences[$uuid] ?? null);
+        return ($this->revisionReferences[$uuid] ?? null);
     }
 
     /**
      * @param string $uuid
      */
-    protected function purgeEntityReference(string $uuid)
+    protected function purgeRevisionReference(string $uuid)
     {
-        if ($this->getEntityReference($uuid) !== null) {
-            unset($this->entityReferences[$uuid]);
+        if ($this->getRevisionReference($uuid) !== null) {
+            unset($this->revisionReferences[$uuid]);
         }
     }
 
@@ -125,8 +125,8 @@ class AccountProjection implements Applicable
      */
     protected function equalsRevision(string $uuid, int $revision)
     {
-        $entityReference = $this->getEntityReference($uuid);
-        return ($entityReference !== null && $entityReference->getRevision() === $revision);
+        $revisionReference = $this->getRevisionReference($uuid);
+        return ($revisionReference !== null && $revisionReference->getRevision() === $revision);
     }
 
     /**
