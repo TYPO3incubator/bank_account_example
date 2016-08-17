@@ -1,0 +1,28 @@
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+  <div id="close-modal-{account.uuid}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="close-modal-label-{account.uuid}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="close-modal-label-{account.uuid}">Close account #{account.number}</h4>
+        </div>
+        <div class="modal-body">
+          Do you really want to close account <strong>#{account.number}</strong>?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">
+            <span class="glyphicon glyphicon-remove"></span>
+            cancel
+          </button>
+          <f:link.action action="close" class="btn btn-danger" additionalAttributes="{role:'button'}" arguments="{account:account}">
+            <span class="glyphicon glyphicon-trash"></span>
+            close account
+          </f:link.action>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</html>

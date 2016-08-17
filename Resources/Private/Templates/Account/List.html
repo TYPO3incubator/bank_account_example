@@ -21,13 +21,22 @@
       </f:else>
     </f:if>
     <f:for each="{accounts}" as="account">
-      <tr>
-        <td>{account.number}</td>
+      <tr class="{f:if(condition:'{account.closed}',then:'account-closed')}">
+        <td>#{account.number}</td>
         <td>{account.holder}</td>
         <td>{account.balance}</td>
         <td>
-          show
-          close
+          <f:link.action action="show" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
+            <span class="glyphicon glyphicon-search"></span>
+          </f:link.action>
+          <f:if condition="{account.closed}">
+            <f:else>
+              <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#close-modal-{account.uuid}">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              <f:render partial="Modals/AccountClose" arguments="{_all}" />
+            </f:else>
+          </f:if>
         </td>
       </tr>
     </f:for>

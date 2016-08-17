@@ -56,4 +56,12 @@ class CommandManager implements Instantiable
             Account::create($command->getHolder(), $command->getNumber())->getEvents()
         );
     }
+
+    protected function manageCloseCommand(Command\CloseCommand $command)
+    {
+        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
+        AccountRepository::instance()->addEvents(
+            $account->close()->getEvents()
+        );
+    }
 }

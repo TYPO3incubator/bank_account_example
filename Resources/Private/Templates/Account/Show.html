@@ -1,0 +1,55 @@
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+<h2>Account details</h2>
+
+<ul>
+  <li>Account number: #{account.number}</li>
+  <li>Account holder: {account.holder}</li>
+  <li>Account revision: {account.revision}</li>
+</ul>
+
+<h2>Transactions</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Entry</th>
+      <th>Availability</th>
+      <th>Type</th>
+      <th>Value €</th>
+      <th>Balance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <f:if condition="{account.transactions}">
+      <f:else>
+        <tr>
+          <td colspan="4">No account information available</td>
+        </tr>
+      </f:else>
+    </f:if>
+    <f:for each="{accounts}" as="account">
+      <tr class="{f:if(condition:'{account.closed}',then:'account-closed')}">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </f:for>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="4">Balance</th>
+      <th>€ {account.balance -> f:format.currency()}</th>
+    </tr>
+  </tfoot>
+</table>
+
+<f:link.action action="new" class="btn btn-primary" additionalAttributes="{role:'button'}">
+  <span class="glyphicon glyphicon-plus"></span>
+  Create account
+</f:link.action>
+
+</html>

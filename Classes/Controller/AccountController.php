@@ -40,11 +40,11 @@ class AccountController extends ActionController
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
+     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
-    public function showAction(Account $bankAccount)
+    public function showAction(Account $account)
     {
-        $this->view->assign('bankAccount', $bankAccount);
+        $this->view->assign('account', $account);
     }
 
     /**
@@ -85,12 +85,13 @@ class AccountController extends ActionController
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
+     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
-    public function deleteAction(Account $bankAccount)
+    public function closeAction(Account $account)
     {
-        $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->accountRepository->remove($bankAccount);
+        CommandManager::instance()->manage(
+            Command\CloseCommand::create($account->getUuidInterface())
+        );
         $this->redirect('list');
     }
 }
