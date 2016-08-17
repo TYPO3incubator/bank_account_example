@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
-use H4ck3r31\BankAccountExample\EventSourcing\Stream\AccountStream;
+use H4ck3r31\BankAccountExample\EventSourcing\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventStorePool;
@@ -50,7 +50,7 @@ class Common
 
         StreamProvider::provideFor(static::NAME_STREAM_PREFIX . 'Account')
             ->setEventNames([AbstractEvent::class])
-            ->setStream(AccountStream::instance())
+            ->setStream(Stream::instance())
             ->setStore(EventStorePool::provide()->getDefault());
     }
 

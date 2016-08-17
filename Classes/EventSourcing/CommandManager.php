@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain;
+namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -24,19 +24,19 @@ use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 /**
  * DepositCommand
  */
-class AccountCommandManager implements Instantiable
+class CommandManager implements Instantiable
 {
     /**
-     * @return AccountCommandManager
+     * @return CommandManager
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(AccountCommandManager::class);
+        return Common::getObjectManager()->get(CommandManager::class);
     }
 
     /**
      * @param Command\AbstractCommand $command
-     * @return AccountCommandManager
+     * @return CommandManager
      */
     public function manage(Command\AbstractCommand $command)
     {

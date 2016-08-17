@@ -14,9 +14,9 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\AccountCommandManager;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -59,7 +59,7 @@ class AccountController extends ActionController
      */
     public function createAction(Account $account)
     {
-        AccountCommandManager::instance()->manage(
+        CommandManager::instance()->manage(
             Command\CreateCommand::create($account->getHolder(), $account->getNumber())
         );
         $this->redirect('list');

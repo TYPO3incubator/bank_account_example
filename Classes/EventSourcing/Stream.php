@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\EventSourcing\Stream;
+namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -19,19 +19,19 @@ use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Stream\AbstractStream;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
-class AccountStream extends AbstractStream implements Instantiable
+class Stream extends AbstractStream implements Instantiable
 {
     /**
-     * @return AccountStream
+     * @return Stream
      */
     static public function instance()
     {
-        return GeneralUtility::makeInstance(AccountStream::class);
+        return GeneralUtility::makeInstance(Stream::class);
     }
 
     /**
      * @param string $name
-     * @return AccountStream
+     * @return Stream
      */
     public function setName(string $name) {
         $this->name = $name;
@@ -40,7 +40,7 @@ class AccountStream extends AbstractStream implements Instantiable
 
     /**
      * @param AbstractEvent $event
-     * @return AccountStream
+     * @return Stream
      */
     public function publish(AbstractEvent $event)
     {
@@ -57,7 +57,7 @@ class AccountStream extends AbstractStream implements Instantiable
 
     /**
      * @param callable $consumer
-     * @return AccountStream
+     * @return Stream
      */
     public function subscribe(callable $consumer)
     {

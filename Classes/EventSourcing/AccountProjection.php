@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Projection;
+namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -18,7 +18,6 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
-use H4ck3r31\BankAccountExample\Domain\Saga\BankSaga;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
@@ -66,7 +65,7 @@ class AccountProjection implements Applicable
         // process all account created events
         $epic = EventSelector::instance()
             ->setCategories([Common::NAME_STREAM_PREFIX . 'Bank']);
-        BankSaga::create(Common::NAME_STREAM_PREFIX . 'Bank')
+        Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
             ->tell($this, $epic);
 
         foreach ($this->entityReferences as $entityReference) {
@@ -86,7 +85,7 @@ class AccountProjection implements Applicable
         // process the whole account events
         $account = Account::instance();
         $epic = EventSelector::instance()->setStreamName($uuid);
-        BankSaga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
+        Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
 
         // add/update if being forced or revisions are different
         if ($this->force || !$this->equalsRevision($uuid, $account->getRevision())) {

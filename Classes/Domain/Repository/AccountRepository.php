@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Projection\AccountProjection;
+use H4ck3r31\BankAccountExample\EventSourcing\AccountProjection;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;

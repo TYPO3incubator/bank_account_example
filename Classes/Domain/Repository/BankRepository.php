@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\Domain\Saga\BankSaga;
+use H4ck3r31\BankAccountExample\EventSourcing\Saga;
 use H4ck3r31\BankAccountExample\Domain\Transient\Bank;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\Extbase\Persistence\Repository;
@@ -41,7 +41,7 @@ class BankRepository
         $bank = Bank::instance();
         $epic = EventSelector::instance()
             ->setCategories([Common::NAME_STREAM_PREFIX . 'Bank']);
-        BankSaga::create(Common::NAME_STREAM_PREFIX . 'Bank')
+        Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
             ->tell($bank, $epic);
 
         return $bank;

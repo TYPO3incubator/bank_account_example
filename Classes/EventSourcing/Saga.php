@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Saga;
+namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,25 +15,24 @@ namespace H4ck3r31\BankAccountExample\Domain\Saga;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\EventSourcing\Stream\AccountStream;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga\AbstractSaga;
 
 /**
  * Bank
  */
-class BankSaga extends AbstractSaga
+class Saga extends AbstractSaga
 {
     /**
      * @param string $name
-     * @return BankSaga
+     * @return Saga
      */
     public static function create(string $name)
     {
-        return Common::getObjectManager()->get(BankSaga::class, $name);
+        return Common::getObjectManager()->get(Saga::class, $name);
     }
 
     protected function getStream()
     {
-        return AccountStream::instance();
+        return Stream::instance();
     }
 }
