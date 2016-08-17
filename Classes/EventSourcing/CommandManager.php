@@ -56,11 +56,4 @@ class CommandManager implements Instantiable
             Account::create($command->getHolder(), $command->getNumber())->getEvents()
         );
     }
-
-    protected function manageCreateChainedCommand(Command\CreateChainedCommand $command)
-    {
-        AccountRepository::instance()->addEvents(
-            Account::create()->getEvents()
-        );
-    }
 }
