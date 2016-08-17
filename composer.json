@@ -6,7 +6,8 @@
 	"license": ["GPL-2.0+"],
 	"minimum-stability": "dev",
 	"require": {
-		"php" : "^7.0"
+		"php" : "^7.0",
+		"typo3/cms-data-handling": "*"
 	},
 	"replace": {
 		"bank_account_example": "*"

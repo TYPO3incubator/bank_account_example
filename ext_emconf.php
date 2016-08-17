@@ -12,7 +12,9 @@ $EM_CONF[$_EXTKEY] = array(
     'author_company' => '',
     'version' => '0.0.0',
     'constraints' => array(
-        'depends' => array(),
+        'depends' => array(
+            'data_handling' => '',
+        ),
         'conflicts' => array(),
         'suggests' => array(),
     ),
