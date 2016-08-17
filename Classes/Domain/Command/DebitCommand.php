@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * DebitCommand
@@ -34,16 +35,16 @@ class DebitCommand extends AbstractCommand implements Transactional
     }
 
     /**
-     * @param string $aggregateId
+     * @param UuidInterface $accountId
      * @param double $value
      * @param string $reference
      * @param null|\DateTime $availabilityDate
      * @return DebitCommand
      */
-    public static function create(string $aggregateId, double $value, string $reference = '', \DateTime $availabilityDate = null)
+    public static function create(UuidInterface $accountId, double $value, string $reference = '', \DateTime $availabilityDate = null)
     {
         $command = static::instance();
-        $command->aggregateId = $aggregateId;
+        $command->accountId = $accountId;
         $command->value = $value;
         $command->reference = $reference;
         $command->entryDate = new \DateTime('now');

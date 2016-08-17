@@ -13,6 +13,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * CreateCommand
@@ -20,15 +21,15 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
 abstract class AbstractCommand
 {
     /**
-     * @var string
+     * @var UuidInterface
      */
-    protected $aggregateId;
+    protected $accountId;
 
     /**
-     * @return string
+     * @return UuidInterface
      */
-    public function getAggregateId(): string
+    public function getAccountId(): UuidInterface
     {
-        return $this->aggregateId;
+        return $this->accountId;
     }
 }

@@ -15,6 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
  */
 
 use H4ck3r31\BankAccountExample\Common;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * CloseCommand
@@ -30,13 +31,13 @@ class CloseCommand extends AbstractCommand
     }
 
     /**
-     * @param string $aggregateId
+     * @param UuidInterface $accountId
      * @return CloseCommand
      */
-    public static function create(string $aggregateId)
+    public static function create(UuidInterface $accountId)
     {
         $command = static::instance();
-        $command->aggregateId = $aggregateId;
+        $command->accountId = $accountId;
         return $command;
     }
 }

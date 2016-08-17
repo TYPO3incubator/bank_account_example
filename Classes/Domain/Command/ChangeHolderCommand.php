@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * ChangeHolderCommand
@@ -39,14 +40,14 @@ class ChangeHolderCommand extends AbstractCommand implements Holdable
     protected $holder;
 
     /**
-     * @param string $aggregateId
+     * @param UuidInterface $accountId
      * @param string $holder
      * @return ChangeHolderCommand
      */
-    public static function create(string $aggregateId, string $holder)
+    public static function create(UuidInterface $accountId, string $holder)
     {
         $command = static::instance();
-        $command->aggregateId = $aggregateId;
+        $command->accountId = $accountId;
         $command->holder = $holder;
         return $command;
     }
