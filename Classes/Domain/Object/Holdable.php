@@ -15,31 +15,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  */
 
 /**
- * TransactionalTrait
+ * Holdable
  */
-interface Transactional
+interface Holdable
 {
-    /**
-     * @return double
-     */
-    public function getValue(): double;
-
-    /**
-     * @return \DateTime
-     */
-    public function getEntryDate(): \DateTime;
-
-    /**
-     * @return \DateTime
-     */
-    public function getAvailabilityDate(): \DateTime;
-
     /**
      * @return string
      */
-    public function getReference(): string;
-
-    public function transactionalToArray(): array;
-
-    public function transactionalFromArray(array $data);
+    public function getHolder(): string;
 }

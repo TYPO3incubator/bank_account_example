@@ -72,4 +72,22 @@ trait TransactionalTrait
     {
         return $this->reference;
     }
+
+    /**
+     * @return array
+     */
+    public function transactionalToArray(): array
+    {
+        return [
+            'value' => $this->value,
+            'entryDate' => $this->entryDate,
+            'availabilityDate' => $this->availabilityDate,
+            'reference' => $this->reference,
+        ];
+    }
+
+    public function transactionalFromArray(array $data)
+    {
+
+    }
 }

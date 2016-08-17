@@ -14,32 +14,23 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+
 /**
- * TransactionalTrait
+ * NumberedTrait
  */
-interface Transactional
+trait NumberedTrait
 {
     /**
-     * @return double
+     * @var string
      */
-    public function getValue(): double;
-
-    /**
-     * @return \DateTime
-     */
-    public function getEntryDate(): \DateTime;
-
-    /**
-     * @return \DateTime
-     */
-    public function getAvailabilityDate(): \DateTime;
+    protected $number;
 
     /**
      * @return string
      */
-    public function getReference(): string;
-
-    public function transactionalToArray(): array;
-
-    public function transactionalFromArray(array $data);
+    public function getNumber(): string
+    {
+        return $this->number;
+    }
 }
