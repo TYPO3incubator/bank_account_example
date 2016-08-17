@@ -7,3 +7,5 @@ defined('TYPO3_MODE') or die();
     ['Account' => 'list, new, create, edit, update, delete'],
     ['Account' => 'list, new, create, edit, update, delete']
 );
+
+\H4ck3r31\BankAccountExample\Common::registerEventSources();

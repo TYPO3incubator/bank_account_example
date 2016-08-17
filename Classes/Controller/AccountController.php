@@ -14,6 +14,9 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\AccountCommandManager;
+use H4ck3r31\BankAccountExample\Domain\Command;
+use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -32,14 +35,14 @@ class AccountController extends ActionController
      */
     public function listAction()
     {
-        $bankAccounts = $this->accountRepository->findAll();
-        $this->view->assign('bankAccounts', $bankAccounts);
+        $accounts = $this->accountRepository->findAll();
+        $this->view->assign('accounts', $accounts);
     }
 
     /**
      * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
      */
-    public function showAction(\H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount)
+    public function showAction(Account $bankAccount)
     {
         $this->view->assign('bankAccount', $bankAccount);
     }
@@ -49,43 +52,42 @@ class AccountController extends ActionController
      */
     public function newAction()
     {
-
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $newBankAccount
+     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
-    public function createAction(\H4ck3r31\BankAccountExample\Domain\Model\Account $newBankAccount)
+    public function createAction(Account $account)
     {
-        $this->addFlashMessage('The object was created. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->accountRepository->add($newBankAccount);
+        AccountCommandManager::instance()->manage(
+            Command\CreateCommand::create($account->getHolder(), $account->getNumber())
+        );
         $this->redirect('list');
     }
 
     /**
      * action edit
      *
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
+     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
-    public function editAction(\H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount)
+    public function editAction(Account $account)
     {
-        $this->view->assign('bankAccount', $bankAccount);
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
+     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
-    public function updateAction(\H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount)
+    public function updateAction(Account $account)
     {
         $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->accountRepository->update($bankAccount);
+        $this->accountRepository->update($account);
         $this->redirect('list');
     }
 
     /**
      * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount
      */
-    public function deleteAction(\H4ck3r31\BankAccountExample\Domain\Model\Account $bankAccount)
+    public function deleteAction(Account $bankAccount)
     {
         $this->addFlashMessage('The object was deleted. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
         $this->accountRepository->remove($bankAccount);
