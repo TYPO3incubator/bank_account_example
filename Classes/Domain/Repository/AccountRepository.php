@@ -17,11 +17,10 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\EventSourcing\AccountProjection;
-use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\EntityReference;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
 use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
@@ -69,25 +68,30 @@ class AccountRepository extends Repository
 
     /**
      * @param string $uuid
+     * @return Account
+     */
+    public function findByUuid(string $uuid)
+    {
+        $query = $this->createQuery();
+        $query->matching($query->equals('uuid', $uuid));
+        return $query->execute()->getFirst();
+    }
+
+    /**
+     * @param string $uuid
      * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
      */
     public function removeByUuid(string $uuid)
     {
-        $account = $this->fetchByUuid($uuid);
+        $account = $this->findByUuid($uuid);
         if (!empty($account)) {
             $this->remove($account);
         }
     }
 
-    /**
-     * @param string $uuid
-     * @return Account
-     */
-    public function fetchByUuid(string $uuid)
+    public function buildByUuid(UuidInterface $uuid)
     {
-        $query = $this->createQuery();
-        $query->matching($query->equals('uuid', $uuid));
-        return $query->execute()->getFirst();
+        return AccountProjection::instance()->buildByUuid($uuid);
     }
 
     /**

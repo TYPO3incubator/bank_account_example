@@ -18,6 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
@@ -73,6 +74,18 @@ class AccountProjection implements Applicable
         }
     }
 
+    /**
+     * @param UuidInterface $uuid
+     * @return Account
+     */
+    public function buildByUuid(UuidInterface $uuid)
+    {
+        $account = Account::instance();
+        $epic = EventSelector::instance()->setStreamName($uuid);
+        Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
+        return $account;
+    }
+
     public function apply(AbstractEvent $event)
     {
         if (!($event instanceof Event\CreatedEvent)) {
@@ -83,9 +96,7 @@ class AccountProjection implements Applicable
         $revisionReference = $this->getRevisionReference($uuid);
 
         // process the whole account events
-        $account = Account::instance();
-        $epic = EventSelector::instance()->setStreamName($uuid);
-        Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
+        $account = $this->buildByUuid($uuid);
 
         // add/update if being forced or revisions are different
         if ($this->force || !$this->equalsRevision($uuid, $account->getRevision())) {
