@@ -33,6 +33,7 @@ class Account extends AbstractEventEntity implements Applicable
     {
         return Common::getObjectManager()->get(Account::class);
     }
+
     /**
      * @param string $holder
      * @param string $number
@@ -61,6 +62,11 @@ class Account extends AbstractEventEntity implements Applicable
 
         return $account;
     }
+
+    /**
+     * @var bool
+     */
+    protected $closed;
 
     /**
      * @var string
@@ -101,6 +107,16 @@ class Account extends AbstractEventEntity implements Applicable
     protected function initStorageObjects()
     {
         $this->transactions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+    }
+
+    public function isClosed()
+    {
+        return $this->closed;
+    }
+
+    public function setClosed(bool $closed)
+    {
+        $this->closed = $closed;
     }
 
     /**
@@ -195,6 +211,11 @@ class Account extends AbstractEventEntity implements Applicable
             $this->holder = $event->getHolder();
             $this->number = $event->getNumber();
             $this->balance = 0;
+        }
+
+        if ($event instanceof Event\ClosedEvent) {
+            $this->incrementRevision();
+            $this->closed = true;
         }
 
         if ($event instanceof Event\ChangedHolderEvent) {

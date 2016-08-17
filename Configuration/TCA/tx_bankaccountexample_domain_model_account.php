@@ -15,10 +15,10 @@ return [
         'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_account.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'holder, number, balance, transactions',
+        'showRecordFieldList' => 'closed, holder, number, balance, transactions',
     ],
     'types' => [
-        '1' => ['showitem' => 'holder, number, balance, transactions'],
+        '1' => ['showitem' => 'closed, holder, number, balance, transactions'],
     ],
     'columns' => [
         't3ver_label' => [
@@ -30,6 +30,14 @@ return [
             ],
         ],
 
+        'closed' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.closed',
+            'config' => [
+                'type' => 'check',
+            ],
+
+        ],
         'holder' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.holder',

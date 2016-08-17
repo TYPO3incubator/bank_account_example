@@ -6,6 +6,9 @@
 			<trans-unit id="tx_bankaccountexample_domain_model_account">
 				<source>Bank Account</source>
 			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_account.closed">
+				<source>Closed</source>
+			</trans-unit>
 			<trans-unit id="tx_bankaccountexample_domain_model_account.holder">
 				<source>Holder</source>
 			</trans-unit>

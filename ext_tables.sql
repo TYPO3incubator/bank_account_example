@@ -6,6 +6,7 @@ CREATE TABLE tx_bankaccountexample_domain_model_account (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
+	closed tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	holder varchar(255) DEFAULT '' NOT NULL,
 	number varchar(255) DEFAULT '' NOT NULL,
 	balance double(11,2) DEFAULT '0.00' NOT NULL,
