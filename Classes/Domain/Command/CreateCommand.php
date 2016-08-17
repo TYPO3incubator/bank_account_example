@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Model;
+namespace H4ck3r31\BankAccountExample\Domain\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,15 +14,21 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Controller\Common;
-use Ramsey\Uuid\Uuid;
+use H4ck3r31\BankAccountExample\Common;
+use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
+use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
+use H4ck3r31\BankAccountExample\Domain\Object\Numbered;
+use H4ck3r31\BankAccountExample\Domain\Object\NumberedTrait;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
  * CreateCommand
  */
-class CreateCommand extends AbstractCommand implements Instantiable
+class CreateCommand extends AbstractCommand implements Instantiable, Numbered, Holdable
 {
+    use NumberedTrait;
+    use HoldableTrait;
+
     /**
      * @return CreateCommand
      */
@@ -32,11 +38,15 @@ class CreateCommand extends AbstractCommand implements Instantiable
     }
 
     /**
+     * @param string $holder
+     * @param string|null $number
      * @return CreateCommand
      */
-    public static function create()
+    public static function create(string $holder, string $number = '')
     {
         $command = static::instance();
+        $command->holder = $holder;
+        $command->number = $number;
         return $command;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Model;
+namespace H4ck3r31\BankAccountExample\Domain\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,19 +14,23 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Controller\Common;
+use H4ck3r31\BankAccountExample\Common;
+use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
+use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 
 /**
- * AssignHolderCommand
+ * ChangeHolderCommand
  */
-class AssignHolderCommand extends AbstractCommand
+class ChangeHolderCommand extends AbstractCommand implements Holdable
 {
+    use HoldableTrait;
+
     /**
-     * @return AssignHolderCommand
+     * @return ChangeHolderCommand
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(AssignHolderCommand::class);
+        return Common::getObjectManager()->get(ChangeHolderCommand::class);
     }
 
     /**
@@ -37,7 +41,7 @@ class AssignHolderCommand extends AbstractCommand
     /**
      * @param string $aggregateId
      * @param string $holder
-     * @return AssignHolderCommand
+     * @return ChangeHolderCommand
      */
     public static function create(string $aggregateId, string $holder)
     {
@@ -45,10 +49,5 @@ class AssignHolderCommand extends AbstractCommand
         $command->aggregateId = $aggregateId;
         $command->holder = $holder;
         return $command;
-    }
-
-    public function getHolder()
-    {
-        return $this->holder;
     }
 }

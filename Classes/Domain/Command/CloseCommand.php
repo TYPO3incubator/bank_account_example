@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Model;
+namespace H4ck3r31\BankAccountExample\Domain\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,7 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Controller\Common;
+use H4ck3r31\BankAccountExample\Common;
 
 /**
  * CloseCommand
