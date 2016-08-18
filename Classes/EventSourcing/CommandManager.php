@@ -66,6 +66,30 @@ class CommandManager implements Instantiable
         );
     }
 
+    protected function manageDepositCommand(Command\DepositCommand $command)
+    {
+        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
+        AccountRepository::instance()->addEvents(
+            $account->deposit(
+                $command->getValue(),
+                $command->getReference(),
+                $command->getAvailabilityDate()
+            )->getEvents()
+        );
+    }
+
+    protected function manageDebitCommand(Command\DebitCommand $command)
+    {
+        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
+        AccountRepository::instance()->addEvents(
+            $account->debit(
+                $command->getValue(),
+                $command->getReference(),
+                $command->getAvailabilityDate()
+            )->getEvents()
+        );
+    }
+
     protected function manageCloseCommand(Command\CloseCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());

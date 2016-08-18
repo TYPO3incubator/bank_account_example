@@ -100,11 +100,57 @@ class Account extends AbstractEventEntity implements Applicable
         return $this;
     }
 
+    public function deposit(float $value, string $reference, \DateTime $availabilityDate = null)
+    {
+        $this->checkClosed();
+
+        if ($value > 0) {
+            $transaction = Transaction::create($value, $reference, $availabilityDate);
+            $this->mergeEvents($transaction->getEvents());
+            $this->balance += $value;
+
+            $this->recordEvent(
+                Event\DepositedAccountEvent::create($this->getUuidInterface(), $transaction->getUuidInterface())
+            );
+        }
+
+        return $this;
+    }
+
+    public function debit(float $value, string $reference, \DateTime $availabilityDate = null)
+    {
+        $this->checkClosed();
+
+        if ($value > 0) {
+            $transaction = Transaction::create(-$value, $reference, $availabilityDate);
+            $this->mergeEvents($transaction->getEvents());
+            $this->balance -= $value;
+
+            $this->recordEvent(
+                Event\DebitedAccountEvent::create($this->getUuidInterface(), $transaction->getUuidInterface())
+            );
+        }
+
+        return $this;
+    }
+
     protected function checkClosed()
     {
         if ($this->isClosed()) {
             throw new \RuntimeException('Account is already closed', 1471473509);
         }
+    }
+
+    protected function checkPositiveValue(float $value)
+    {
+        if ($value === 0 || $value < 0) {
+            throw new \RuntimeException('Value must be positive', 1471512371);
+        }
+    }
+
+    protected function createTransaction(float $value, string $reference, \DateTime $availabilityDate = null)
+    {
+        $transaction = Transaction::create($value, $reference, $availabilityDate);
     }
 
     /**

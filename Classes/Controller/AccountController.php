@@ -16,7 +16,9 @@ namespace H4ck3r31\BankAccountExample\Controller;
 
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
+use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -29,6 +31,32 @@ class AccountController extends ActionController
      * @var \H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository
      */
     protected $accountRepository;
+
+    /**
+     * Trigger projection of accounts.
+     *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
+     */
+    protected function initializeAction()
+    {
+        if (
+            $this->arguments->hasArgument('account')
+            && $this->arguments->getArgument('account')->getDataType() === Account::class
+        ) {
+            $uid = (int)$this->request->getArgument('account');
+            if ($uid === 0) {
+                return;
+            }
+            $account = $this->accountRepository->findByUid($uid);
+            if (!empty($account) && !empty($account->getUuid())) {
+                $this->accountRepository->projectByUuid(
+                    Uuid::fromString($account->getUuid())
+                );
+            } else {
+                $this->accountRepository->buildAll();
+            }
+        }
+    }
 
     /**
      * @return void
@@ -44,6 +72,7 @@ class AccountController extends ActionController
      */
     public function showAction(Account $account)
     {
+        $this->view->assign('transaction', Transaction::instance());
         $this->view->assign('account', $account);
     }
 
@@ -83,6 +112,40 @@ class AccountController extends ActionController
             Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
         );
         $this->redirect('list');
+    }
+
+    /**
+     * @param Account $account
+     * @param Transaction $transaction
+     */
+    public function depositAction(Account $account, Transaction $transaction)
+    {
+        CommandManager::instance()->manage(
+            Command\DepositCommand::create(
+                $account->getUuidInterface(),
+                $transaction->getValue(),
+                $transaction->getReference(),
+                $transaction->getAvailabilityDate()
+            )
+        );
+        $this->redirect('show', null, null, ['account' => $account]);
+    }
+
+    /**
+     * @param Account $account
+     * @param Transaction $transaction
+     */
+    public function debitAction(Account $account, Transaction $transaction)
+    {
+        CommandManager::instance()->manage(
+            Command\DebitCommand::create(
+                $account->getUuidInterface(),
+                $transaction->getValue(),
+                $transaction->getReference(),
+                $transaction->getAvailabilityDate()
+            )
+        );
+        $this->redirect('show', null, null, ['account' => $account]);
     }
 
     /**
