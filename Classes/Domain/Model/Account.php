@@ -122,7 +122,7 @@ class Account extends AbstractEventEntity implements Applicable
     protected $number = '';
 
     /**
-     * @var double
+     * @var float
      */
     protected $balance = 0.0;
 
@@ -195,7 +195,7 @@ class Account extends AbstractEventEntity implements Applicable
     }
 
     /**
-     * @return double $balance
+     * @return float $balance
      */
     public function getBalance()
     {
@@ -203,9 +203,9 @@ class Account extends AbstractEventEntity implements Applicable
     }
 
     /**
-     * @param double $balance
+     * @param float $balance
      */
-    public function setBalance(double $balance)
+    public function setBalance(float $balance)
     {
         $this->balance = $balance;
     }

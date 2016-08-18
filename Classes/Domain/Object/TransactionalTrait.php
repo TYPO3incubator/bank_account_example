@@ -22,7 +22,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 trait TransactionalTrait
 {
     /**
-     * @var double
+     * @var float
      */
     protected $value;
 
@@ -42,9 +42,9 @@ trait TransactionalTrait
     protected $reference;
 
     /**
-     * @return double
+     * @return float
      */
-    public function getValue(): double
+    public function getValue(): float
     {
         return $this->value;
     }

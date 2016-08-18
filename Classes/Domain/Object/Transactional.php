@@ -20,9 +20,9 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
 interface Transactional
 {
     /**
-     * @return double
+     * @return float
      */
-    public function getValue(): double;
+    public function getValue(): float;
 
     /**
      * @return \DateTime

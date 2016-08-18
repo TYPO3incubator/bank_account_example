@@ -36,12 +36,12 @@ class DepositCommand extends AbstractCommand implements Transactional
 
     /**
      * @param UuidInterface $accountId
-     * @param double $value
+     * @param float $value
      * @param string $reference
      * @param null|\DateTime $availabilityDate
      * @return DepositCommand
      */
-    public static function create(UuidInterface $accountId, double $value, string $reference = '', \DateTime $availabilityDate = null)
+    public static function create(UuidInterface $accountId, float $value, string $reference = '', \DateTime $availabilityDate = null)
     {
         $command = static::instance();
         $command->accountId = $accountId;

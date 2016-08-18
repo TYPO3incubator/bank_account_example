@@ -37,7 +37,7 @@ class Transaction extends AbstractEntity
     protected $reference = '';
 
     /**
-     * @var double
+     * @var float
      */
     protected $value = 0.0;
 
@@ -90,7 +90,7 @@ class Transaction extends AbstractEntity
     }
 
     /**
-     * @return double $value
+     * @return float $value
      */
     public function getValue()
     {
@@ -98,9 +98,9 @@ class Transaction extends AbstractEntity
     }
 
     /**
-     * @param double $value
+     * @param float $value
      */
-    public function setValue(double $value)
+    public function setValue(float $value)
     {
         $this->value = $value;
     }
