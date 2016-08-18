@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Repository\BankRepository;
+use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;
@@ -250,7 +251,7 @@ class Account extends AbstractEventEntity implements Applicable
         if ($event instanceof Event\CreatedAccountEvent) {
             $this->resetRevision();
             $this->incrementRevision();
-            $this->uuid = $event->getAggregateId();
+            $this->uuid = $event->getAggregateId()->toString();
             $this->holder = $event->getHolder();
             $this->number = $event->getNumber();
             $this->balance = 0;
@@ -266,9 +267,16 @@ class Account extends AbstractEventEntity implements Applicable
             $this->closed = true;
         }
 
-        if ($event instanceof Event\ChangedHolderEvent) {
+        if (
+            $event instanceof Event\DepositedAccountEvent
+            || $event instanceof Event\DebitedAccountEvent
+        ) {
             $this->incrementRevision();
-            $this->holder = $event->getHolder();
+            $transaction = TransactionRepository::instance()->findByUuid(
+                $event->getTransactionId()
+            );
+            $this->transactions->attach($transaction);
+            $this->balance += $transaction->getValue();
         }
     }
 }

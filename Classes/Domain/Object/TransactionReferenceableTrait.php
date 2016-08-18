@@ -17,9 +17,9 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * TransactionalReferencableTrait
+ * TransactionReferenceableTrait
  */
-trait TransactionalReferencableTrait
+trait TransactionReferenceableTrait
 {
     /**
      * @var UuidInterface
