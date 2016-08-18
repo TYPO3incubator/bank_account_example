@@ -1,0 +1,38 @@
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
+
+  <button role="button" class="btn btn-primary" data-toggle="modal" data-target="#deposit-modal-{account.uuid}">
+    <span class="glyphicon glyphicon-log-in" title="close account"></span>
+    deposit
+  </button>
+  <div id="deposit-modal-{account.uuid}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="deposit-modal-label-{account.uuid}">
+    <div class="modal-dialog" role="document">
+      <f:form name="transaction" object="{transaction}" action="deposit">
+        <f:form.hidden name="account" value="{account}" />
+        <div class="modal-content">
+          <div class="modal-header">
+            <button role="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="deposit-modal-label-{account.uuid}">Deposit to #{account.number}</h4>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <span class="input-group-addon glyphicon glyphicon-euro"></span>
+              <f:form.textfield property="value" class="form-control" placeholder="{0.00 -> f:format.number(decimals:2)}" value="{transaction.value -> f:format.number(decimals:2)}" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button role="button" class="btn btn-default" data-dismiss="modal">
+              <span class="glyphicon glyphicon-remove"></span>
+              cancel
+            </button>
+            <button role="button" class="btn btn-default">
+              <span class="glyphicon glyphicon-log-in"></span>
+              deposit money
+            </button>
+          </div>
+        </div>
+      </f:form>
+    </div>
+  </div>
+
+</html>
