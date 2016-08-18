@@ -1,7 +1,7 @@
 <html data-namespace-typo3-fluid="true"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 
-<h2>Account details</h2>
+<h2>Details of account #{account.number}</h2>
 
 <ul>
   <li>Account number: #{account.number}</li>
@@ -47,9 +47,9 @@
   </tfoot>
 </table>
 
-<f:link.action action="new" class="btn btn-primary" additionalAttributes="{role:'button'}">
-  <span class="glyphicon glyphicon-plus"></span>
-  Create account
+<f:link.action action="list" class="btn btn-primary" additionalAttributes="{role:'button'}">
+  <span class="glyphicon glyphicon-chevron-left"></span>
+  back to list
 </f:link.action>
 
 </html>

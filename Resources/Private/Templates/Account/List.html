@@ -22,17 +22,29 @@
     </f:if>
     <f:for each="{accounts}" as="account">
       <tr class="{f:if(condition:'{account.closed}',then:'account-closed')}">
-        <td>#{account.number}</td>
-        <td>{account.holder}</td>
-        <td>{account.balance}</td>
+        <td>
+          #{account.number}
+          <f:if condition="{account.closed}">
+            <span class="glyphicon glyphicon-lock" title="closed account"></span>
+          </f:if>
+        </td>
+        <td>
+          {account.holder}
+        </td>
+        <td>
+          {account.balance}
+        </td>
         <td>
           <f:link.action action="show" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
-            <span class="glyphicon glyphicon-search"></span>
+            <span class="glyphicon glyphicon-search" title="show details"></span>
           </f:link.action>
           <f:if condition="{account.closed}">
             <f:else>
+              <f:link.action action="edit" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
+                <span class="glyphicon glyphicon-pencil" title="change holder"></span>
+              </f:link.action>
               <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#close-modal-{account.uuid}">
-                <span class="glyphicon glyphicon-trash"></span>
+                <span class="glyphicon glyphicon-trash" title="close account"></span>
               </button>
               <f:render partial="Modals/AccountClose" arguments="{_all}" />
             </f:else>
@@ -45,7 +57,7 @@
 
 <f:link.action action="new" class="btn btn-primary" additionalAttributes="{role:'button'}">
   <span class="glyphicon glyphicon-plus"></span>
-  Create account
+  create account
 </f:link.action>
 
 </html>
