@@ -18,6 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 
@@ -54,6 +55,14 @@ class CommandManager implements Instantiable
     {
         AccountRepository::instance()->addEvents(
             Account::create($command->getHolder(), $command->getNumber())->getEvents()
+        );
+    }
+
+    protected function manageChangeHolderCommand(Command\ChangeHolderCommand $command)
+    {
+        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
+        AccountRepository::instance()->addEvents(
+            $account->changeHolder($command->getHolder())->getEvents()
         );
     }
 

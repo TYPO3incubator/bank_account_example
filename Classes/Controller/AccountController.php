@@ -66,12 +66,12 @@ class AccountController extends ActionController
     }
 
     /**
-     * action edit
-     *
      * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
     public function editAction(Account $account)
     {
+        $this->view->assign('cleanAccount', $account->_getCleanProperties());
+        $this->view->assign('account', $account);
     }
 
     /**
@@ -79,8 +79,9 @@ class AccountController extends ActionController
      */
     public function updateAction(Account $account)
     {
-        $this->addFlashMessage('The object was updated. Please be aware that this action is publicly accessible unless you implement an access check. See http://wiki.typo3.org/T3Doc/Extension_Builder/Using_the_Extension_Builder#1._Model_the_domain', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
-        $this->accountRepository->update($account);
+        CommandManager::instance()->manage(
+            Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
+        );
         $this->redirect('list');
     }
 

@@ -68,9 +68,7 @@ class Account extends AbstractEventEntity implements Applicable
      */
     public function close()
     {
-        if ($this->isClosed()) {
-            throw new \RuntimeException('Account is already closed', 1471473509);
-        }
+        $this->checkClosed();
         if ((float)$this->balance !== 0.0) {
             throw new \RuntimeException('Cannot close account since the balance is not zero', 1471473510);
         }
@@ -81,6 +79,31 @@ class Account extends AbstractEventEntity implements Applicable
         );
 
         return $this;
+    }
+
+    /**
+     * @param string $holder
+     * @return Account
+     */
+    public function changeHolder(string $holder)
+    {
+        $this->checkClosed();
+
+        if ($this->_getProperty('holder') !== $holder) {
+            $this->holder = $holder;
+            $this->recordEvent(
+                Event\ChangedHolderEvent::create($this->getUuidInterface(), $holder)
+            );
+        }
+
+        return $this;
+    }
+
+    protected function checkClosed()
+    {
+        if ($this->isClosed()) {
+            throw new \RuntimeException('Account is already closed', 1471473509);
+        }
     }
 
     /**
