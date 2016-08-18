@@ -92,7 +92,7 @@ class AccountProjection implements Applicable
             return;
         }
 
-        $uuid = $event->getAccountId();
+        $uuid = $event->getAggregateId();
         $revisionReference = $this->getRevisionReference($uuid);
 
         // process the whole account events

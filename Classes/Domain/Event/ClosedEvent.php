@@ -32,13 +32,13 @@ class ClosedEvent extends AbstractEvent implements Instantiable
     }
 
     /**
-     * @param UuidInterface $accountId
+     * @param UuidInterface $aggregateId
      * @return ClosedEvent
      */
-    public static function create(UuidInterface $accountId)
+    public static function create(UuidInterface $aggregateId)
     {
         $event = static::instance();
-        $event->accountId = $accountId;
+        $event->aggregateId = $aggregateId;
         return $event;
     }
 }

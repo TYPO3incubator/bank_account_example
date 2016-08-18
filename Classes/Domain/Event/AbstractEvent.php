@@ -33,14 +33,14 @@ abstract class AbstractEvent extends SuperAbstractEvent implements Storable
     /**
      * @var UuidInterface
      */
-    protected $accountId;
+    protected $aggregateId;
 
     /**
      * @return UuidInterface
      */
-    public function getAccountId(): UuidInterface
+    public function getAggregateId(): UuidInterface
     {
-        return $this->accountId;
+        return $this->aggregateId;
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class AbstractEvent extends SuperAbstractEvent implements Storable
     public function exportData()
     {
         $data = [
-            'accountId' => $this->accountId,
+            'aggregateId' => $this->aggregateId,
         ];
 
         if ($this instanceof Numbered) {
@@ -67,7 +67,7 @@ abstract class AbstractEvent extends SuperAbstractEvent implements Storable
 
     public function importData($data)
     {
-        $this->accountId = Uuid::fromString($data['accountId']);
+        $this->aggregateId = Uuid::fromString($data['aggregateId']);
 
         /** @var NumberedTrait $this */
         if ($this instanceof Numbered) {

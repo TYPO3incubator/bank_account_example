@@ -36,14 +36,14 @@ class ChangedHolderEvent extends AbstractEvent implements Instantiable, Holdable
     }
 
     /**
-     * @param UuidInterface $accountId
+     * @param UuidInterface $aggregateId
      * @param string $holder
      * @return ChangedHolderEvent
      */
-    public static function create(UuidInterface $accountId, string $holder)
+    public static function create(UuidInterface $aggregateId, string $holder)
     {
         $event = static::instance();
-        $event->accountId = $accountId;
+        $event->aggregateId = $aggregateId;
         $event->holder = $holder;
         return $event;
     }

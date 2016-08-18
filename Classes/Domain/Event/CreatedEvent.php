@@ -39,15 +39,15 @@ class CreatedEvent extends AbstractEvent implements Instantiable, Numbered, Hold
     }
 
     /**
-     * @param UuidInterface $accountId
+     * @param UuidInterface $aggregateId
      * @param string $holder
      * @param string $number
      * @return CreatedEvent
      */
-    public static function create(UuidInterface $accountId, string $holder, string $number)
+    public static function create(UuidInterface $aggregateId, string $holder, string $number)
     {
         $event = static::instance();
-        $event->accountId = $accountId;
+        $event->aggregateId = $aggregateId;
         $event->holder = $holder;
         $event->number = $number;
         return $event;

@@ -77,6 +77,6 @@ class Stream extends AbstractStream implements Instantiable
             throw new \RuntimeException('Recieved invalid event type', 1471431286);
         }
 
-        return $this->prefix($event->getAccountId());
+        return $this->prefix($event->getAggregateId());
     }
 }

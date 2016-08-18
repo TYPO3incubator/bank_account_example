@@ -250,7 +250,7 @@ class Account extends AbstractEventEntity implements Applicable
         if ($event instanceof Event\CreatedEvent) {
             $this->resetRevision();
             $this->incrementRevision();
-            $this->uuid = $event->getAccountId();
+            $this->uuid = $event->getAggregateId();
             $this->holder = $event->getHolder();
             $this->number = $event->getNumber();
             $this->balance = 0;
