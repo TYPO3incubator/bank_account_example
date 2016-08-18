@@ -41,8 +41,8 @@ class Common
     public static function registerEventSources()
     {
         ExtensionUtility::instance()
-            ->addMapping(static::KEY_EXTENSION, 'tx_bankaccountexample_domain_model_account', Account::class)
-            ->addMapping(static::KEY_EXTENSION, 'tx_bankaccountexample_domain_model_transaction', Transaction::class);
+            ->addMapping('tx_bankaccountexample_domain_model_account', Account::class)
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class);
 
         SourceManager::provide()
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
