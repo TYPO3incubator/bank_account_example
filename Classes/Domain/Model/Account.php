@@ -57,7 +57,7 @@ class Account extends AbstractEventEntity implements Applicable
         }
 
         $account->recordEvent(
-            Event\CreatedEvent::create($uuid, $account->getHolder(), $account->getNumber())
+            Event\CreatedAccountEvent::create($uuid, $account->getHolder(), $account->getNumber())
         );
 
         return $account;
@@ -75,7 +75,7 @@ class Account extends AbstractEventEntity implements Applicable
 
         $this->closed = true;
         $this->recordEvent(
-            Event\ClosedEvent::create($this->getUuidInterface())
+            Event\ClosedAccountEvent::create($this->getUuidInterface())
         );
 
         return $this;
@@ -92,7 +92,7 @@ class Account extends AbstractEventEntity implements Applicable
         if ($this->_getProperty('holder') !== $holder) {
             $this->holder = $holder;
             $this->recordEvent(
-                Event\ChangedHolderEvent::create($this->getUuidInterface(), $holder)
+                Event\ChangedAccountHolderEvent::create($this->getUuidInterface(), $holder)
             );
         }
 
@@ -247,7 +247,7 @@ class Account extends AbstractEventEntity implements Applicable
      */
     public function apply(AbstractEvent $event)
     {
-        if ($event instanceof Event\CreatedEvent) {
+        if ($event instanceof Event\CreatedAccountEvent) {
             $this->resetRevision();
             $this->incrementRevision();
             $this->uuid = $event->getAggregateId();
@@ -256,7 +256,12 @@ class Account extends AbstractEventEntity implements Applicable
             $this->balance = 0;
         }
 
-        if ($event instanceof Event\ClosedEvent) {
+        if ($event instanceof Event\ChangedAccountHolderEvent) {
+            $this->incrementRevision();
+            $this->holder = $event->getHolder();
+        }
+
+        if ($event instanceof Event\ClosedAccountEvent) {
             $this->incrementRevision();
             $this->closed = true;
         }

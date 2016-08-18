@@ -23,26 +23,26 @@ use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
- * CreatedEvent
+ * CreatedAccountEvent
  */
-class CreatedEvent extends AbstractEvent implements Instantiable, Numbered, Holdable
+class CreatedAccountEvent extends AbstractAccountEvent implements Instantiable, Numbered, Holdable
 {
     use NumberedTrait;
     use HoldableTrait;
 
     /**
-     * @return CreatedEvent
+     * @return CreatedAccountEvent
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(CreatedEvent::class);
+        return Common::getObjectManager()->get(CreatedAccountEvent::class);
     }
 
     /**
      * @param UuidInterface $aggregateId
      * @param string $holder
      * @param string $number
-     * @return CreatedEvent
+     * @return CreatedAccountEvent
      */
     public static function create(UuidInterface $aggregateId, string $holder, string $number)
     {

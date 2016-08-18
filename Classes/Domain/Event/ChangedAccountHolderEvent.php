@@ -15,30 +15,36 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
  */
 
 use H4ck3r31\BankAccountExample\Common;
+use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
+use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
- * ClosedEvent
+ * ChangedAccountHolderEvent
  */
-class ClosedEvent extends AbstractEvent implements Instantiable
+class ChangedAccountHolderEvent extends AbstractAccountEvent implements Instantiable, Holdable
 {
+    use HoldableTrait;
+
     /**
-     * @return ClosedEvent
+     * @return ChangedAccountHolderEvent
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(ClosedEvent::class);
+        return Common::getObjectManager()->get(ChangedAccountHolderEvent::class);
     }
 
     /**
      * @param UuidInterface $aggregateId
-     * @return ClosedEvent
+     * @param string $holder
+     * @return ChangedAccountHolderEvent
      */
-    public static function create(UuidInterface $aggregateId)
+    public static function create(UuidInterface $aggregateId, string $holder)
     {
         $event = static::instance();
         $event->aggregateId = $aggregateId;
+        $event->holder = $holder;
         return $event;
     }
 }

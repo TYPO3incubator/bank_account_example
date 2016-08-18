@@ -88,7 +88,7 @@ class AccountProjection implements Applicable
 
     public function apply(AbstractEvent $event)
     {
-        if (!($event instanceof Event\CreatedEvent)) {
+        if (!($event instanceof Event\CreatedAccountEvent)) {
             return;
         }
 

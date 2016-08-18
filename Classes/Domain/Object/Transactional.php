@@ -14,32 +14,15 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Ramsey\Uuid\UuidInterface;
+
 /**
- * TransactionalTrait
+ * Transactional
  */
 interface Transactional
 {
     /**
-     * @return float
+     * @return UuidInterface
      */
-    public function getValue(): float;
-
-    /**
-     * @return \DateTime
-     */
-    public function getEntryDate(): \DateTime;
-
-    /**
-     * @return \DateTime
-     */
-    public function getAvailabilityDate(): \DateTime;
-
-    /**
-     * @return string
-     */
-    public function getReference(): string;
-
-    public function transactionalToArray(): array;
-
-    public function transactionalFromArray(array $data);
+    public function getTransactionId(): UuidInterface;
 }

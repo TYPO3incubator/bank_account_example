@@ -14,7 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Extbase\Persistence\Repository;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * TransactionalTrait
@@ -22,72 +22,15 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 trait TransactionalTrait
 {
     /**
-     * @var float
+     * @var UuidInterface
      */
-    protected $value;
+    protected $transactionId;
 
     /**
-     * @var \DateTime
+     * @return UuidInterface
      */
-    protected $entryDate;
-
-    /**
-     * @var \DateTime
-     */
-    protected $availabilityDate;
-
-    /**
-     * @var string
-     */
-    protected $reference;
-
-    /**
-     * @return float
-     */
-    public function getValue(): float
+    public function getTransactionId(): UuidInterface
     {
-        return $this->value;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEntryDate(): \DateTime
-    {
-        return $this->entryDate;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getAvailabilityDate(): \DateTime
-    {
-        return $this->availabilityDate;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReference(): string
-    {
-        return $this->reference;
-    }
-
-    /**
-     * @return array
-     */
-    public function transactionalToArray(): array
-    {
-        return [
-            'value' => $this->value,
-            'entryDate' => $this->entryDate,
-            'availabilityDate' => $this->availabilityDate,
-            'reference' => $this->reference,
-        ];
-    }
-
-    public function transactionalFromArray(array $data)
-    {
-
+        return $this->transactionId;
     }
 }
