@@ -16,18 +16,16 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\EventSourcing\AccountProjection;
+use H4ck3r31\BankAccountExample\EventSourcing\Projection\AccountProjection;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
-use TYPO3\CMS\Extbase\Persistence\Generic\Mapper\DataMapper;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\EventRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for Accounts
  */
-class AccountRepository extends Repository
+class AccountRepository extends EventRepository
 {
     /**
      * @return AccountRepository
@@ -37,6 +35,9 @@ class AccountRepository extends Repository
         return Common::getObjectManager()->get(AccountRepository::class);
     }
 
+    /**
+     * @param QuerySettingsInterface $defaultQuerySettings
+     */
     public function injectDefaultQuerySettings(QuerySettingsInterface $defaultQuerySettings)
     {
         $this->defaultQuerySettings = $defaultQuerySettings;
@@ -49,8 +50,18 @@ class AccountRepository extends Repository
     public function findAll()
     {
         // @todo Handle requirement of projection with a separate RevisionStore
-        AccountProjection::instance()->project();
+        $this->buildAll();
         return parent::findAll();
+    }
+
+    /**
+     * @param UuidInterface $uuid
+     * @return null|Account
+     */
+    public function findByUuid(UuidInterface $uuid)
+    {
+        $this->projectByUuid($uuid);
+        return $this->fetchByUuid($uuid);
     }
 
     /**
@@ -60,52 +71,29 @@ class AccountRepository extends Repository
     public function findByNumber(string $number)
     {
         // @todo Handle requirement of projection with a separate RevisionStore
-        AccountProjection::instance()->project();
+        $this->buildAll();
         $query = $this->createQuery();
         $query->matching($query->equals('number', $number));
         return $query->execute()->getFirst();
     }
 
+    public function buildAll()
+    {
+        AccountProjection::instance()->project();
+    }
+
+    public function projectByUuid(UuidInterface $uuid)
+    {
+        AccountProjection::instance()->projectByUuid($uuid);
+    }
+
     /**
-     * @param string $uuid
+     * @param UuidInterface $uuid
      * @return Account
      */
-    public function findByUuid(string $uuid)
-    {
-        $query = $this->createQuery();
-        $query->matching($query->equals('uuid', $uuid));
-        return $query->execute()->getFirst();
-    }
-
-    /**
-     * @param string $uuid
-     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
-     */
-    public function removeByUuid(string $uuid)
-    {
-        $account = $this->findByUuid($uuid);
-        if (!empty($account)) {
-            $this->remove($account);
-        }
-    }
-
     public function buildByUuid(UuidInterface $uuid)
     {
         return AccountProjection::instance()->buildByUuid($uuid);
-    }
-
-    /**
-     * @return RevisionReference[]
-     */
-    public function fetchRevisionReferences()
-    {
-        $revisionReferences = [];
-        $query = $this->createQuery();
-        foreach ($query->execute(true) as $account) {
-            $reference = RevisionReference::fromRecord($this->getTableName(), $account);
-            $revisionReferences[$reference->getEntityReference()->getUuid()] = $reference;;
-        }
-        return $revisionReferences;
     }
 
     /**
@@ -118,21 +106,5 @@ class AccountRepository extends Repository
         foreach ($events as $event) {
             $streamProvider->commit($event, [Common::NAME_STREAM_PREFIX . 'Bank']);
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTableName()
-    {
-        return $this->getDataMapper()->convertClassNameToTableName($this->objectType);
-    }
-
-    /**
-     * @return DataMapper
-     */
-    protected function getDataMapper()
-    {
-        return Common::getObjectManager()->get(DataMapper::class);
     }
 }
