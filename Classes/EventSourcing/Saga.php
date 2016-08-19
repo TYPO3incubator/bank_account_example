@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga\AbstractSaga;
 
 /**
- * Bank
+ * Saga
  */
 class Saga extends AbstractSaga
 {
