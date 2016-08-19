@@ -1,60 +1,66 @@
 <html data-namespace-typo3-fluid="true"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 
-<h2>List of accounts</h2>
+<f:layout name="Default" />
 
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Account Number</th>
-      <th>Account Holder</th>
-      <th>Balance €</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <f:if condition="{accounts}">
-      <f:else>
-        <tr>
-          <td colspan="4">No account information available</td>
-        </tr>
-      </f:else>
-    </f:if>
-    <f:for each="{accounts}" as="account">
-      <tr class="{f:if(condition:'{account.closed}',then:'account-closed')}">
-        <td>
-          #{account.number}
-          <f:if condition="{account.closed}">
-            <span class="glyphicon glyphicon-lock" title="closed account"></span>
-          </f:if>
-        </td>
-        <td>
-          {account.holder}
-        </td>
-        <td>
-          {account.balance -> f:format.currency(decimals:2)}
-        </td>
-        <td>
-          <f:link.action action="show" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
-            <span class="glyphicon glyphicon-search" title="show details"></span>
-          </f:link.action>
-          <f:if condition="{account.closed}">
-            <f:else>
-              <f:link.action action="edit" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
-                <span class="glyphicon glyphicon-pencil" title="change holder"></span>
-              </f:link.action>
-              <f:render partial="Modals/AccountClose" arguments="{_all}" />
-            </f:else>
-          </f:if>
-        </td>
+<f:section name="Header">
+  <h2>List of accounts</h2>
+</f:section>
+
+<f:section name="Main">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Account Number</th>
+        <th>Account Holder</th>
+        <th>Balance €</th>
+        <th>Actions</th>
       </tr>
-    </f:for>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <f:if condition="{accounts}">
+        <f:else>
+          <tr>
+            <td colspan="4">No account information available</td>
+          </tr>
+        </f:else>
+      </f:if>
+      <f:for each="{accounts}" as="account">
+        <tr class="{f:if(condition:'{account.closed}',then:'account-closed')}">
+          <td>
+            #{account.number}
+            <f:if condition="{account.closed}">
+              <span class="glyphicon glyphicon-lock" title="closed account"></span>
+            </f:if>
+          </td>
+          <td>
+            {account.holder}
+          </td>
+          <td>
+            {account.balance -> f:format.currency(decimals:2)}
+          </td>
+          <td>
+            <f:link.action action="show" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
+              <span class="glyphicon glyphicon-search" title="show details"></span>
+            </f:link.action>
+            <f:if condition="{account.closed}">
+              <f:else>
+                <f:link.action action="edit" class="btn btn-default" additionalAttributes="{role:'button'}" arguments="{account:account}">
+                  <span class="glyphicon glyphicon-pencil" title="change holder"></span>
+                </f:link.action>
+                <f:render partial="Modals/AccountClose" arguments="{_all}" />
+              </f:else>
+            </f:if>
+          </td>
+        </tr>
+      </f:for>
+    </tbody>
+  </table>
 
-<f:link.action action="new" class="btn btn-primary" additionalAttributes="{role:'button'}">
-  <span class="glyphicon glyphicon-plus"></span>
-  create account
-</f:link.action>
+  <f:link.action action="new" class="btn btn-primary" additionalAttributes="{role:'button'}">
+    <span class="glyphicon glyphicon-plus"></span>
+    create account
+  </f:link.action>
+</f:section>
 
 </html>
