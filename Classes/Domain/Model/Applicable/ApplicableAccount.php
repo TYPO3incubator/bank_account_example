@@ -39,7 +39,8 @@ class ApplicableAccount extends Account implements Applicable
     /**
      * @param string $holder
      * @param string $number
-     * @return Account
+     * @return ApplicableAccount
+     * @throws CommandException
      */
     public static function create(string $holder, string $number = '')
     {
@@ -66,7 +67,8 @@ class ApplicableAccount extends Account implements Applicable
     }
 
     /**
-     * @return Account
+     * @return ApplicableAccount
+     * @throws CommandException
      */
     public function close()
     {
@@ -101,6 +103,13 @@ class ApplicableAccount extends Account implements Applicable
         return $this;
     }
 
+    /**
+     * @param float $value
+     * @param string $reference
+     * @param \DateTime|null $availabilityDate
+     * @return ApplicableAccount
+     * @throws CommandException
+     */
     public function deposit(float $value, string $reference, \DateTime $availabilityDate = null)
     {
         $this->checkClosed();
@@ -118,6 +127,13 @@ class ApplicableAccount extends Account implements Applicable
         return $this;
     }
 
+    /**
+     * @param float $value
+     * @param string $reference
+     * @param \DateTime|null $availabilityDate
+     * @return ApplicableAccount
+     * @throws CommandException
+     */
     public function debit(float $value, string $reference, \DateTime $availabilityDate = null)
     {
         $this->checkClosed();
@@ -140,6 +156,9 @@ class ApplicableAccount extends Account implements Applicable
         return $this;
     }
 
+    /**
+     * @throws CommandException
+     */
     protected function checkClosed()
     {
         if ($this->isClosed()) {
@@ -147,6 +166,10 @@ class ApplicableAccount extends Account implements Applicable
         }
     }
 
+    /**
+     * @param float $value
+     * @throws CommandException
+     */
     protected function checkPositiveValue(float $value)
     {
         if ($value === 0 || $value < 0) {

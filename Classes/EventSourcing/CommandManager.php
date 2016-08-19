@@ -50,6 +50,10 @@ class CommandManager implements Instantiable
         return $this;
     }
 
+    /**
+     * @param Command\CreateCommand $command
+     * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
+     */
     protected function manageCreateCommand(Command\CreateCommand $command)
     {
         AccountRepository::instance()->addEvents(
@@ -57,6 +61,9 @@ class CommandManager implements Instantiable
         );
     }
 
+    /**
+     * @param Command\ChangeHolderCommand $command
+     */
     protected function manageChangeHolderCommand(Command\ChangeHolderCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
@@ -65,6 +72,9 @@ class CommandManager implements Instantiable
         );
     }
 
+    /**
+     * @param Command\DepositCommand $command
+     */
     protected function manageDepositCommand(Command\DepositCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
@@ -77,6 +87,10 @@ class CommandManager implements Instantiable
         );
     }
 
+    /**
+     * @param Command\DebitCommand $command
+     * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
+     */
     protected function manageDebitCommand(Command\DebitCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
@@ -89,6 +103,10 @@ class CommandManager implements Instantiable
         );
     }
 
+    /**
+     * @param Command\CloseCommand $command
+     * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
+     */
     protected function manageCloseCommand(Command\CloseCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());

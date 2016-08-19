@@ -34,6 +34,13 @@ class ApplicableTransaction extends Transaction implements Applicable
         return Common::getObjectManager()->get(ApplicableTransaction::class);
     }
 
+    /**
+     * @param float $value
+     * @param string $reference
+     * @param \DateTime|null $availabilityDate
+     * @return ApplicableTransaction
+     * @throws CommandException
+     */
     public static function create(float $value, string $reference, \DateTime $availabilityDate = null)
     {
         $uuid = static::createUuid();
@@ -64,6 +71,9 @@ class ApplicableTransaction extends Transaction implements Applicable
         return $transaction;
     }
 
+    /**
+     * @param AbstractEvent $event
+     */
     public function apply(AbstractEvent $event)
     {
         if ($event instanceof Event\CreatedTransactionEvent) {

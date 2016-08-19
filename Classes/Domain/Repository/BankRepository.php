@@ -18,7 +18,6 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\EventSourcing\Saga;
 use H4ck3r31\BankAccountExample\Domain\Transient\Bank;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for transient Bank

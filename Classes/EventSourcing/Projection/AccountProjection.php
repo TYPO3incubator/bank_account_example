@@ -43,6 +43,9 @@ class AccountProjection extends AbstractProjection implements Applicable
         $this->revisionReferences = AccountRepository::instance()->fetchRevisionReferences();
     }
 
+    /**
+     * Projects all accounts.
+     */
     public function project()
     {
         // process all account created events

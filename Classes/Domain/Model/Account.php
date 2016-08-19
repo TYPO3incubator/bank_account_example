@@ -77,11 +77,17 @@ class Account extends AbstractEventEntity
         $this->transactions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
     }
 
+    /**
+     * @return bool
+     */
     public function isClosed()
     {
         return $this->closed;
     }
 
+    /**
+     * @param bool $closed
+     */
     public function setClosed(bool $closed)
     {
         $this->closed = $closed;

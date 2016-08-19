@@ -31,6 +31,9 @@ class Saga extends AbstractSaga
         return Common::getObjectManager()->get(Saga::class, $name);
     }
 
+    /**
+     * @return Stream
+     */
     protected function getStream()
     {
         return Stream::instance();

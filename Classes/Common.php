@@ -35,11 +35,9 @@ class Common
     const KEY_EXTENSION = 'bank_account_example';
     const NAME_STREAM_PREFIX = 'H4ck3r31.BankAccountExample-';
 
-    public static function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
-    }
-
+    /**
+     * Registers requirements for event sources processing with TYPO3.
+     */
     public static function registerEventSources()
     {
         ExtensionUtility::instance()
@@ -56,6 +54,14 @@ class Common
             ->setEventNames([AbstractEvent::class])
             ->setStream(Stream::instance())
             ->setStore(EventStorePool::provide()->getDefault());
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public static function getObjectManager()
+    {
+        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 
     /**

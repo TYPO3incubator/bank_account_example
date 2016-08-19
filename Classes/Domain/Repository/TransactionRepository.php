@@ -15,7 +15,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\EventSourcing\Projection\TransactionProjection;
 use Ramsey\Uuid\UuidInterface;
@@ -54,6 +53,9 @@ class TransactionRepository extends EventRepository
         return $this->fetchByUuid($uuid);
     }
 
+    /**
+     * @param UuidInterface $uuid
+     */
     public function projectByUid(UuidInterface $uuid)
     {
         TransactionProjection::instance()->projectByUuid($uuid);

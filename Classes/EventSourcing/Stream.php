@@ -42,6 +42,7 @@ class Stream extends AbstractStream implements Instantiable
     /**
      * @param AbstractEvent $event
      * @return Stream
+     * @throws EventException
      */
     public function publish(AbstractEvent $event)
     {
@@ -71,6 +72,7 @@ class Stream extends AbstractStream implements Instantiable
     /**
      * @param AbstractEvent $event
      * @return string
+     * @throws EventException
      */
     public function determineNameByEvent(AbstractEvent $event): string
     {

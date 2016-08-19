@@ -37,6 +37,9 @@ class Bank implements Applicable
      */
     protected $accountNumbers = [];
 
+    /**
+     * @param AbstractEvent $event
+     */
     public function apply(AbstractEvent $event)
     {
         if ($event instanceof Event\CreatedAccountEvent) {

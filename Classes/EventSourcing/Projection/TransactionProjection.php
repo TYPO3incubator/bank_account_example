@@ -41,6 +41,10 @@ class TransactionProjection extends AbstractProjection
         $this->revisionReferences = TransactionRepository::instance()->fetchRevisionReferences();
     }
 
+    /**
+     * @param UuidInterface $uuid
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+     */
     public function projectByUuid(UuidInterface $uuid)
     {
         $transaction = $this->buildByUuid($uuid);
