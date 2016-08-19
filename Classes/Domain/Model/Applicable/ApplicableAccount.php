@@ -54,7 +54,7 @@ class ApplicableAccount extends Account implements Applicable
         } elseif (!$bank->hasAccountNumber($number)) {
             $account->number = $bank->sanitizeAccountNumber($number);
         } else {
-            throw new \RuntimeException('Number #' . $bank->sanitizeAccountNumber($number) . ' is already assigned');
+            throw new \RuntimeException('Number #' . $bank->sanitizeAccountNumber($number) . ' is already assigned', 1471604553);
         }
 
         $account->recordEvent(
