@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Applicable;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\Repository\BankRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
@@ -54,7 +55,7 @@ class ApplicableAccount extends Account implements Applicable
         } elseif (!$bank->hasAccountNumber($number)) {
             $account->number = $bank->sanitizeAccountNumber($number);
         } else {
-            throw new \RuntimeException('Number #' . $bank->sanitizeAccountNumber($number) . ' is already assigned', 1471604553);
+            throw new CommandException('Number #' . $bank->sanitizeAccountNumber($number) . ' is already assigned', 1471604553);
         }
 
         $account->recordEvent(
@@ -71,7 +72,7 @@ class ApplicableAccount extends Account implements Applicable
     {
         $this->checkClosed();
         if ((float)$this->balance !== 0.0) {
-            throw new \RuntimeException('Cannot close account since the balance is not zero', 1471473510);
+            throw new CommandException('Cannot close account since the balance is not zero', 1471473510);
         }
 
         $this->closed = true;
@@ -125,7 +126,7 @@ class ApplicableAccount extends Account implements Applicable
             $this->balance -= $value;
 
             if ($this->balance < 0) {
-                throw new \RuntimeException('Overdrawing account is not allowed', 1471604763);
+                throw new CommandException('Overdrawing account is not allowed', 1471604763);
             }
 
             $transaction = ApplicableTransaction::create(-$value, $reference, $availabilityDate);
@@ -142,14 +143,14 @@ class ApplicableAccount extends Account implements Applicable
     protected function checkClosed()
     {
         if ($this->isClosed()) {
-            throw new \RuntimeException('Account is already closed', 1471473509);
+            throw new CommandException('Account is already closed', 1471473509);
         }
     }
 
     protected function checkPositiveValue(float $value)
     {
         if ($value === 0 || $value < 0) {
-            throw new \RuntimeException('Value must be positive', 1471512371);
+            throw new CommandException('Value must be positive', 1471512371);
         }
     }
 

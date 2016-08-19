@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Applicable;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
+use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 
@@ -47,7 +48,7 @@ class ApplicableTransaction extends Transaction implements Applicable
         } elseif ($availabilityDate >= $transaction->getEntryDate()) {
             $transaction->availabilityDate = $availabilityDate;
         } else {
-            throw new \RuntimeException('Availability date cannot be before entry date', 1471512962);
+            throw new CommandException('Availability date cannot be before entry date', 1471512962);
         }
 
         $transaction->recordEvent(

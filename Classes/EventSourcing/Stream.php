@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\EventException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Stream\AbstractStream;
@@ -45,7 +46,7 @@ class Stream extends AbstractStream implements Instantiable
     public function publish(AbstractEvent $event)
     {
         if (!($event instanceof \H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent)) {
-            throw new \RuntimeException('Recieved invalid event type', 1471431285);
+            throw new EventException('Recieved invalid event type', 1471431285);
         }
 
         foreach ($this->consumers as $consumer) {
@@ -74,7 +75,7 @@ class Stream extends AbstractStream implements Instantiable
     public function determineNameByEvent(AbstractEvent $event): string
     {
         if (!($event instanceof \H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent)) {
-            throw new \RuntimeException('Recieved invalid event type', 1471431286);
+            throw new EventException('Recieved invalid event type', 1471431286);
         }
 
         return $this->prefix($event->getAggregateId());
