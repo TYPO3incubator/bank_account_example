@@ -105,9 +105,9 @@ class ApplicableAccount extends Account implements Applicable
         $this->checkClosed();
 
         if ($value > 0) {
+            $this->balance += $value;
             $transaction = ApplicableTransaction::create($value, $reference, $availabilityDate);
             $this->mergeEvents($transaction->getEvents());
-            $this->balance += $value;
 
             $this->recordEvent(
                 Event\DepositedAccountEvent::create($this->getUuidInterface(), $transaction->getUuidInterface())
@@ -122,9 +122,14 @@ class ApplicableAccount extends Account implements Applicable
         $this->checkClosed();
 
         if ($value > 0) {
+            $this->balance -= $value;
+
+            if ($this->balance < 0) {
+                throw new \RuntimeException('Overdrawing account is not allowed', 1471604763);
+            }
+
             $transaction = ApplicableTransaction::create(-$value, $reference, $availabilityDate);
             $this->mergeEvents($transaction->getEvents());
-            $this->balance -= $value;
 
             $this->recordEvent(
                 Event\DebitedAccountEvent::create($this->getUuidInterface(), $transaction->getUuidInterface())
