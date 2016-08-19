@@ -88,9 +88,13 @@ class AccountController extends ActionController
      */
     public function createAction(Account $account)
     {
-        CommandManager::instance()->manage(
-            Command\CreateCommand::create($account->getHolder(), $account->getNumber())
-        );
+        try {
+            CommandManager::instance()->manage(
+                Command\CreateCommand::create($account->getHolder(), $account->getNumber())
+            );
+        } catch (\Exception $exception) {
+            $this->addFlashMessage($exception->getMessage());
+        }
         $this->redirect('list');
     }
 
@@ -108,9 +112,13 @@ class AccountController extends ActionController
      */
     public function updateAction(Account $account)
     {
-        CommandManager::instance()->manage(
-            Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
-        );
+        try {
+            CommandManager::instance()->manage(
+                Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
+            );
+        } catch (\Exception $exception) {
+            $this->addFlashMessage($exception->getMessage());
+        }
         $this->redirect('list');
     }
 
@@ -120,14 +128,18 @@ class AccountController extends ActionController
      */
     public function depositAction(Account $account, Transaction $transaction)
     {
-        CommandManager::instance()->manage(
-            Command\DepositCommand::create(
-                $account->getUuidInterface(),
-                $transaction->getValue(),
-                $transaction->getReference(),
-                $transaction->getAvailabilityDate()
-            )
-        );
+        try {
+            CommandManager::instance()->manage(
+                Command\DepositCommand::create(
+                    $account->getUuidInterface(),
+                    $transaction->getValue(),
+                    $transaction->getReference(),
+                    $transaction->getAvailabilityDate()
+                )
+            );
+        } catch (\Exception $exception) {
+            $this->addFlashMessage($exception->getMessage());
+        }
         $this->redirect('show', null, null, ['account' => $account]);
     }
 
@@ -137,14 +149,18 @@ class AccountController extends ActionController
      */
     public function debitAction(Account $account, Transaction $transaction)
     {
-        CommandManager::instance()->manage(
-            Command\DebitCommand::create(
-                $account->getUuidInterface(),
-                $transaction->getValue(),
-                $transaction->getReference(),
-                $transaction->getAvailabilityDate()
-            )
-        );
+        try {
+            CommandManager::instance()->manage(
+                Command\DebitCommand::create(
+                    $account->getUuidInterface(),
+                    $transaction->getValue(),
+                    $transaction->getReference(),
+                    $transaction->getAvailabilityDate()
+                )
+            );
+        } catch (\Exception $exception) {
+            $this->addFlashMessage($exception->getMessage());
+        }
         $this->redirect('show', null, null, ['account' => $account]);
     }
 
@@ -153,9 +169,13 @@ class AccountController extends ActionController
      */
     public function closeAction(Account $account)
     {
-        CommandManager::instance()->manage(
-            Command\CloseCommand::create($account->getUuidInterface())
-        );
+        try {
+            CommandManager::instance()->manage(
+                Command\CloseCommand::create($account->getUuidInterface())
+            );
+        } catch (\Exception $exception) {
+            $this->addFlashMessage($exception->getMessage());
+        }
         $this->redirect('list');
     }
 }
