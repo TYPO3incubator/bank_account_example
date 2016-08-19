@@ -16,9 +16,8 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Command;
-use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
-use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 
@@ -54,7 +53,7 @@ class CommandManager implements Instantiable
     protected function manageCreateCommand(Command\CreateCommand $command)
     {
         AccountRepository::instance()->addEvents(
-            Account::create($command->getHolder(), $command->getNumber())->getEvents()
+            ApplicableAccount::create($command->getHolder(), $command->getNumber())->getEvents()
         );
     }
 

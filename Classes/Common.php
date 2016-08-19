@@ -16,6 +16,8 @@ namespace H4ck3r31\BankAccountExample;
 
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\EventSourcing\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,7 +44,9 @@ class Common
     {
         ExtensionUtility::instance()
             ->addMapping('tx_bankaccountexample_domain_model_account', Account::class)
-            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class);
+            ->addMapping('tx_bankaccountexample_domain_model_account', ApplicableAccount::class)
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class)
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', ApplicableTransaction::class);
 
         SourceManager::provide()
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')

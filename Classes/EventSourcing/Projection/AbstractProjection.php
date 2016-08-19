@@ -31,7 +31,7 @@ abstract class AbstractProjection
     protected $force = false;
 
     /**
-     * @var RevisionReference[][]
+     * @var RevisionReference[]
      */
     protected $revisionReferences;
 
@@ -46,23 +46,21 @@ abstract class AbstractProjection
     }
 
     /**
-     * @param AbstractEventEntity $entity
+     * @param string $uuid
      * @return RevisionReference
      */
-    protected function getRevisionReference(AbstractEventEntity $entity)
+    protected function getRevisionReference(string $uuid)
     {
-        $className = get_class($entity);
-        return ($this->revisionReferences[$className][$entity->getUuid()] ?? null);
+        return ($this->revisionReferences[$uuid] ?? null);
     }
 
     /**
-     * @param AbstractEventEntity $entity
+     * @param string $uuid
      */
-    protected function purgeRevisionReference(AbstractEventEntity $entity)
+    protected function purgeRevisionReference(string $uuid)
     {
-        $className = get_class($entity);
-        if ($this->getRevisionReference($entity) !== null) {
-            unset($this->revisionReferences[$className][$entity->getUuid()]);
+        if ($this->getRevisionReference($uuid) !== null) {
+            unset($this->revisionReferences[$uuid]);
         }
     }
 
@@ -70,17 +68,9 @@ abstract class AbstractProjection
      * @param AbstractEventEntity $entity
      * @return bool
      */
-    protected function equalsRevision(AbstractEventEntity $entity)
+    protected function equalsRevisionReference(AbstractEventEntity $entity)
     {
-        $revisionReference = $this->getRevisionReference($entity);
+        $revisionReference = $this->getRevisionReference($entity->getUuid());
         return ($revisionReference !== null && $revisionReference->getRevision() === $entity->getRevision());
-    }
-
-    /**
-     * @return Session
-     */
-    protected function getPersistenceSession()
-    {
-        return Common::getObjectManager()->get(Session::class);
     }
 }

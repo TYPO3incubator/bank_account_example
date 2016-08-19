@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing\Projection;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableTransaction;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use H4ck3r31\BankAccountExample\EventSourcing\Saga;
 use Ramsey\Uuid\UuidInterface;
@@ -38,9 +38,7 @@ class TransactionProjection extends AbstractProjection
     public function __construct()
     {
         // fetch current UUIDs with accordant revisions
-        $this->revisionReferences = [
-            Transaction::class => TransactionRepository::instance()->fetchRevisionReferences(),
-        ];
+        $this->revisionReferences = TransactionRepository::instance()->fetchRevisionReferences();
     }
 
     public function projectByUuid(UuidInterface $uuid)
@@ -48,8 +46,8 @@ class TransactionProjection extends AbstractProjection
         $transaction = $this->buildByUuid($uuid);
 
         // add/update if being forced or revisions are different
-        if ($this->force || !$this->equalsRevision($transaction)) {
-            $revisionReference = $this->getRevisionReference($transaction);
+        if ($this->force || !$this->equalsRevisionReference($transaction)) {
+            $revisionReference = $this->getRevisionReference($transaction->getUuid());
 
             if ($revisionReference === null) {
                 TransactionRepository::instance()->add($transaction);
@@ -62,16 +60,16 @@ class TransactionProjection extends AbstractProjection
             }
         }
 
-        $this->purgeRevisionReference($transaction);
+        $this->purgeRevisionReference($transaction->getUuid());
     }
 
     /**
      * @param UuidInterface $uuid
-     * @return Transaction
+     * @return ApplicableTransaction
      */
     public function buildByUuid(UuidInterface $uuid)
     {
-        $transaction = Transaction::instance();
+        $transaction = ApplicableTransaction::instance();
         $epic = EventSelector::instance()->setStreamName($uuid);
         Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($transaction, $epic);
         return $transaction;

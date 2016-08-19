@@ -16,6 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
 use H4ck3r31\BankAccountExample\EventSourcing\Projection\AccountProjection;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EventRepository;
@@ -89,7 +90,7 @@ class AccountRepository extends EventRepository
 
     /**
      * @param UuidInterface $uuid
-     * @return Account
+     * @return ApplicableAccount
      */
     public function buildByUuid(UuidInterface $uuid)
     {

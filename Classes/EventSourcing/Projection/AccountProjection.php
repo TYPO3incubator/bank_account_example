@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing\Projection;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
-use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
 use H4ck3r31\BankAccountExample\EventSourcing\Saga;
 use Ramsey\Uuid\UuidInterface;
@@ -40,10 +40,7 @@ class AccountProjection extends AbstractProjection implements Applicable
     public function __construct()
     {
         // fetch current UUIDs with accordant revisions
-        $this->revisionReferences = [
-            Account::class => AccountRepository::instance()->fetchRevisionReferences(),
-        #    Transaction::class => TransactionRepository::instance()->fetchRevisionReferences(),
-        ];
+        $this->revisionReferences = AccountRepository::instance()->fetchRevisionReferences();
     }
 
     public function project()
@@ -54,7 +51,7 @@ class AccountProjection extends AbstractProjection implements Applicable
         Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
             ->tell($this, $epic);
 
-        foreach ($this->revisionReferences[Account::class] as $revisionReference) {
+        foreach ($this->revisionReferences as $revisionReference) {
             AccountRepository::instance()->removeByUuid(
                 $revisionReference->getEntityReference()->getUuid()
             );
@@ -75,8 +72,8 @@ class AccountProjection extends AbstractProjection implements Applicable
         $account = $this->buildByUuid($uuid);
 
         // add/update if being forced or revisions are different
-        if ($this->force || !$this->equalsRevision($account) || true) {
-            $revisionReference = $this->getRevisionReference($account);
+        if ($this->force || !$this->equalsRevisionReference($account) || true) {
+            $revisionReference = $this->getRevisionReference($account->getUuid());
 
             if ($revisionReference === null) {
                 AccountRepository::instance()->add($account);
@@ -89,16 +86,16 @@ class AccountProjection extends AbstractProjection implements Applicable
             }
         }
 
-        $this->purgeRevisionReference($account);
+        $this->purgeRevisionReference($account->getUuid());
     }
 
     /**
      * @param UuidInterface $uuid
-     * @return Account
+     * @return ApplicableAccount
      */
     public function buildByUuid(UuidInterface $uuid)
     {
-        $account = Account::instance();
+        $account = ApplicableAccount::instance();
         $epic = EventSelector::instance()->setStreamName($uuid);
         Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
         return $account;

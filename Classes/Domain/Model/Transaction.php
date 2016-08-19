@@ -16,14 +16,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
-use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;
 
 /**
  * Transaction
  */
-class Transaction extends AbstractEventEntity implements Applicable
+class Transaction extends AbstractEventEntity
 {
     /**
      * @return Transaction
@@ -31,36 +29,6 @@ class Transaction extends AbstractEventEntity implements Applicable
     public static function instance()
     {
         return Common::getObjectManager()->get(Transaction::class);
-    }
-
-    public static function create(float $value, string $reference, \DateTime $availabilityDate = null)
-    {
-        $uuid = static::createUuid();
-        $transaction = static::instance();
-        $transaction->uuid = $uuid->toString();
-        $transaction->value = $value;
-        $transaction->reference = $reference;
-        $transaction->setEntryDate(new \DateTime('now'));
-
-        if ($availabilityDate === null) {
-            $transaction->availabilityDate = $transaction->getEntryDate();
-        } elseif ($availabilityDate >= $transaction->getEntryDate()) {
-            $transaction->availabilityDate = $availabilityDate;
-        } else {
-            throw new \RuntimeException('Availability date cannot be before entry date', 1471512962);
-        }
-
-        $transaction->recordEvent(
-            Event\CreatedTransactionEvent::create(
-                $uuid,
-                $transaction->getValue(),
-                $transaction->getReference(),
-                $transaction->getEntryDate(),
-                $transaction->getAvailabilityDate()
-            )
-        );
-
-        return $transaction;
     }
 
     /**
@@ -145,18 +113,5 @@ class Transaction extends AbstractEventEntity implements Applicable
     public function setValue(float $value)
     {
         $this->value = $value;
-    }
-
-    public function apply(AbstractEvent $event)
-    {
-        if ($event instanceof Event\CreatedTransactionEvent) {
-            $this->resetRevision();
-            $this->incrementRevision();
-            $this->uuid = $event->getAggregateId()->toString();
-            $this->value = $event->getValue();
-            $this->reference = $event->getReference();
-            $this->entryDate = $event->getEntryDate();
-            $this->availabilityDate = $event->getAvailabilityDate();
-        }
     }
 }
