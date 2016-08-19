@@ -148,11 +148,6 @@ class Account extends AbstractEventEntity implements Applicable
         }
     }
 
-    protected function createTransaction(float $value, string $reference, \DateTime $availabilityDate = null)
-    {
-        $transaction = Transaction::create($value, $reference, $availabilityDate);
-    }
-
     /**
      * @var bool
      */
