@@ -97,16 +97,4 @@ class AccountRepository extends EventRepository
     {
         return AccountProjection::instance()->buildByUuid($uuid);
     }
-
-    /**
-     * @param array $events
-     */
-    public function addEvents(array $events)
-    {
-        $stream = StreamProvider::provide()->useStream(Common::NAME_ACCOUNT_STREAM_PREFIX);
-
-        foreach ($events as $event) {
-            $stream->commit($event);
-        }
-    }
 }

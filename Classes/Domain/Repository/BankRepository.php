@@ -39,9 +39,9 @@ class BankRepository
     {
         $bank = Bank::instance();
         // Saga uses Stream with the common prefix,
-        // that's why "Account/" is defined here.
-        // This selects all events on Accounts
-        $desire = EventSelector::create('~Account/*');
+        // that's why "Bank" is defined here.
+        // This selects all events on Bank
+        $desire = EventSelector::create('~Bank');
         Saga::create()->tell($bank, $desire);
         return $bank;
     }

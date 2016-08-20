@@ -33,8 +33,10 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class Common
 {
     const KEY_EXTENSION = 'bank_account_example';
-    const NAME_COMMON_STREAM_PREFIX = 'H4ck3r31.BankAccountExample/';
-    const NAME_ACCOUNT_STREAM_PREFIX = 'H4ck3r31.BankAccountExample/Account/';
+    const NAME_COMMON_STREAM_PREFIX = 'H4ck3r31-BankAccountExample';
+
+    const NAME_BANK = self::NAME_COMMON_STREAM_PREFIX . '/Bank';
+    const NAME_ACCOUNT = self::NAME_COMMON_STREAM_PREFIX . '/Account';
 
     /**
      * Registers requirements for event sources processing with TYPO3.
@@ -53,8 +55,15 @@ class Common
 
         StreamProvider::provide()
             ->registerStream(
-                static::NAME_ACCOUNT_STREAM_PREFIX,
-                Stream::instance()->setPrefix(static::NAME_ACCOUNT_STREAM_PREFIX)
+                static::NAME_BANK,
+                Stream::instance()
+                    ->setIgnoreEvent(true)
+                    ->setPrefix(static::NAME_BANK)
+            )
+            ->registerStream(
+                static::NAME_ACCOUNT,
+                Stream::instance()
+                    ->setPrefix(static::NAME_ACCOUNT)
             );
     }
 

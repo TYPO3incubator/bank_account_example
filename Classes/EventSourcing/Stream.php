@@ -37,6 +37,21 @@ class Stream extends AbstractStream implements Instantiable
     protected $prefix = Common::NAME_COMMON_STREAM_PREFIX;
 
     /**
+     * @var bool
+     */
+    protected $ignoreEvent = false;
+
+    /**
+     * @param bool $ignoreEvent
+     * @return Stream
+     */
+    public function setIgnoreEvent(bool $ignoreEvent)
+    {
+        $this->ignoreEvent = $ignoreEvent;
+        return $this;
+    }
+
+    /**
      * @param AbstractEvent $event
      * @return string
      * @throws EventException
@@ -45,6 +60,10 @@ class Stream extends AbstractStream implements Instantiable
     {
         if (!($event instanceof \H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent)) {
             throw new EventException('Received invalid event type', 1471431286);
+        }
+
+        if ($this->ignoreEvent) {
+            return $this->prefix('');
         }
 
         return $this->prefix($event->getAggregateId());

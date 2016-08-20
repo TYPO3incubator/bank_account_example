@@ -56,7 +56,7 @@ class CommandManager implements Instantiable
      */
     protected function manageCreateCommand(Command\CreateCommand $command)
     {
-        AccountRepository::instance()->addEvents(
+        EventManager::instance()->manageAll(
             ApplicableAccount::create($command->getHolder(), $command->getNumber())->getEvents()
         );
     }
@@ -67,7 +67,7 @@ class CommandManager implements Instantiable
     protected function manageChangeHolderCommand(Command\ChangeHolderCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        AccountRepository::instance()->addEvents(
+        EventManager::instance()->manageAll(
             $account->changeHolder($command->getHolder())->getEvents()
         );
     }
@@ -78,7 +78,7 @@ class CommandManager implements Instantiable
     protected function manageDepositCommand(Command\DepositCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        AccountRepository::instance()->addEvents(
+        EventManager::instance()->manageAll(
             $account->deposit(
                 $command->getValue(),
                 $command->getReference(),
@@ -94,7 +94,7 @@ class CommandManager implements Instantiable
     protected function manageDebitCommand(Command\DebitCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        AccountRepository::instance()->addEvents(
+        EventManager::instance()->manageAll(
             $account->debit(
                 $command->getValue(),
                 $command->getReference(),
@@ -110,7 +110,7 @@ class CommandManager implements Instantiable
     protected function manageCloseCommand(Command\CloseCommand $command)
     {
         $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        AccountRepository::instance()->addEvents(
+        EventManager::instance()->manageAll(
             $account->close()->getEvents()
         );
     }

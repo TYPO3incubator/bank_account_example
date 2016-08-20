@@ -49,9 +49,9 @@ class AccountProjection extends AbstractProjection implements Applicable
     public function project()
     {
         // Saga uses Stream with the common prefix,
-        // that's why "Account/" is defined here.
-        // This selects all events on Accounts
-        $desire = EventSelector::create('~Account/*');
+        // that's why "Bank" is defined here.
+        // This selects all events on Bank
+        $desire = EventSelector::create('~Bank');
         Saga::create()->tell($this, $desire);
 
         foreach ($this->revisionReferences as $revisionReference) {
