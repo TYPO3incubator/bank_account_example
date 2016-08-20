@@ -7,7 +7,7 @@
   </button>
   <div id="debit-modal-{account.uuid}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="debit-modal-label-{account.uuid}">
     <div class="modal-dialog" role="document">
-      <f:form name="transaction" object="{transaction}" action="debit">
+      <f:form name="transaction" object="{transaction}" action="debit" controller="Command">
         <f:form.hidden name="account" value="{account}" />
         <div class="modal-content">
           <div class="modal-header">
