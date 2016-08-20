@@ -23,12 +23,11 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga\AbstractSaga;
 class Saga extends AbstractSaga
 {
     /**
-     * @param string $name
      * @return Saga
      */
-    public static function create(string $name)
+    public static function create()
     {
-        return Common::getObjectManager()->get(Saga::class, $name);
+        return Common::getObjectManager()->get(Saga::class);
     }
 
     /**

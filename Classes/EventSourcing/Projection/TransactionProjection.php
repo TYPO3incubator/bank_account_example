@@ -74,8 +74,11 @@ class TransactionProjection extends AbstractProjection
     public function buildByUuid(UuidInterface $uuid)
     {
         $transaction = ApplicableTransaction::instance();
-        $epic = EventSelector::instance()->setStreamName($uuid);
-        Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($transaction, $epic);
+        // Saga uses Stream with the common prefix,
+        // that's why "Account/" is defined here.
+        // This selects all events on one Account for the given UUID
+        $desire = EventSelector::create('~Account/' . $uuid->toString());
+        Saga::create()->tell($transaction, $desire);
         return $transaction;
     }
 }

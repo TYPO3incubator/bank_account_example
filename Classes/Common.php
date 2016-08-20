@@ -33,7 +33,8 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 class Common
 {
     const KEY_EXTENSION = 'bank_account_example';
-    const NAME_STREAM_PREFIX = 'H4ck3r31.BankAccountExample-';
+    const NAME_COMMON_STREAM_PREFIX = 'H4ck3r31.BankAccountExample/';
+    const NAME_ACCOUNT_STREAM_PREFIX = 'H4ck3r31.BankAccountExample/Account/';
 
     /**
      * Registers requirements for event sources processing with TYPO3.
@@ -50,10 +51,11 @@ class Common
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
             ->addSourcedTableName('tx_bankaccountexample_domain_model_transaction');
 
-        StreamProvider::provideFor(static::NAME_STREAM_PREFIX . 'Account')
-            ->setEventNames([AbstractEvent::class])
-            ->setStream(Stream::instance())
-            ->setStore(EventStorePool::provide()->getDefault());
+        StreamProvider::provide()
+            ->registerStream(
+                static::NAME_ACCOUNT_STREAM_PREFIX,
+                Stream::instance()->setPrefix(static::NAME_ACCOUNT_STREAM_PREFIX)
+            );
     }
 
     /**
@@ -62,13 +64,5 @@ class Common
     public static function getObjectManager()
     {
         return GeneralUtility::makeInstance(ObjectManager::class);
-    }
-
-    /**
-     * @return StreamProvider
-     */
-    public static function getAccountStreamProvider()
-    {
-        return StreamProvider::provideFor(static::NAME_STREAM_PREFIX . 'Account');
     }
 }

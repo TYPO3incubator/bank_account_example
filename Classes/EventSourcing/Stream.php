@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Object\EventException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
@@ -31,53 +32,19 @@ class Stream extends AbstractStream implements Instantiable
     }
 
     /**
-     * @param string $name
-     * @return Stream
+     * @var string
      */
-    public function setName(string $name) {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @param AbstractEvent $event
-     * @return Stream
-     * @throws EventException
-     */
-    public function publish(AbstractEvent $event)
-    {
-        if (!($event instanceof \H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent)) {
-            throw new EventException('Recieved invalid event type', 1471431285);
-        }
-
-        foreach ($this->consumers as $consumer) {
-            call_user_func($consumer, $event);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param callable $consumer
-     * @return Stream
-     */
-    public function subscribe(callable $consumer)
-    {
-        if (!in_array($consumer, $this->consumers, true)) {
-            $this->consumers[] = $consumer;
-        }
-        return $this;
-    }
+    protected $prefix = Common::NAME_COMMON_STREAM_PREFIX;
 
     /**
      * @param AbstractEvent $event
      * @return string
      * @throws EventException
      */
-    public function determineNameByEvent(AbstractEvent $event): string
+    protected function determineStreamNameByEvent(AbstractEvent $event): string
     {
         if (!($event instanceof \H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent)) {
-            throw new EventException('Recieved invalid event type', 1471431286);
+            throw new EventException('Received invalid event type', 1471431286);
         }
 
         return $this->prefix($event->getAggregateId());

@@ -38,11 +38,11 @@ class BankRepository
     public function fetch()
     {
         $bank = Bank::instance();
-        $epic = EventSelector::instance()
-            ->setCategories([Common::NAME_STREAM_PREFIX . 'Bank']);
-        Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
-            ->tell($bank, $epic);
-
+        // Saga uses Stream with the common prefix,
+        // that's why "Account/" is defined here.
+        // This selects all events on Accounts
+        $desire = EventSelector::create('~Account/*');
+        Saga::create()->tell($bank, $desire);
         return $bank;
     }
 }

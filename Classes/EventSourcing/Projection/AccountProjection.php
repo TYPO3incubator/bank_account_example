@@ -48,11 +48,11 @@ class AccountProjection extends AbstractProjection implements Applicable
      */
     public function project()
     {
-        // process all account created events
-        $epic = EventSelector::instance()
-            ->setCategories([Common::NAME_STREAM_PREFIX . 'Bank']);
-        Saga::create(Common::NAME_STREAM_PREFIX . 'Bank')
-            ->tell($this, $epic);
+        // Saga uses Stream with the common prefix,
+        // that's why "Account/" is defined here.
+        // This selects all events on Accounts
+        $desire = EventSelector::create('~Account/*');
+        Saga::create()->tell($this, $desire);
 
         foreach ($this->revisionReferences as $revisionReference) {
             AccountRepository::instance()->removeByUuid(
@@ -99,8 +99,11 @@ class AccountProjection extends AbstractProjection implements Applicable
     public function buildByUuid(UuidInterface $uuid)
     {
         $account = ApplicableAccount::instance();
-        $epic = EventSelector::instance()->setStreamName($uuid);
-        Saga::create(Common::NAME_STREAM_PREFIX . 'Account')->tell($account, $epic);
+        // Saga uses Stream with the common prefix,
+        // that's why "Account/" is defined here.
+        // This selects all events on one Account for the given UUID
+        $desire = EventSelector::create('~Account/' . $uuid->toString());
+        Saga::create()->tell($account, $desire);
         return $account;
     }
 }

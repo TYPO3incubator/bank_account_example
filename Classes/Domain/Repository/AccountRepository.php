@@ -19,6 +19,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
 use H4ck3r31\BankAccountExample\EventSourcing\Projection\AccountProjection;
 use Ramsey\Uuid\UuidInterface;
+use TYPO3\CMS\DataHandling\Core\EventSourcing\Stream\StreamProvider;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EventRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -102,10 +103,10 @@ class AccountRepository extends EventRepository
      */
     public function addEvents(array $events)
     {
-        $streamProvider = Common::getAccountStreamProvider();
+        $stream = StreamProvider::provide()->useStream(Common::NAME_ACCOUNT_STREAM_PREFIX);
 
         foreach ($events as $event) {
-            $streamProvider->commit($event, [Common::NAME_STREAM_PREFIX . 'Bank']);
+            $stream->commit($event);
         }
     }
 }
