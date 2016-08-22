@@ -45,8 +45,6 @@ class EventManager implements Instantiable
 
     protected $eventHandlers = [];
 
-    protected $eventInstantiators = [];
-
     /**
      * @param \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager
      */
@@ -119,7 +117,7 @@ class EventManager implements Instantiable
             return null;
         }
 
-        if (in_array(get_class($event), $this->eventInstantiators)) {
+        if ($event instanceof EntityEvent) {
             $target = $targetClassName::instance();
         } else {
             $target = $repository->findByUuid($event->getAggregateId());
@@ -188,10 +186,6 @@ class EventManager implements Instantiable
             TransactionEventHandler::class => [
                 Event\AbstractTransactionEvent::class,
             ],
-        ];
-        $this->eventInstantiators = [
-            Event\CreatedAccountEvent::class,
-            Event\CreatedTransactionEvent::class,
         ];
     }
 }

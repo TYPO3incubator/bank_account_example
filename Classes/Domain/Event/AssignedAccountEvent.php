@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Common;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
@@ -24,6 +25,8 @@ use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
  */
 class AssignedAccountEvent extends AbstractEvent implements Instantiable, RelationalEvent
 {
+    use RelationalEventTrait;
+
     /**
      * @return AssignedAccountEvent
      */
@@ -41,18 +44,5 @@ class AssignedAccountEvent extends AbstractEvent implements Instantiable, Relati
         $event = static::instance();
         $event->relationId = $relationId;
         return $event;
-    }
-
-    /**
-     * @var UuidInterface
-     */
-    protected $relationId;
-
-    /**
-     * @return UuidInterface
-     */
-    public function getRelationId(): UuidInterface
-    {
-        return $this->relationId;
     }
 }

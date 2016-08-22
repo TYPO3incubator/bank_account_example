@@ -18,14 +18,12 @@ use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\Numbered;
 use H4ck3r31\BankAccountExample\Domain\Object\NumberedTrait;
-use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\AggregateEvent;
 
 /**
  * AbstractAccountEvent
  */
-abstract class AbstractAccountEvent extends AbstractEvent
+abstract class AbstractAccountEvent extends AbstractEvent implements AggregateEvent
 {
     /**
      * @return array
@@ -39,9 +37,6 @@ abstract class AbstractAccountEvent extends AbstractEvent
         }
         if ($this instanceof Holdable) {
             $data['holder'] = $this->getHolder();
-        }
-        if ($this instanceof RelationalEvent) {
-            $data['transactionId'] = $this->getRelationId();
         }
 
         return $data;
@@ -62,10 +57,6 @@ abstract class AbstractAccountEvent extends AbstractEvent
         /** @var HoldableTrait $this */
         if ($this instanceof Holdable) {
             $this->holder = $data['holder'];
-        }
-        /** @var RelationalEventTrait $this */
-        if ($this instanceof RelationalEvent) {
-            $this->relationId = Uuid::fromString($data['transactionId']);
         }
     }
 }

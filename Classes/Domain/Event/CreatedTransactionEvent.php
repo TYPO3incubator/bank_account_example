@@ -16,12 +16,13 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 
 use H4ck3r31\BankAccountExample\Common;
 use Ramsey\Uuid\UuidInterface;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\EntityEvent;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
  * CreatedTransactionEvent
  */
-class CreatedTransactionEvent extends AbstractTransactionEvent implements Instantiable
+class CreatedTransactionEvent extends AbstractTransactionEvent implements Instantiable, EntityEvent
 {
     /**
      * @return CreatedTransactionEvent

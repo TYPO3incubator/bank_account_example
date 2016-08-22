@@ -18,11 +18,15 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent as SuperAbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\AggregateEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\AggregateEventTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\StorableEvent;
 
 /**
  * AbstractEvent
  */
-abstract class AbstractEvent extends SuperAbstractEvent implements AggregateEvent
+abstract class AbstractEvent extends SuperAbstractEvent implements StorableEvent
 {
     /**
      * @var UuidInterface
@@ -42,9 +46,14 @@ abstract class AbstractEvent extends SuperAbstractEvent implements AggregateEven
      */
     public function exportData()
     {
-        $data = [
-            'aggregateId' => $this->aggregateId,
-        ];
+        $data = [];
+
+        if ($this instanceof AggregateEvent) {
+            $data['aggregateId'] = $this->getAggregateId();
+        }
+        if ($this instanceof RelationalEvent) {
+            $data['relationId'] = $this->getRelationId();
+        }
 
         return $data;
     }
@@ -55,6 +64,13 @@ abstract class AbstractEvent extends SuperAbstractEvent implements AggregateEven
      */
     public function importData($data)
     {
-        $this->aggregateId = Uuid::fromString($data['aggregateId']);
+        /** @var AggregateEventTrait */
+        if ($this instanceof AggregateEvent) {
+            $this->aggregateId = Uuid::fromString($data['aggregateId']);
+        }
+        /** @var RelationalEventTrait $this */
+        if ($this instanceof RelationalEvent) {
+            $this->relationId = Uuid::fromString($data['relationId']);
+        }
     }
 }
