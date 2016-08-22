@@ -208,7 +208,7 @@ class ApplicableAccount extends Account implements Applicable
         ) {
             $this->incrementRevision();
             $transaction = TransactionRepository::instance()->findByUuid(
-                $event->getTransactionId()
+                $event->getRelationId()
             );
             $this->transactions->attach($transaction);
             $this->balance += $transaction->getValue();

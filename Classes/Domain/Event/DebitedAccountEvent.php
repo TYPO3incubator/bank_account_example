@@ -15,17 +15,17 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceableTrait;
 use Ramsey\Uuid\UuidInterface;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
  * DebitedAccountEvent
  */
-class DebitedAccountEvent extends AbstractAccountEvent implements Instantiable, TransactionReferenceable
+class DebitedAccountEvent extends AbstractAccountEvent implements Instantiable, RelationalEvent
 {
-    use TransactionReferenceableTrait;
+    use RelationalEventTrait;
 
     /**
      * @return DebitedAccountEvent
@@ -37,14 +37,14 @@ class DebitedAccountEvent extends AbstractAccountEvent implements Instantiable, 
 
     /**
      * @param UuidInterface $aggregateId
-     * @param UuidInterface $transactionId
+     * @param UuidInterface $relationId Pointing to Transaction
      * @return DebitedAccountEvent
      */
-    public static function create(UuidInterface $aggregateId, UuidInterface $transactionId)
+    public static function create(UuidInterface $aggregateId, UuidInterface $relationId)
     {
         $event = static::instance();
         $event->aggregateId = $aggregateId;
-        $event->transactionId = $transactionId;
+        $event->relationId = $relationId;
         return $event;
     }
 }

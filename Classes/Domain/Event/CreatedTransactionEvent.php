@@ -15,18 +15,14 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceableTrait;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 
 /**
  * CreatedTransactionEvent
  */
-class CreatedTransactionEvent extends AbstractTransactionEvent implements Instantiable, TransactionReferenceable
+class CreatedTransactionEvent extends AbstractTransactionEvent implements Instantiable
 {
-    use TransactionReferenceableTrait;
-
     /**
      * @return CreatedTransactionEvent
      */

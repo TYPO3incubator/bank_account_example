@@ -18,17 +18,14 @@ use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\Numbered;
 use H4ck3r31\BankAccountExample\Domain\Object\NumberedTrait;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionReferenceableTrait;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent as SuperAbstractEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Storable;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
 
 /**
- * AbstractEvent
+ * AbstractAccountEvent
  */
-abstract class AbstractAccountEvent extends AbstractEvent implements Storable
+abstract class AbstractAccountEvent extends AbstractEvent
 {
     /**
      * @return array
@@ -43,8 +40,8 @@ abstract class AbstractAccountEvent extends AbstractEvent implements Storable
         if ($this instanceof Holdable) {
             $data['holder'] = $this->getHolder();
         }
-        if ($this instanceof TransactionReferenceable) {
-            $data['transactionId'] = $this->getTransactionId();
+        if ($this instanceof RelationalEvent) {
+            $data['transactionId'] = $this->getRelationId();
         }
 
         return $data;
@@ -66,9 +63,9 @@ abstract class AbstractAccountEvent extends AbstractEvent implements Storable
         if ($this instanceof Holdable) {
             $this->holder = $data['holder'];
         }
-        /** @var TransactionReferenceableTrait $this */
-        if ($this instanceof TransactionReferenceable) {
-            $this->transactionId = Uuid::fromString($data['transactionId']);
+        /** @var RelationalEventTrait $this */
+        if ($this instanceof RelationalEvent) {
+            $this->relationId = Uuid::fromString($data['transactionId']);
         }
     }
 }

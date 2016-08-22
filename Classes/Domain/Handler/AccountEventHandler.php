@@ -79,7 +79,7 @@ class AccountEventHandler extends AbstractEventHandler
 
             // @todo Fetch from event repository
             $transaction = TransactionRepository::instance()->findByUuid(
-                $event->getTransactionId()
+                $event->getRelationId()
             );
             $this->subject->addTransaction($transaction);
             $this->subject->setBalance(
