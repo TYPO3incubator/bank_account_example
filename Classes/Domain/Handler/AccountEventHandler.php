@@ -17,10 +17,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Handler;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
-use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;
 
 /**
  * AccountEventHandler

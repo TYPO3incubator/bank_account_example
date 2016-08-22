@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
@@ -31,8 +32,13 @@ class EventManager implements Instantiable
      */
     static public function instance()
     {
-        return GeneralUtility::makeInstance(EventManager::class);
+        return Common::getObjectManager()->get(EventManager::class);
     }
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     */
+    protected $persistenceManager;
 
     protected $eventTargets = [];
 
@@ -41,6 +47,14 @@ class EventManager implements Instantiable
     protected $eventHandlers = [];
 
     protected $eventInstantiators = [];
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager
+     */
+    public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
     /**
      * @param AbstractEvent $event
@@ -72,6 +86,8 @@ class EventManager implements Instantiable
         } else {
             $repository->update($target);
         }
+
+        $this->persistenceManager->persistAll();
     }
 
     /**
@@ -131,7 +147,7 @@ class EventManager implements Instantiable
 
     /**
      * @param AbstractEvent $event
-     * @return null
+     * @return Repository|RepositoryInterface
      */
     protected function provideRepository(AbstractEvent $event)
     {
