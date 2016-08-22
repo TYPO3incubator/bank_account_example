@@ -61,7 +61,7 @@ class BankEventRepository implements Providable, EventRepository
      */
     public function addEvent(AbstractEvent $event)
     {
-        $streamName = Common::NAME_COMMON_STREAM_PREFIX . '/Bank';
+        $streamName = Common::STREAM_PREFIX . '/Bank';
 
         $eventSelector = EventSelector::instance()
             ->setEvents([get_class($event)])

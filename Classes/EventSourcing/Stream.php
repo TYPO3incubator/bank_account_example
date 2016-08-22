@@ -34,7 +34,7 @@ class Stream extends AbstractStream implements Instantiable
     /**
      * @var string
      */
-    protected $prefix = Common::NAME_COMMON_STREAM_PREFIX;
+    protected $prefix = Common::STREAM_PREFIX;
 
     /**
      * @var bool

@@ -61,8 +61,8 @@ class TransactionEventRepository implements Providable, EventRepository
      */
     public function addEvent(AbstractEvent $event)
     {
-        $streamName = Common::NAME_COMMON_STREAM_PREFIX
-            . '/Transaction/' . $event->getAggregateId()->toString();
+        $streamName = Common::STREAM_PREFIX_TRANSACTION
+            . '/' . $event->getAggregateId()->toString();
 
         $eventSelector = EventSelector::instance()
             ->setEvents([get_class($event)])
