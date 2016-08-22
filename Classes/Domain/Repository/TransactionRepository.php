@@ -17,31 +17,19 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Object\Providable;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\RepositoryInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for Transaction
  */
-class TransactionRepository extends Repository implements Providable, RepositoryInterface
+class TransactionRepository extends Repository implements RepositoryInterface
 {
     /**
      * @var TransactionRepository
      */
     protected static $repository;
-
-    /**
-     * @param bool $force
-     * @return static
-     */
-    public static function provide(bool $force = false)
-    {
-        if ($force || empty(static::$repository)) {
-            static::$repository = static::instance();
-        }
-        return static::$repository;
-    }
 
     /**
      * @return TransactionRepository
