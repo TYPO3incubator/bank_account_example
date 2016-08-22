@@ -22,11 +22,12 @@ use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\BankEventRepository;
 use H4ck3r31\BankAccountExample\Service\BankService;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandApplicable;
 
 /**
  * AccountCommandHandler
  */
-class AccountCommandHandler extends AbstractCommandHandler
+class AccountCommandHandler implements CommandApplicable
 {
     /**
      * @return AccountCommandHandler
@@ -45,7 +46,7 @@ class AccountCommandHandler extends AbstractCommandHandler
      * @param Account $subject
      * @return AccountCommandHandler
      */
-    public function setSubject(Account $subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
         return $this;
@@ -61,7 +62,7 @@ class AccountCommandHandler extends AbstractCommandHandler
     {
         $bankService = BankService::instance();
 
-        $uuid = static::createUuid();
+        $uuid = \Ramsey\Uuid\Uuid::uuid4();
         $this->subject->_setUuid($uuid->toString());
         $this->subject->setHolder($holder);
 

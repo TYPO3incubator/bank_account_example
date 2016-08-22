@@ -19,33 +19,27 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventApplicable;
 
 /**
  * AccountEventHandler
  */
-class AccountEventHandler extends AbstractEventHandler
+class AccountEventHandler implements EventApplicable
 {
-    /**
-     * @param Account $subject
-     * @return AccountEventHandler
-     */
-    public static function create(Account $subject)
-    {
-        return Common::getObjectManager()->get(AccountEventHandler::class, $subject);
-    }
-
-    /**
-     * @param Account $subject
-     */
-    public function __construct(Account $subject)
-    {
-        $this->subject = $subject;
-    }
-
     /**
      * @var Account
      */
     protected $subject;
+
+    /**
+     * @param Account $subject
+     * @return AccountEventHandler
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+        return $this;
+    }
 
     /**
      * @param AbstractEvent $event

@@ -19,11 +19,12 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandApplicable;
 
 /**
  * TransactionCommandHandler
  */
-class TransactionCommandHandler extends AbstractCommandHandler
+class TransactionCommandHandler implements CommandApplicable
 {
     /**
      * @return TransactionCommandHandler
@@ -42,7 +43,7 @@ class TransactionCommandHandler extends AbstractCommandHandler
      * @param Transaction $subject
      * @return TransactionCommandHandler
      */
-    public function setSubject(Transaction $subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
         return $this;
@@ -57,7 +58,7 @@ class TransactionCommandHandler extends AbstractCommandHandler
      */
     public function createNew(float $value, string $reference, \DateTime $availabilityDate = null)
     {
-        $uuid = static::createUuid();
+        $uuid = \Ramsey\Uuid\Uuid::uuid4();
         $this->subject->_setProperty('uuid', $uuid->toString());
 
         $this->subject
