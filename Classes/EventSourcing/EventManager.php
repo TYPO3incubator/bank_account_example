@@ -19,7 +19,6 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Repository\RepositoryInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;

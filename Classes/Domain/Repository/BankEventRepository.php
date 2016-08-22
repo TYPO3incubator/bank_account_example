@@ -68,7 +68,7 @@ class BankEventRepository implements Providable, EventRepository
             ->setStreamName($streamName);
 
         EventStorePool::provide()
-            ->getFor($eventSelector)
-            ->append($streamName, $event);
+            ->getAllFor($eventSelector)
+            ->attach($streamName, $event);
     }
 }
