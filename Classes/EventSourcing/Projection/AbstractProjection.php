@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\EventSourcing\Projection;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use TYPO3\CMS\DataHandling\Core\Domain\Object\Generic\RevisionReference;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;
+use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 use TYPO3\CMS\Extbase\Persistence\Generic\Session;
 
 /**
@@ -65,10 +65,10 @@ abstract class AbstractProjection
     }
 
     /**
-     * @param AbstractEventEntity $entity
+     * @param AbstractProjectableEntity $entity
      * @return bool
      */
-    protected function equalsRevisionReference(AbstractEventEntity $entity)
+    protected function equalsRevisionReference(AbstractProjectableEntity $entity)
     {
         $revisionReference = $this->getRevisionReference($entity->getUuid());
         return ($revisionReference !== null && $revisionReference->getRevision() === $entity->getRevision());

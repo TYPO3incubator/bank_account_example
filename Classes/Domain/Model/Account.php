@@ -16,12 +16,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractEventEntity;
+use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
  * Account
  */
-class Account extends AbstractEventEntity
+class Account extends AbstractProjectableEntity
 {
     /**
      * @return Account
