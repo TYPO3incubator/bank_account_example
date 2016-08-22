@@ -13,6 +13,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
  *
  * The TYPO3 project - inspiring people to share!
  */
+
 use Ramsey\Uuid\UuidInterface;
 
 /**

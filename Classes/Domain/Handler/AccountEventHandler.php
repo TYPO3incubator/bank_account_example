@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Handler;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;

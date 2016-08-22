@@ -16,16 +16,10 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
-use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
-use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\EntityEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Process\Projection\ProjectionPool;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
-use TYPO3\CMS\DataHandling\Extbase\Persistence\RepositoryInterface;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 
 class EventManager implements Instantiable
 {

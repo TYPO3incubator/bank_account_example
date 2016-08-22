@@ -19,6 +19,7 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
+use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandApplicable;
 
 /**
@@ -58,7 +59,7 @@ class TransactionCommandHandler implements CommandApplicable
      */
     public function createNew(float $value, string $reference, \DateTime $availabilityDate = null)
     {
-        $uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $uuid = Uuid::uuid4();
         $this->subject->_setProperty('uuid', $uuid->toString());
 
         $this->subject

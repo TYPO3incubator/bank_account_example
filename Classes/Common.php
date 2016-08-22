@@ -20,16 +20,12 @@ use H4ck3r31\BankAccountExample\Domain\Event\AssignedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
-use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
-use H4ck3r31\BankAccountExample\EventSourcing\Stream;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
-use TYPO3\CMS\DataHandling\Core\EventSourcing\Stream\StreamProvider;
 use TYPO3\CMS\DataHandling\Core\Process\Projection\ProjectionPool;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityProjection;
 use TYPO3\CMS\DataHandling\Extbase\Utility\ExtensionUtility;
@@ -54,26 +50,11 @@ class Common
     {
         ExtensionUtility::instance()
             ->addMapping('tx_bankaccountexample_domain_model_account', Account::class)
-            ->addMapping('tx_bankaccountexample_domain_model_account', ApplicableAccount::class)
-            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class)
-            ->addMapping('tx_bankaccountexample_domain_model_transaction', ApplicableTransaction::class);
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class);
 
         SourceManager::provide()
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
             ->addSourcedTableName('tx_bankaccountexample_domain_model_transaction');
-
-        StreamProvider::provide()
-            ->registerStream(
-                static::STREAM_PREFIX_BANK,
-                Stream::instance()
-                    ->setIgnoreEvent(true)
-                    ->setPrefix(static::STREAM_PREFIX_BANK)
-            )
-            ->registerStream(
-                static::STREAM_PREFIX_ACCOUNT,
-                Stream::instance()
-                    ->setPrefix(static::STREAM_PREFIX_ACCOUNT)
-            );
 
         ProjectionPool::provide()
             ->enrolProjection(
