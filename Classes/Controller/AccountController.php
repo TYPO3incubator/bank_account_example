@@ -17,8 +17,6 @@ namespace H4ck3r31\BankAccountExample\Controller;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
-use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
-use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**

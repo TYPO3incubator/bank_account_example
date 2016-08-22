@@ -21,6 +21,7 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 
 /**
  * Bank
+ * @deprecated
  */
 class Bank implements Applicable
 {

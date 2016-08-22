@@ -16,18 +16,16 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
-use H4ck3r31\BankAccountExample\EventSourcing\Projection\AccountProjection;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\EventSourcing\Stream\StreamProvider;
-use TYPO3\CMS\DataHandling\Extbase\Persistence\EventRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for Accounts
  */
-class AccountRepository extends EventRepository
+class AccountRepository extends Repository implements RepositoryInterface
 {
     /**
      * @return AccountRepository
@@ -51,8 +49,6 @@ class AccountRepository extends EventRepository
      */
     public function findAll()
     {
-        // @todo Handle requirement of projection with a separate RevisionStore
-        $this->buildAll();
         return parent::findAll();
     }
 
@@ -62,8 +58,14 @@ class AccountRepository extends EventRepository
      */
     public function findByUuid(UuidInterface $uuid)
     {
-        $this->projectByUuid($uuid);
-        return $this->fetchByUuid($uuid);
+        $query = $this->createQuery();
+
+        return $query
+            ->matching(
+                $query->equals('uuid', $uuid->toString())
+            )
+            ->execute()
+            ->getFirst();
     }
 
     /**
@@ -72,29 +74,27 @@ class AccountRepository extends EventRepository
      */
     public function findByNumber(string $number)
     {
-        // @todo Handle requirement of projection with a separate RevisionStore
-        $this->buildAll();
         $query = $this->createQuery();
-        $query->matching($query->equals('number', $number));
-        return $query->execute()->getFirst();
-    }
 
-    public function buildAll()
-    {
-        AccountProjection::instance()->project();
-    }
-
-    public function projectByUuid(UuidInterface $uuid)
-    {
-        AccountProjection::instance()->projectByUuid($uuid);
+        return $query
+            ->matching(
+                $query->equals('number', $number)
+            )
+            ->execute()
+            ->getFirst();
     }
 
     /**
-     * @param UuidInterface $uuid
-     * @return ApplicableAccount
+     * @return null|Account
      */
-    public function buildByUuid(UuidInterface $uuid)
+    public function findByMaximumNumber()
     {
-        return AccountProjection::instance()->buildByUuid($uuid);
+        return $this->createQuery()
+            ->setOrderings(
+                ['number' => QueryInterface::ORDER_DESCENDING]
+            )
+            ->setLimit(1)
+            ->execute()
+            ->getFirst();
     }
 }

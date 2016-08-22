@@ -21,6 +21,7 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 
 /**
  * The repository for transient Bank
+ * @deprecated
  */
 class BankRepository
 {

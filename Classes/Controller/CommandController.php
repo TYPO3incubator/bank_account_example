@@ -17,8 +17,8 @@ namespace H4ck3r31\BankAccountExample\Controller;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
+use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
-use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -33,32 +33,6 @@ class CommandController extends ActionController
     protected $accountRepository;
 
     /**
-     * Trigger projection of accounts.
-     *
-     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
-     */
-    protected function initializeAction()
-    {
-        if (
-            $this->arguments->hasArgument('account')
-            && $this->arguments->getArgument('account')->getDataType() === Account::class
-        ) {
-            $uid = (int)$this->request->getArgument('account');
-            if ($uid === 0) {
-                return;
-            }
-            $account = $this->accountRepository->findByUid($uid);
-            if (!empty($account) && !empty($account->getUuid())) {
-                $this->accountRepository->projectByUuid(
-                    Uuid::fromString($account->getUuid())
-                );
-            } else {
-                $this->accountRepository->buildAll();
-            }
-        }
-    }
-
-    /**
      * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
      */
     public function createAction(Account $account)
@@ -67,7 +41,7 @@ class CommandController extends ActionController
             CommandManager::instance()->manage(
                 Command\CreateCommand::create($account->getHolder(), $account->getNumber())
             );
-        } catch (\Exception $exception) {
+        } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
         $this->redirect('list', 'Account');
@@ -82,7 +56,7 @@ class CommandController extends ActionController
             CommandManager::instance()->manage(
                 Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
             );
-        } catch (\Exception $exception) {
+        } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
         $this->redirect('list', 'Account');
@@ -103,7 +77,7 @@ class CommandController extends ActionController
                     $transaction->getAvailabilityDate()
                 )
             );
-        } catch (\Exception $exception) {
+        } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
         $this->redirect('show', 'Account', null, ['account' => $account]);
@@ -124,7 +98,7 @@ class CommandController extends ActionController
                     $transaction->getAvailabilityDate()
                 )
             );
-        } catch (\Exception $exception) {
+        } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
         $this->redirect('show', 'Account', null, ['account' => $account]);
@@ -139,7 +113,7 @@ class CommandController extends ActionController
             CommandManager::instance()->manage(
                 Command\CloseCommand::create($account->getUuidInterface())
             );
-        } catch (\Exception $exception) {
+        } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
         $this->redirect('list', 'Account');

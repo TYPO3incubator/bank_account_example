@@ -25,6 +25,7 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 
 /**
  * ApplicableAccount
+ * @deprecated
  */
 class ApplicableAccount extends Account implements Applicable
 {

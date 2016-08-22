@@ -17,11 +17,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent as SuperAbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\Storable;
 
 /**
  * AbstractEvent
  */
-abstract class AbstractEvent extends SuperAbstractEvent
+abstract class AbstractEvent extends SuperAbstractEvent implements Storable
 {
     /**
      * @var UuidInterface

@@ -65,6 +65,7 @@ class Transaction extends AbstractEventEntity
     public function setEntryDate(\DateTime $entryDate)
     {
         $this->entryDate = $entryDate;
+        return $this;
     }
 
     /**
@@ -81,6 +82,7 @@ class Transaction extends AbstractEventEntity
     public function setAvailabilityDate(\DateTime $availabilityDate)
     {
         $this->availabilityDate = $availabilityDate;
+        return $this;
     }
 
     /**
@@ -97,6 +99,7 @@ class Transaction extends AbstractEventEntity
     public function setReference(string $reference)
     {
         $this->reference = $reference;
+        return $this;
     }
 
     /**
@@ -113,5 +116,6 @@ class Transaction extends AbstractEventEntity
     public function setValue(float $value)
     {
         $this->value = $value;
+        return $this;
     }
 }

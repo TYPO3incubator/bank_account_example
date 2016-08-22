@@ -23,6 +23,7 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Applicable;
 
 /**
  * ApplicableTransaction
+ * @deprecated
  */
 class ApplicableTransaction extends Transaction implements Applicable
 {

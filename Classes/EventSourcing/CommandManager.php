@@ -16,8 +16,11 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Command;
-use H4ck3r31\BankAccountExample\Domain\Model\Applicable\ApplicableAccount;
+use H4ck3r31\BankAccountExample\Domain\Handler\AccountCommandHandler;
+use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
+use H4ck3r31\BankAccountExample\Domain\Repository\EventRepository;
+use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 
@@ -35,16 +38,35 @@ class CommandManager implements Instantiable
     }
 
     /**
+     * @var AccountCommandHandler
+     */
+    protected $commandHandler;
+
+    /**
      * @param Command\AbstractCommand $command
      * @return CommandManager
      */
     public function manage(Command\AbstractCommand $command)
     {
         $commandName = ClassNamingUtility::getLastPart($command);
-        $commandCallable = array($this, 'manage' . $commandName);
+        $methodName = 'process' . $commandName;
 
-        if (is_callable($commandCallable)) {
-            call_user_func($commandCallable, $command);
+        if (method_exists($this, $methodName)) {
+            $this->commandHandler = AccountCommandHandler::instance();
+            $this->{$methodName}($command);
+
+            /**
+             * @var EventRepository $repository
+             * @var AbstractEvent $event
+             */
+            foreach ($this->{$methodName}($command) as $repository => $event) {
+                if ($event === null) {
+                    continue;
+                }
+
+                $repository->addEvent($event);
+                EventManager::instance()->manage($event);
+            }
         }
 
         return $this;
@@ -52,66 +74,77 @@ class CommandManager implements Instantiable
 
     /**
      * @param Command\CreateCommand $command
+     * @return \Generator
      * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
      */
-    protected function manageCreateCommand(Command\CreateCommand $command)
+    protected function processCreateCommand(Command\CreateCommand $command)
     {
-        EventManager::instance()->manageAll(
-            ApplicableAccount::create($command->getHolder(), $command->getNumber())->getEvents()
-        );
+        yield from $this->commandHandler
+            ->setSubject(Account::instance())
+            ->createNew($command->getHolder(), $command->getNumber());
     }
 
     /**
      * @param Command\ChangeHolderCommand $command
+     * @return \Generator
      */
-    protected function manageChangeHolderCommand(Command\ChangeHolderCommand $command)
+    protected function processChangeHolderCommand(Command\ChangeHolderCommand $command)
     {
-        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        EventManager::instance()->manageAll(
-            $account->changeHolder($command->getHolder())->getEvents()
-        );
+        yield from $this->commandHandler
+            ->setSubject($this->fetchAccount($command))
+            ->changeHolder($command->getHolder());
     }
 
     /**
      * @param Command\DepositCommand $command
+     * @return \Generator
      */
-    protected function manageDepositCommand(Command\DepositCommand $command)
+    protected function processDepositCommand(Command\DepositCommand $command)
     {
-        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        EventManager::instance()->manageAll(
-            $account->deposit(
+        yield from $this->commandHandler
+            ->setSubject($this->fetchAccount($command))
+            ->deposit(
                 $command->getValue(),
                 $command->getReference(),
                 $command->getAvailabilityDate()
-            )->getEvents()
-        );
+            );
     }
 
     /**
      * @param Command\DebitCommand $command
+     * @return \Generator
      * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
      */
-    protected function manageDebitCommand(Command\DebitCommand $command)
+    protected function processDebitCommand(Command\DebitCommand $command)
     {
-        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        EventManager::instance()->manageAll(
-            $account->debit(
+        yield from $this->commandHandler
+            ->setSubject($this->fetchAccount($command))
+            ->debit(
                 $command->getValue(),
                 $command->getReference(),
                 $command->getAvailabilityDate()
-            )->getEvents()
-        );
+            );
     }
 
     /**
      * @param Command\CloseCommand $command
+     * @return \Generator
      * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
      */
-    protected function manageCloseCommand(Command\CloseCommand $command)
+    protected function processCloseCommand(Command\CloseCommand $command)
     {
-        $account = AccountRepository::instance()->buildByUuid($command->getAccountId());
-        EventManager::instance()->manageAll(
-            $account->close()->getEvents()
-        );
+        yield from $this->commandHandler
+            ->setSubject($this->fetchAccount($command))
+            ->close();
+    }
+
+    /**
+     * @param Command\AbstractCommand $command
+     * @return Account|null
+     */
+    protected function fetchAccount(Command\AbstractCommand $command)
+    {
+        return AccountRepository::instance()
+            ->findByUuid($command->getAccountId());
     }
 }

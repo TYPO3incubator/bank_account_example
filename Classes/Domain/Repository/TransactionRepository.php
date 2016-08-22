@@ -16,16 +16,33 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
-use H4ck3r31\BankAccountExample\EventSourcing\Projection\TransactionProjection;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Extbase\Persistence\EventRepository;
+use TYPO3\CMS\DataHandling\Core\Object\Providable;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
+use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for Transaction
  */
-class TransactionRepository extends EventRepository
+class TransactionRepository extends Repository implements Providable, RepositoryInterface
 {
+    /**
+     * @var TransactionRepository
+     */
+    protected static $repository;
+
+    /**
+     * @param bool $force
+     * @return static
+     */
+    public static function provide(bool $force = false)
+    {
+        if ($force || empty(static::$repository)) {
+            static::$repository = static::instance();
+        }
+        return static::$repository;
+    }
+
     /**
      * @return TransactionRepository
      */
@@ -49,24 +66,13 @@ class TransactionRepository extends EventRepository
      */
     public function findByUuid(UuidInterface $uuid)
     {
-        TransactionProjection::instance()->projectByUuid($uuid);
-        return $this->fetchByUuid($uuid);
-    }
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('uuid', $uuid->toString())
+        );
 
-    /**
-     * @param UuidInterface $uuid
-     */
-    public function projectByUid(UuidInterface $uuid)
-    {
-        TransactionProjection::instance()->projectByUuid($uuid);
-    }
-
-    /**
-     * @param UuidInterface $uuid
-     * @return Transaction
-     */
-    public function buildByUuid(UuidInterface $uuid)
-    {
-        return TransactionProjection::instance()->buildByUuid($uuid);
+        return $query
+            ->execute()
+            ->getFirst();
     }
 }
