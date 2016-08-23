@@ -313,9 +313,9 @@ class Account extends AbstractProjectableEntity implements EventApplicable
         $this->holder = $event->getHolder();
     }
 
-    protected function oClosedAccountEvent(Event\ClosedAccountEvent $event)
+    protected function onClosedAccountEvent(Event\ClosedAccountEvent $event)
     {
-        $this->closed =true;
+        $this->closed = true;
     }
 
     protected function onDepositedAccountEvent(Event\DepositedAccountEvent $event)
