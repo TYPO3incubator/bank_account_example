@@ -17,6 +17,8 @@ namespace H4ck3r31\BankAccountExample;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractTransactionEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\AssignedAccountEvent;
+use H4ck3r31\BankAccountExample\Domain\Event\DebitedAccountEvent;
+use H4ck3r31\BankAccountExample\Domain\Event\DepositedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
@@ -49,44 +51,32 @@ class Common
      */
     public static function registerEventSources()
     {
+        // build up TypoScript mappings for Extbase
         ExtensionUtility::instance()
             ->addMapping('tx_bankaccountexample_domain_model_account', Account::class)
             ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class);
 
+        // tell the system that these database tables are somehow event-sourced
+        // (currently not used, maybe this will be merged with ProjectionPool)
         SourceManager::provide()
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
             ->addSourcedTableName('tx_bankaccountexample_domain_model_transaction');
 
+        // define projection for the "Bank" stream, containing
+        // relations (see RelationalEvent) to Account streams
         ProjectionPool::provide()
             ->enrolProjection(
                 '$' . static::STREAM_PREFIX_BANK
             )
             ->setStreamProjectionName(EntityStreamProjection::class)
             ->setEventProjectionName(EntityEventProjection::class)
+            // issue how the Bank stream can continue with Account streams
             ->onStream(
-                RelationalEvent::class,
-                function(RelationalEvent $event, EntityStreamProjection $projection)
-                {
-                    $event->cancel();
-                    $projection->triggerProjection(
-                        static::STREAM_PREFIX_ACCOUNT
-                        . '/' . $event->getRelationId()->toString()
-                    );
-                }
-            );
-
-        ProjectionPool::provide()
-            ->enrolProjection(
-                '$' . static::STREAM_PREFIX_ACCOUNT . '/*',
-                '[' . AbstractAccountEvent::class . ']'
-            )
-            ->setEventHandlerName(AccountEventHandler::class)
-            ->setRepositoryName(AccountRepository::class)
-            ->setStreamProjectionName(EntityStreamProjection::class)
-            ->setEventProjectionName(EntityEventProjection::class)
-            ->setSubjectName(Account::class)
-            ->onStream(
-                RelationalEvent::class,
+                AssignedAccountEvent::class,
+                /**
+                 * @param AssignedAccountEvent, $event
+                 * @param EntityStreamProjection $projection
+                 */
                 function(AssignedAccountEvent $event, EntityStreamProjection $projection)
                 {
                     $event->cancel();
@@ -97,6 +87,36 @@ class Common
                 }
             );
 
+        // define projection for any "Account" streams (see the "*" wildcard
+        // modifier used for the EventSelector)
+        ProjectionPool::provide()
+            ->enrolProjection(
+                '$' . static::STREAM_PREFIX_ACCOUNT . '/*',
+                '[' . AbstractAccountEvent::class . ']'
+            )
+            ->setEventHandlerName(AccountEventHandler::class)
+            ->setRepositoryName(AccountRepository::class)
+            ->setStreamProjectionName(EntityStreamProjection::class)
+            ->setEventProjectionName(EntityEventProjection::class)
+            ->setSubjectName(Account::class)
+            // issue how any Account stream can continue with Transaction streams
+            ->onStream(
+                RelationalEvent::class,
+                /**
+                 * @param DepositedAccountEvent|DebitedAccountEvent $event
+                 * @param EntityStreamProjection $projection
+                 */
+                function(RelationalEvent $event, EntityStreamProjection $projection)
+                {
+                    $projection->triggerProjection(
+                        static::STREAM_PREFIX_TRANSACTION
+                        . '/' . $event->getRelationId()->toString()
+                    );
+                }
+            );
+
+        // define projection for any "Transaction" streams (see the "*" wildcard
+        // modifier used for the EventSelector)
         ProjectionPool::provide()
             ->enrolProjection(
                 '$' . static::STREAM_PREFIX_TRANSACTION . '/*',
