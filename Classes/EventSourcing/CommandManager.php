@@ -16,7 +16,6 @@ namespace H4ck3r31\BankAccountExample\EventSourcing;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Command;
-use H4ck3r31\BankAccountExample\Domain\Handler\AccountCommandHandler;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
@@ -41,11 +40,6 @@ class CommandManager implements Instantiable
     protected $persistenceManager;
 
     /**
-     * @var AccountCommandHandler
-     */
-    protected $commandHandler;
-
-    /**
      * @param \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager
      */
     public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager)
@@ -66,7 +60,6 @@ class CommandManager implements Instantiable
         $methodName = 'process' . $commandName;
 
         if (method_exists($this, $methodName)) {
-            $this->commandHandler = AccountCommandHandler::instance();
             $this->{$methodName}($command);
         }
 
