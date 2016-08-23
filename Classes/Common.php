@@ -27,7 +27,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
 use TYPO3\CMS\DataHandling\Core\Process\Projection\ProjectionPool;
-use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityProjection;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityEventProjection;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityStreamProjection;
 use TYPO3\CMS\DataHandling\Extbase\Utility\ExtensionUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 
@@ -60,10 +61,11 @@ class Common
             ->enrolProjection(
                 '$' . static::STREAM_PREFIX_BANK
             )
-            ->setProjectionName(EntityProjection::class)
+            ->setStreamProjectionName(EntityStreamProjection::class)
+            ->setEventProjectionName(EntityEventProjection::class)
             ->onStream(
                 RelationalEvent::class,
-                function(RelationalEvent $event, EntityProjection $projection)
+                function(RelationalEvent $event, EntityStreamProjection $projection)
                 {
                     $event->cancel();
                     $projection->triggerProjection(
@@ -80,11 +82,12 @@ class Common
             )
             ->setEventHandlerName(AccountEventHandler::class)
             ->setRepositoryName(AccountRepository::class)
-            ->setProjectionName(EntityProjection::class)
+            ->setStreamProjectionName(EntityStreamProjection::class)
+            ->setEventProjectionName(EntityEventProjection::class)
             ->setSubjectName(Account::class)
             ->onStream(
                 RelationalEvent::class,
-                function(AssignedAccountEvent $event, EntityProjection $projection)
+                function(AssignedAccountEvent $event, EntityStreamProjection $projection)
                 {
                     $event->cancel();
                     $projection->triggerProjection(
@@ -101,7 +104,8 @@ class Common
             )
             ->setEventHandlerName(TransactionEventHandler::class)
             ->setRepositoryName(TransactionRepository::class)
-            ->setProjectionName(EntityProjection::class)
+            ->setStreamProjectionName(EntityStreamProjection::class)
+            ->setEventProjectionName(EntityEventProjection::class)
             ->setSubjectName(Transaction::class);
     }
 

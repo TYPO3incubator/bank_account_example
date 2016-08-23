@@ -40,12 +40,13 @@ class EventManager implements Instantiable
             ->setEvents([get_class($event)]);
 
         try {
-            $projection = ProjectionPool::provide()
-                ->getFor($concerning);
+            $enrolment = ProjectionPool::provide()->getFor($concerning);
         } catch (\Exception $exception) {
             return;
         }
 
-        $projection->projectEvent($event);
+        $enrolment
+            ->provideEventProjection()
+            ->project($event);
     }
 }
