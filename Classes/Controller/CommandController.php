@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\ValidationModel\Account;
 use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
-use H4ck3r31\BankAccountExample\ValidationModel\Model\Transaction;
+use H4ck3r31\BankAccountExample\Domain\ValidationModel\Transaction;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**

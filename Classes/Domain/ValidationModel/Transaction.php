@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\ValidationModel\Model;
+namespace H4ck3r31\BankAccountExample\Domain\ValidationModel;
 
 /*
  * This file is part of the TYPO3 CMS project.
