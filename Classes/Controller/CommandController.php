@@ -17,7 +17,6 @@ namespace H4ck3r31\BankAccountExample\Controller;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\ValidationModel\Account;
-use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
 use H4ck3r31\BankAccountExample\Domain\ValidationModel\Transaction;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
@@ -38,7 +37,7 @@ class CommandController extends ActionController
     public function createAction(Account $account)
     {
         try {
-            CommandManager::instance()->manage(
+            Command\CommandManager::instance()->manage(
                 Command\CreateCommand::create($account->getHolder(), $account->getNumber())
             );
         } catch (CommandException $exception) {
@@ -53,7 +52,7 @@ class CommandController extends ActionController
     public function updateAction(Account $account)
     {
         try {
-            CommandManager::instance()->manage(
+            Command\CommandManager::instance()->manage(
                 Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
             );
         } catch (CommandException $exception) {
@@ -69,7 +68,7 @@ class CommandController extends ActionController
     public function depositAction(Account $account, Transaction $transaction)
     {
         try {
-            CommandManager::instance()->manage(
+            Command\CommandManager::instance()->manage(
                 Command\DepositCommand::create(
                     $account->getUuidInterface(),
                     $transaction->getValue(),
@@ -90,7 +89,7 @@ class CommandController extends ActionController
     public function debitAction(Account $account, Transaction $transaction)
     {
         try {
-            CommandManager::instance()->manage(
+            Command\CommandManager::instance()->manage(
                 Command\DebitCommand::create(
                     $account->getUuidInterface(),
                     $transaction->getValue(),
@@ -105,12 +104,12 @@ class CommandController extends ActionController
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
+     * @param Account $account
      */
     public function closeAction(Account $account)
     {
         try {
-            CommandManager::instance()->manage(
+            Command\CommandManager::instance()->manage(
                 Command\CloseCommand::create($account->getUuidInterface())
             );
         } catch (CommandException $exception) {

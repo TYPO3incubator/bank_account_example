@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\EventSourcing;
+namespace H4ck3r31\BankAccountExample\Domain\Command;
 
 /*
  * This file is part of the TYPO3 CMS project.
