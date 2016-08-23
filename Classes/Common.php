@@ -19,8 +19,6 @@ use H4ck3r31\BankAccountExample\Domain\Event\AbstractTransactionEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\AssignedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\DebitedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\DepositedAccountEvent;
-use H4ck3r31\BankAccountExample\Domain\Handler\AccountEventHandler;
-use H4ck3r31\BankAccountExample\Domain\Handler\TransactionEventHandler;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
@@ -94,7 +92,6 @@ class Common
                 '$' . static::STREAM_PREFIX_ACCOUNT . '/*',
                 '[' . AbstractAccountEvent::class . ']'
             )
-            ->setEventHandlerName(AccountEventHandler::class)
             ->setRepositoryName(AccountRepository::class)
             ->setStreamProjectionName(EntityStreamProjection::class)
             ->setEventProjectionName(EntityEventProjection::class)
@@ -122,7 +119,6 @@ class Common
                 '$' . static::STREAM_PREFIX_TRANSACTION . '/*',
                 '[' . AbstractTransactionEvent::class . ']'
             )
-            ->setEventHandlerName(TransactionEventHandler::class)
             ->setRepositoryName(TransactionRepository::class)
             ->setStreamProjectionName(EntityStreamProjection::class)
             ->setEventProjectionName(EntityEventProjection::class)

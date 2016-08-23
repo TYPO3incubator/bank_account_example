@@ -19,8 +19,6 @@ use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Handler\AccountCommandHandler;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
-use H4ck3r31\BankAccountExample\Domain\Repository\EventRepository;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 
@@ -38,9 +36,22 @@ class CommandManager implements Instantiable
     }
 
     /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     */
+    protected $persistenceManager;
+
+    /**
      * @var AccountCommandHandler
      */
     protected $commandHandler;
+
+    /**
+     * @param \TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager
+     */
+    public function injectPersistenceManager(\TYPO3\CMS\Extbase\Persistence\PersistenceManagerInterface $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
     /**
      * @param Command\AbstractCommand $command
@@ -48,25 +59,15 @@ class CommandManager implements Instantiable
      */
     public function manage(Command\AbstractCommand $command)
     {
+        // clear session state (possibly modified subject)
+        $this->persistenceManager->clearState();
+
         $commandName = ClassNamingUtility::getLastPart($command);
         $methodName = 'process' . $commandName;
 
         if (method_exists($this, $methodName)) {
             $this->commandHandler = AccountCommandHandler::instance();
             $this->{$methodName}($command);
-
-            /**
-             * @var EventRepository $repository
-             * @var AbstractEvent $event
-             */
-            foreach ($this->{$methodName}($command) as $repository => $event) {
-                if ($event === null) {
-                    continue;
-                }
-
-                $repository->addEvent($event);
-                EventManager::instance()->manage($event);
-            }
         }
 
         return $this;
@@ -79,9 +80,7 @@ class CommandManager implements Instantiable
      */
     protected function processCreateCommand(Command\CreateCommand $command)
     {
-        yield from $this->commandHandler
-            ->setSubject(Account::instance())
-            ->createNew($command->getHolder(), $command->getNumber());
+        Account::createNew($command->getHolder(), $command->getNumber());
     }
 
     /**
@@ -90,19 +89,16 @@ class CommandManager implements Instantiable
      */
     protected function processChangeHolderCommand(Command\ChangeHolderCommand $command)
     {
-        yield from $this->commandHandler
-            ->setSubject($this->fetchAccount($command))
+        $this->fetchAccount($command)
             ->changeHolder($command->getHolder());
     }
 
     /**
      * @param Command\DepositCommand $command
-     * @return \Generator
      */
     protected function processDepositCommand(Command\DepositCommand $command)
     {
-        yield from $this->commandHandler
-            ->setSubject($this->fetchAccount($command))
+        $this->fetchAccount($command)
             ->deposit(
                 $command->getValue(),
                 $command->getReference(),
@@ -112,13 +108,11 @@ class CommandManager implements Instantiable
 
     /**
      * @param Command\DebitCommand $command
-     * @return \Generator
      * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
      */
     protected function processDebitCommand(Command\DebitCommand $command)
     {
-        yield from $this->commandHandler
-            ->setSubject($this->fetchAccount($command))
+        $this->fetchAccount($command)
             ->debit(
                 $command->getValue(),
                 $command->getReference(),
@@ -128,13 +122,11 @@ class CommandManager implements Instantiable
 
     /**
      * @param Command\CloseCommand $command
-     * @return \Generator
      * @throws \H4ck3r31\BankAccountExample\Domain\Object\CommandException
      */
     protected function processCloseCommand(Command\CloseCommand $command)
     {
-        yield from $this->commandHandler
-            ->setSubject($this->fetchAccount($command))
+        $this->fetchAccount($command)
             ->close();
     }
 

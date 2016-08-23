@@ -15,10 +15,10 @@ namespace H4ck3r31\BankAccountExample\Controller;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Command;
-use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
+use H4ck3r31\BankAccountExample\Domain\ValidationModel\Account;
 use H4ck3r31\BankAccountExample\EventSourcing\CommandManager;
+use H4ck3r31\BankAccountExample\ValidationModel\Model\Transaction;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -33,7 +33,7 @@ class CommandController extends ActionController
     protected $accountRepository;
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
+     * @param Account $account
      */
     public function createAction(Account $account)
     {
@@ -48,7 +48,7 @@ class CommandController extends ActionController
     }
 
     /**
-     * @param \H4ck3r31\BankAccountExample\Domain\Model\Account $account
+     * @param Account $account
      */
     public function updateAction(Account $account)
     {

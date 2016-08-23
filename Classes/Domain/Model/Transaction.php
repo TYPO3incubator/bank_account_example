@@ -16,13 +16,21 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event;
+use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventApplicable;
+use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventHandlerTrait;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
  * Transaction
  */
-class Transaction extends AbstractProjectableEntity
+class Transaction extends AbstractProjectableEntity implements EventApplicable
 {
+    use CommandHandlerTrait;
+    use EventHandlerTrait;
+
     /**
      * @return Transaction
      */
@@ -60,29 +68,11 @@ class Transaction extends AbstractProjectableEntity
     }
 
     /**
-     * @param \DateTime $entryDate
-     */
-    public function setEntryDate(\DateTime $entryDate)
-    {
-        $this->entryDate = $entryDate;
-        return $this;
-    }
-
-    /**
      * @return \DateTime $availabilityDate
      */
     public function getAvailabilityDate()
     {
         return $this->availabilityDate;
-    }
-
-    /**
-     * @param \DateTime $availabilityDate
-     */
-    public function setAvailabilityDate(\DateTime $availabilityDate)
-    {
-        $this->availabilityDate = $availabilityDate;
-        return $this;
     }
 
     /**
@@ -94,15 +84,6 @@ class Transaction extends AbstractProjectableEntity
     }
 
     /**
-     * @param string $reference
-     */
-    public function setReference(string $reference)
-    {
-        $this->reference = $reference;
-        return $this;
-    }
-
-    /**
      * @return float $value
      */
     public function getValue()
@@ -110,12 +91,66 @@ class Transaction extends AbstractProjectableEntity
         return $this->value;
     }
 
+
+    /**
+     * Command handlers
+     */
+
     /**
      * @param float $value
+     * @param string $reference
+     * @param \DateTime|null $availabilityDate
+     * @return Transaction
+     * @throws CommandException
      */
-    public function setValue(float $value)
+    public static function createNew(float $value, string $reference, \DateTime $availabilityDate = null)
     {
-        $this->value = $value;
-        return $this;
+        $transaction = static::instance();
+
+        $uuid = static::createUuid();
+        $transaction->uuid = $uuid;
+
+        $transaction->value = $value;
+        $transaction->reference = $reference;
+        $transaction->entryDate = new \DateTime('now');
+
+        if ($availabilityDate === null) {
+            $transaction->availabilityDate = $transaction->entryDate;
+        } elseif ($availabilityDate >= $transaction->entryDate) {
+            $transaction->availabilityDate = $availabilityDate;
+        } else {
+            throw new CommandException('Availability date cannot be before entry date', 1471512962);
+        }
+
+        $transaction->provideEvent(
+            TransactionEventRepository::provide(),
+            Event\CreatedTransactionEvent::create(
+                $uuid,
+                $transaction->value,
+                $transaction->reference,
+                $transaction->entryDate,
+                $transaction->availabilityDate
+            )
+        );
+
+        return $transaction;
+    }
+
+
+    /*
+     * Event handling
+     */
+
+    /**
+     * @param Event\CreatedTransactionEvent $event
+     */
+    protected function onCreatedTransactionEvent(Event\CreatedTransactionEvent $event)
+    {
+        $this->uuid = $event->getAggregateId()->toString();
+
+        $this->value = $event->getValue();
+        $this->reference = $event->getReference();
+        $this->entryDate = $event->getEntryDate();
+        $this->availabilityDate = $event->getAvailabilityDate();
     }
 }
