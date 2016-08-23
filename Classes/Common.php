@@ -61,9 +61,10 @@ class Common
                 '$' . static::STREAM_PREFIX_BANK
             )
             ->setProjectionName(EntityProjection::class)
-            ->on(
+            ->onStream(
                 RelationalEvent::class,
-                function(EntityProjection $projection, RelationalEvent $event) {
+                function(RelationalEvent $event, EntityProjection $projection)
+                {
                     $event->cancel();
                     $projection->triggerProjection(
                         static::STREAM_PREFIX_ACCOUNT
@@ -81,9 +82,10 @@ class Common
             ->setRepositoryName(AccountRepository::class)
             ->setProjectionName(EntityProjection::class)
             ->setSubjectName(Account::class)
-            ->on(
+            ->onStream(
                 RelationalEvent::class,
-                function(EntityProjection $projection, AssignedAccountEvent $event) {
+                function(AssignedAccountEvent $event, EntityProjection $projection)
+                {
                     $event->cancel();
                     $projection->triggerProjection(
                         static::STREAM_PREFIX_ACCOUNT
