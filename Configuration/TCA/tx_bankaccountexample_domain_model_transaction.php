@@ -10,7 +10,6 @@ return [
         'versioningWS' => true,
         'versioning_followPages' => true,
 
-        'delete' => 'deleted',
         'searchFields' => 'entry_date,availability_date,reference,value,',
         'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_transaction.gif'
     ],
