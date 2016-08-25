@@ -103,35 +103,29 @@ class Transaction extends AbstractProjectableEntity implements EventApplicable
      * @return Transaction
      * @throws CommandException
      */
-    public static function createNew(float $value, string $reference, \DateTime $availabilityDate = null)
+    public static function createdTransaction(float $value, string $reference, \DateTime $availabilityDate = null)
     {
-        $transaction = static::instance();
-
-        $uuid = static::createUuid();
-        $transaction->uuid = $uuid;
-
-        $transaction->value = $value;
-        $transaction->reference = $reference;
-        $transaction->entryDate = new \DateTime('now');
+        $entryDate = new \DateTime('now');
 
         if ($availabilityDate === null) {
-            $transaction->availabilityDate = $transaction->entryDate;
-        } elseif ($availabilityDate >= $transaction->entryDate) {
-            $transaction->availabilityDate = $availabilityDate;
-        } else {
+            $availabilityDate = $entryDate;
+        } elseif ($availabilityDate < $entryDate) {
             throw new CommandException('Availability date cannot be before entry date', 1471512962);
         }
 
-        $transaction->provideEvent(
-            TransactionEventRepository::provide(),
-            Event\CreatedTransactionEvent::create(
-                $uuid,
-                $transaction->value,
-                $transaction->reference,
-                $transaction->entryDate,
-                $transaction->availabilityDate
-            )
+        $transaction = static::instance();
+        $uuid = static::createUuid();
+
+        $event = Event\CreatedTransactionEvent::create(
+            $uuid,
+            $value,
+            $reference,
+            $entryDate,
+            $availabilityDate
         );
+
+        $transaction->apply($event);
+        static::emitEvent(TransactionEventRepository::provide(), $event);
 
         return $transaction;
     }
@@ -147,7 +141,6 @@ class Transaction extends AbstractProjectableEntity implements EventApplicable
     protected function onCreatedTransactionEvent(Event\CreatedTransactionEvent $event)
     {
         $this->uuid = $event->getAggregateId()->toString();
-
         $this->value = $event->getValue();
         $this->reference = $event->getReference();
         $this->entryDate = $event->getEntryDate();

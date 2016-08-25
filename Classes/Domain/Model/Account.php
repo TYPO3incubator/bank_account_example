@@ -19,7 +19,7 @@ use H4ck3r31\BankAccountExample\Domain\Event;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\BankEventRepository;
-use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
+use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Service\BankService;
 use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandHandlerTrait;
 use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventApplicable;
@@ -147,32 +147,30 @@ class Account extends AbstractProjectableEntity implements EventApplicable
      * @return Account
      * @throws CommandException
      */
-    public static function createNew(string $holder, string $number = '')
+    public static function createdAccount(string $holder, string $number = '')
     {
         $bankService = BankService::instance();
-        $account = static::instance();
-
-        $uuid = $account->createUuid();
-        $account->uuid = $uuid->toString();
-        $account->holder = $holder;
 
         if (empty($number)) {
-            $account->number = $bankService->createNewAccountNumber();
+            $number = $bankService->createNewAccountNumber();
         } elseif (!$bankService->hasAccountNumber($number)) {
-            $account->number = $bankService->sanitizeAccountNumber($number);
+            $number = $bankService->sanitizeAccountNumber($number);
         } else {
             throw new CommandException('Number #' . $bankService->sanitizeAccountNumber($number) . ' is already assigned', 1471604553);
         }
 
-        $account->provideEvent(
+        $account = static::instance();
+        $uuid = static::createUuid();
+
+        static::emitEvent(
             BankEventRepository::provide(),
             Event\AssignedAccountEvent::create($uuid)
         );
 
-        $account->provideEvent(
-            AccountEventRepository::provide(),
-            Event\CreatedAccountEvent::create($uuid, $account->holder, $account->number)
-        );
+        $event = Event\CreatedAccountEvent::create($uuid, $holder, $number);
+
+        $account->apply($event);
+        static::emitEvent(AccountEventRepository::provide(), $event);
 
         return $account;
     }
@@ -180,25 +178,24 @@ class Account extends AbstractProjectableEntity implements EventApplicable
     /**
      * @throws CommandException
      */
-    public function close()
+    public function closedAccount()
     {
         $this->checkClosed();
+
         if ((float)$this->balance !== 0.0) {
             throw new CommandException('Cannot close account since the balance is not zero', 1471473510);
         }
 
-        $this->closed = true;
+        $event = Event\ClosedAccountEvent::create($this->getUuidInterface());
 
-        $this->provideEvent(
-            AccountEventRepository::provide(),
-            Event\ClosedAccountEvent::create($this->getUuidInterface())
-        );
+        $this->apply($event);
+        static::emitEvent(AccountEventRepository::provide(), $event);
     }
 
     /**
      * @param string $holder
      */
-    public function changeHolder(string $holder)
+    public function changedAccountHolder(string $holder)
     {
         $this->checkClosed();
 
@@ -206,12 +203,10 @@ class Account extends AbstractProjectableEntity implements EventApplicable
             return;
         }
 
-        $this->holder = $holder;
+        $event = Event\ChangedAccountHolderEvent::create($this->getUuidInterface(), $holder);
 
-        $this->provideEvent(
-            AccountEventRepository::provide(),
-            Event\ChangedAccountHolderEvent::create($this->getUuidInterface(), $holder)
-        );
+        $this->apply($event);
+        static::emitEvent(AccountEventRepository::provide(), $event);
     }
 
     /**
@@ -220,26 +215,24 @@ class Account extends AbstractProjectableEntity implements EventApplicable
      * @param \DateTime|null $availabilityDate
      * @throws CommandException
      */
-    public function deposit(float $value, string $reference, \DateTime $availabilityDate = null)
+    public function depositedAccount(float $value, string $reference, \DateTime $availabilityDate = null)
     {
         $this->checkClosed();
         $this->checkPositiveValue($value);
 
-        $this->balance += $value;
-
-        $transaction = Transaction::createNew(
+        $transaction = Transaction::createdTransaction(
             $value,
             $reference,
             $availabilityDate
         );
 
-        $this->provideEvent(
-            AccountEventRepository::provide(),
-            Event\DepositedAccountEvent::create(
-                $this->getUuidInterface(),
-                $transaction->getUuidInterface()
-            )
+        $event = Event\DepositedAccountEvent::create(
+            $this->getUuidInterface(),
+            $transaction->getUuidInterface()
         );
+
+        $this->apply($event);
+        static::emitEvent(AccountEventRepository::provide(), $event);
     }
 
     /**
@@ -248,7 +241,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable
      * @param \DateTime|null $availabilityDate
      * @throws CommandException
      */
-    public function debit(float $value, string $reference, \DateTime $availabilityDate = null)
+    public function debitedAccount(float $value, string $reference, \DateTime $availabilityDate = null)
     {
         $this->checkClosed();
         $this->checkPositiveValue($value);
@@ -257,21 +250,19 @@ class Account extends AbstractProjectableEntity implements EventApplicable
             throw new CommandException('Overdrawing account is not allowed', 1471604763);
         }
 
-        $this->balance -= $value;
-
-        $transaction = Transaction::createNew(
+        $transaction = Transaction::createdTransaction(
             -$value,
             $reference,
             $availabilityDate
         );
 
-        $this->provideEvent(
-            AccountEventRepository::provide(),
-            Event\DebitedAccountEvent::create(
-                $this->getUuidInterface(),
-                $transaction->getUuidInterface()
-            )
+        $event = Event\DebitedAccountEvent::create(
+            $this->getUuidInterface(),
+            $transaction->getUuidInterface()
         );
+
+        $this->apply($event);
+        static::emitEvent(AccountEventRepository::provide(), $event);
     }
 
     /**
@@ -320,10 +311,10 @@ class Account extends AbstractProjectableEntity implements EventApplicable
 
     protected function onDepositedAccountEvent(Event\DepositedAccountEvent $event)
     {
-        // @todo Fetch from event repository
-        $transaction = TransactionRepository::instance()->findByUuid(
+        $transaction = TransactionEventRepository::instance()->findByUuid(
             $event->getRelationId()
         );
+
         $this->transactions->attach($transaction);
         $this->balance += $transaction->getValue();
     }
@@ -333,10 +324,10 @@ class Account extends AbstractProjectableEntity implements EventApplicable
      */
     protected function onDebitedAccountEvent(Event\DebitedAccountEvent $event)
     {
-        // @todo Fetch from event repository
-        $transaction = TransactionRepository::instance()->findByUuid(
+        $transaction = TransactionEventRepository::instance()->findByUuid(
             $event->getRelationId()
         );
+
         $this->transactions->attach($transaction);
         $this->balance += $transaction->getValue();
     }

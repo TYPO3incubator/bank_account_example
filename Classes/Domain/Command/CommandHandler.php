@@ -44,7 +44,7 @@ class CommandHandler implements Instantiable, CommandApplicable
      */
     protected function onCreateCommand(CreateCommand $command)
     {
-        Account::createNew($command->getHolder(), $command->getNumber());
+        Account::createdAccount($command->getHolder(), $command->getNumber());
     }
 
     /**
@@ -54,7 +54,7 @@ class CommandHandler implements Instantiable, CommandApplicable
     protected function onChangeHolderCommand(ChangeHolderCommand $command)
     {
         $this->fetchAccount($command)
-            ->changeHolder($command->getHolder());
+            ->changedAccountHolder($command->getHolder());
     }
 
     /**
@@ -63,7 +63,7 @@ class CommandHandler implements Instantiable, CommandApplicable
     protected function onDepositCommand(DepositCommand $command)
     {
         $this->fetchAccount($command)
-            ->deposit(
+            ->depositedAccount(
                 $command->getValue(),
                 $command->getReference(),
                 $command->getAvailabilityDate()
@@ -77,7 +77,7 @@ class CommandHandler implements Instantiable, CommandApplicable
     protected function onDebitCommand(DebitCommand $command)
     {
         $this->fetchAccount($command)
-            ->debit(
+            ->debitedAccount(
                 $command->getValue(),
                 $command->getReference(),
                 $command->getAvailabilityDate()
@@ -91,7 +91,7 @@ class CommandHandler implements Instantiable, CommandApplicable
     protected function onCloseCommand(CloseCommand $command)
     {
         $this->fetchAccount($command)
-            ->close();
+            ->closedAccount();
     }
 
     /**
