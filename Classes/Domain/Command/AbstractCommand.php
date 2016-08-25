@@ -15,11 +15,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
  */
 
 use Ramsey\Uuid\UuidInterface;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Command\DomainCommand;
 
 /**
  * CreateCommand
  */
-abstract class AbstractCommand
+abstract class AbstractCommand implements DomainCommand
 {
     /**
      * @var UuidInterface
