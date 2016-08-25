@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
+use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
 use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
 use TYPO3\CMS\DataHandling\Core\Utility\ClassNamingUtility;
 
@@ -129,7 +129,7 @@ class CommandManager implements Instantiable
      */
     protected function fetchAccount(Command\AbstractCommand $command)
     {
-        return AccountRepository::instance()
+        return AccountEventRepository::instance()
             ->findByUuid($command->getAccountId());
     }
 }
