@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent as SpecificEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
@@ -67,9 +67,9 @@ class AccountEventRepository implements Providable, EventRepository
     }
 
     /**
-     * @param AbstractEvent|SpecificEvent $event
+     * @param BaseEvent|SpecificEvent $event
      */
-    public function addEvent(AbstractEvent $event)
+    public function addEvent(BaseEvent $event)
     {
         $uuid = $event->getAggregateId()->toString();
         $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $uuid;

@@ -25,6 +25,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Account
@@ -63,7 +64,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable
     protected $balance = 0.0;
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction>
+     * @var ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction>
      * @cascade remove
      */
     protected $transactions = null;
@@ -85,7 +86,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable
      */
     protected function initStorageObjects()
     {
-        $this->transactions = new \TYPO3\CMS\Extbase\Persistence\ObjectStorage();
+        $this->transactions = new ObjectStorage();
     }
 
     /**
@@ -129,7 +130,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable
     }
 
     /**
-     * @return \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction> $transactions
+     * @return ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction> $transactions
      */
     public function getTransactions()
     {

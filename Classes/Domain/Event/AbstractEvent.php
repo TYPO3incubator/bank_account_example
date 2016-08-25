@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent as SuperAbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\AggregateEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\AggregateEventTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEvent;
@@ -24,9 +24,9 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEventTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\StorableEvent;
 
 /**
- * AbstractEvent
+ * BaseEvent
  */
-abstract class AbstractEvent extends SuperAbstractEvent implements StorableEvent
+abstract class AbstractEvent extends BaseEvent implements StorableEvent
 {
     /**
      * @var UuidInterface

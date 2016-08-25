@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent as SpecificEvent;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventStorePool;
@@ -59,9 +59,9 @@ class BankEventRepository implements Providable, EventRepository
     }
 
     /**
-     * @param AbstractEvent|SpecificEvent $event
+     * @param BaseEvent|SpecificEvent $event
      */
-    public function addEvent(AbstractEvent $event)
+    public function addEvent(BaseEvent $event)
     {
         $streamName = Common::STREAM_PREFIX . '/Bank';
 
