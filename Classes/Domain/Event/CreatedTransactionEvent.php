@@ -16,8 +16,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 
 use H4ck3r31\BankAccountExample\Common;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\EntityEvent;
-use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\EntityEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
  * CreatedTransactionEvent

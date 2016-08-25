@@ -21,9 +21,9 @@ use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\BankEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Service\BankService;
-use TYPO3\CMS\DataHandling\Core\Domain\Handler\CommandHandlerTrait;
-use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Domain\Handler\EventHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**

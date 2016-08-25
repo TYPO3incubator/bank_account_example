@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 
 use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\AggregateEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\AggregateEvent;
 
 /**
  * AbstractTransactionEvent

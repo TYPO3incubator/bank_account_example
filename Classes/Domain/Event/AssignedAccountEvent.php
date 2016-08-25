@@ -16,9 +16,9 @@ namespace H4ck3r31\BankAccountExample\Domain\Event;
 
 use H4ck3r31\BankAccountExample\Common;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEventTrait;
-use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEventTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
  * AssignedAccountEvent

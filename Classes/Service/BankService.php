@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Service;
 
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 class BankService implements Instantiable
 {

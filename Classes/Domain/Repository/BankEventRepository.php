@@ -18,10 +18,10 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent as SpecificEvent;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Repository\EventRepository;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventStorePool;
-use TYPO3\CMS\DataHandling\Core\Object\Providable;
+use TYPO3\CMS\DataHandling\Core\Framework\Object\Providable;
 
 /**
  * The event repository for the imaginary Bank

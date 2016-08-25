@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\Numbered;
 use H4ck3r31\BankAccountExample\Domain\Object\NumberedTrait;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\AggregateEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\AggregateEvent;
 
 /**
  * AbstractAccountEvent

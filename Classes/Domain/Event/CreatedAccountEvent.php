@@ -20,8 +20,8 @@ use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\Numbered;
 use H4ck3r31\BankAccountExample\Domain\Object\NumberedTrait;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\EntityEvent;
-use TYPO3\CMS\DataHandling\Core\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\EntityEvent;
+use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
  * CreatedAccountEvent
