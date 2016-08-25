@@ -61,7 +61,7 @@ class TransactionEventRepository implements Providable, EventRepository
      */
     public function findByUuid(UuidInterface $uuid)
     {
-        $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $uuid->toString();
+        $streamName = Common::STREAM_PREFIX_TRANSACTION . '/' . $uuid->toString();
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
         return Saga::instance()->tell(Transaction::instance(), $eventSelector);
     }
