@@ -35,7 +35,7 @@ interface Transactional
     public function getEntryDate(): \DateTime;
 
     /**
-     * @return \DateTime
+     * @return null|\DateTime
      */
-    public function getAvailabilityDate(): \DateTime;
+    public function getAvailabilityDate();
 }

@@ -48,7 +48,7 @@ class DepositCommand extends AbstractCommand implements Transactional
         $command->value = $value;
         $command->reference = $reference;
         $command->entryDate = new \DateTime('now');
-        $command->availabilityDate = ($availabilityDate ?: $command->entryDate);
+        $command->availabilityDate = $availabilityDate;
         return $command;
     }
 }

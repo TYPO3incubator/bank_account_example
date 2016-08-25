@@ -64,9 +64,9 @@ trait TransactionalTrait
     }
 
     /**
-     * @return \DateTime
+     * @return null|\DateTime
      */
-    public function getAvailabilityDate(): \DateTime
+    public function getAvailabilityDate()
     {
         return $this->availabilityDate;
     }
