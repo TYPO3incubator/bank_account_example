@@ -16,7 +16,11 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent as SpecificEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\AbstractEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Repository\EventRepository;
+use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventStorePool;
 use TYPO3\CMS\DataHandling\Core\Object\Providable;
@@ -51,9 +55,15 @@ class AccountEventRepository implements Providable, EventRepository
         return Common::getObjectManager()->get(AccountEventRepository::class);
     }
 
-    public function findByUuid(string $uuid)
+    /**
+     * @param UuidInterface $uuid
+     * @return Account
+     */
+    public function findByUuid(UuidInterface $uuid)
     {
-        // TODO: Implement findByUuid() method.
+        $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $uuid->toString();
+        $eventSelector = EventSelector::instance()->setStreamName($streamName);
+        return Saga::instance()->tell(Account::instance(), $eventSelector);
     }
 
     /**
@@ -61,8 +71,8 @@ class AccountEventRepository implements Providable, EventRepository
      */
     public function addEvent(AbstractEvent $event)
     {
-        $streamName = Common::STREAM_PREFIX_ACCOUNT
-            . '/' . $event->getAggregateId()->toString();
+        $uuid = $event->getAggregateId()->toString();
+        $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $uuid;
 
         $eventSelector = EventSelector::instance()
             ->setEvents([get_class($event)])
