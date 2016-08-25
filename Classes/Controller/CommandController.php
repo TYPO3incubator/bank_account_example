@@ -37,7 +37,7 @@ class CommandController extends ActionController
     public function createAction(Account $account)
     {
         try {
-            Command\CommandManager::instance()->manage(
+            Command\CommandHandler::instance()->execute(
                 Command\CreateCommand::create($account->getHolder(), $account->getNumber())
             );
         } catch (CommandException $exception) {
@@ -52,7 +52,7 @@ class CommandController extends ActionController
     public function updateAction(Account $account)
     {
         try {
-            Command\CommandManager::instance()->manage(
+            Command\CommandHandler::instance()->execute(
                 Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
             );
         } catch (CommandException $exception) {
@@ -68,7 +68,7 @@ class CommandController extends ActionController
     public function depositAction(Account $account, Transaction $transaction)
     {
         try {
-            Command\CommandManager::instance()->manage(
+            Command\CommandHandler::instance()->execute(
                 Command\DepositCommand::create(
                     $account->getUuidInterface(),
                     $transaction->getValue(),
@@ -89,7 +89,7 @@ class CommandController extends ActionController
     public function debitAction(Account $account, Transaction $transaction)
     {
         try {
-            Command\CommandManager::instance()->manage(
+            Command\CommandHandler::instance()->execute(
                 Command\DebitCommand::create(
                     $account->getUuidInterface(),
                     $transaction->getValue(),
@@ -109,7 +109,7 @@ class CommandController extends ActionController
     public function closeAction(Account $account)
     {
         try {
-            Command\CommandManager::instance()->manage(
+            Command\CommandHandler::instance()->execute(
                 Command\CloseCommand::create($account->getUuidInterface())
             );
         } catch (CommandException $exception) {
