@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Extbase\Persistence\RepositoryInterface;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\ProjectionRepository;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
@@ -26,7 +26,7 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 /**
  * The repository for Accounts
  */
-class AccountRepository extends Repository implements RepositoryInterface
+class AccountRepository extends Repository implements ProjectionRepository
 {
     /**
      * @return AccountRepository

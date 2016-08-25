@@ -21,13 +21,16 @@ use H4ck3r31\BankAccountExample\Domain\Event\DebitedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Event\DepositedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
+use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
+use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Domain\Event\Definition\RelationalEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
 use TYPO3\CMS\DataHandling\Core\Process\Projection\ProjectionPool;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityEventProjection;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityProjectionProvider;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityStreamProjection;
 use TYPO3\CMS\DataHandling\Extbase\Utility\ExtensionUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -66,8 +69,7 @@ class Common
             ->enrolProjection(
                 '$' . static::STREAM_PREFIX_BANK
             )
-            ->setStreamProjectionName(EntityStreamProjection::class)
-            ->setEventProjectionName(EntityEventProjection::class)
+            ->setProviderName(EntityProjectionProvider::class)
             // issue how the Bank stream can continue with Account streams
             ->onStream(
                 AssignedAccountEvent::class,
@@ -92,10 +94,12 @@ class Common
                 '$' . static::STREAM_PREFIX_ACCOUNT . '/*',
                 '[' . AbstractAccountEvent::class . ']'
             )
-            ->setRepositoryName(AccountRepository::class)
-            ->setStreamProjectionName(EntityStreamProjection::class)
-            ->setEventProjectionName(EntityEventProjection::class)
-            ->setSubjectName(Account::class)
+            ->setProviderName(EntityProjectionProvider::class)
+            ->setProviderOptions([
+                'subjectName' => Account::class,
+                'eventRepositoryName' => AccountEventRepository::class,
+                'projectionRepositoryName' => AccountRepository::class,
+            ])
             // issue how any Account stream can continue with Transaction streams
             ->onStream(
                 RelationalEvent::class,
@@ -119,10 +123,12 @@ class Common
                 '$' . static::STREAM_PREFIX_TRANSACTION . '/*',
                 '[' . AbstractTransactionEvent::class . ']'
             )
-            ->setRepositoryName(TransactionRepository::class)
-            ->setStreamProjectionName(EntityStreamProjection::class)
-            ->setEventProjectionName(EntityEventProjection::class)
-            ->setSubjectName(Transaction::class);
+            ->setProviderName(EntityProjectionProvider::class)
+            ->setProviderOptions([
+                'subjectName' => Transaction::class,
+                'eventRepositoryName' => TransactionEventRepository::class,
+                'projectionRepositoryName' => TransactionRepository::class,
+            ]);
     }
 
     /**
