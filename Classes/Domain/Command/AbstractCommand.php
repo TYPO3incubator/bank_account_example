@@ -18,7 +18,7 @@ use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Command\DomainCommand;
 
 /**
- * CreateCommand
+ * AbstractCommand
  */
 abstract class AbstractCommand implements DomainCommand
 {
