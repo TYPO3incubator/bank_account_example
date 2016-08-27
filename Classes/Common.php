@@ -28,7 +28,7 @@ use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
-use TYPO3\CMS\DataHandling\Core\Process\Projection\ProjectionPool;
+use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionPool;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityProjectionProvider;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityStreamProjection;
 use TYPO3\CMS\DataHandling\Extbase\Utility\ExtensionUtility;
