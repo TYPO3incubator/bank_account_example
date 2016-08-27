@@ -53,9 +53,14 @@ class BankEventRepository implements Providable, EventRepository
         return Common::getObjectManager()->get(BankEventRepository::class);
     }
 
+    /**
+     * @param UuidInterface $uuid
+     * @return void
+     * @throws \RuntimeException
+     */
     public function findByUuid(UuidInterface $uuid)
     {
-        // TODO: Implement findByUuid() method.
+        throw new \RuntimeException('This stream does not provide more specific streams');
     }
 
     /**
