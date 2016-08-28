@@ -18,8 +18,8 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\ProjectionRepository;
+use TYPO3\CMS\DataHandling\Extbase\Persistence\Repository;
 use TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface;
-use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
  * The repository for Transaction

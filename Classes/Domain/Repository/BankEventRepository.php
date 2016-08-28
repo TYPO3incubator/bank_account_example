@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Repository;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Event\AbstractEvent as SpecificEvent;
 use Ramsey\Uuid\UuidInterface;
+use TYPO3\CMS\DataHandling\Core\EventSourcing\Saga;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventSelector;
@@ -55,10 +56,12 @@ class BankEventRepository implements Providable, EventRepository
 
     /**
      * @param UuidInterface $uuid
+     * @param string $eventId
+     * @param string $type
      * @return void
      * @throws \RuntimeException
      */
-    public function findByUuid(UuidInterface $uuid)
+    public function findByUuid(UuidInterface $uuid, string $eventId = '', string $type = Saga::EVENT_EXCLUDING)
     {
         throw new \RuntimeException('This stream does not provide more specific streams');
     }

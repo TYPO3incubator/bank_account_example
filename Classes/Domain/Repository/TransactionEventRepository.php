@@ -57,13 +57,18 @@ class TransactionEventRepository implements Providable, EventRepository
 
     /**
      * @param UuidInterface $uuid
+     * @param string $eventId
+     * @param string $type
      * @return Transaction
      */
-    public function findByUuid(UuidInterface $uuid)
+    public function findByUuid(UuidInterface $uuid, string $eventId = '', string $type = Saga::EVENT_EXCLUDING)
     {
         $streamName = Common::STREAM_PREFIX_TRANSACTION . '/' . $uuid->toString();
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
-        return Saga::instance()->tell(Transaction::instance(), $eventSelector);
+        $transaction = Saga::instance()
+            ->constraint($eventId, $type)
+            ->tell(Transaction::instance(), $eventSelector);
+        return TransactionRepository::instance()->makeProjectable($transaction);
     }
 
     /**

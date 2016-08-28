@@ -57,13 +57,18 @@ class AccountEventRepository implements Providable, EventRepository
 
     /**
      * @param UuidInterface $uuid
+     * @param string $eventId
+     * @param string $type
      * @return Account
      */
-    public function findByUuid(UuidInterface $uuid)
+    public function findByUuid(UuidInterface $uuid, string $eventId = '', string $type = Saga::EVENT_EXCLUDING)
     {
         $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $uuid->toString();
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
-        return Saga::instance()->tell(Account::instance(), $eventSelector);
+        $account = Saga::instance()
+            ->constraint($eventId, $type)
+            ->tell(Account::instance(), $eventSelector);
+        return AccountRepository::instance()->makeProjectable($account);
     }
 
     /**
