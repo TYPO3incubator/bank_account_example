@@ -64,7 +64,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable
     protected $balance = 0.0;
 
     /**
-     * @var ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction>
+     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\H4ck3r31\BankAccountExample\Domain\Model\Transaction>
      * @cascade remove
      */
     protected $transactions = null;
