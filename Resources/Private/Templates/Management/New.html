@@ -19,7 +19,7 @@
       <f:form.textfield property="accountNumber" class="form-control" placeholder="Account number (optional)" />
     </div>
 
-    <f:link.action action="list" class="btn btn-primary" additionalAttributes="{role:'button'}">
+    <f:link.action action="listAccounts" class="btn btn-primary" additionalAttributes="{role:'button'}" arguments="{bankDto:'{bankDto -> bank:toArray()}'}">
       <span class="glyphicon glyphicon-chevron-left"></span>
       back to list
     </f:link.action>
