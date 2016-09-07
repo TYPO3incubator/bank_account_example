@@ -43,6 +43,9 @@ class ManagementController extends AbstractController
         $banks[] = $nationalBankRepository
             ->findByNationalCode('DE')
             ->findByBranchAndSubsidiaryCode('68452290');
+        $banks[] = $nationalBankRepository
+            ->findByNationalCode('DE')
+            ->findByBranchAndSubsidiaryCode('78060896');
 
         $this->view->assign('banks', $banks);
     }
