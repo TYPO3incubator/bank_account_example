@@ -57,7 +57,7 @@ class CheckDigits implements RepresentableAsString
             $branchCode . $subsidiaryCode . $accountNumber . $nationalCode . '00'
         );
 
-        $checkValue = ($value % 97 - 30);
+        $checkValue = 98 - bcmod($value, 97);
 
         return static::create(
             str_pad($checkValue, 2, '0', STR_PAD_LEFT)
