@@ -1,23 +1,23 @@
 <html data-namespace-typo3-fluid="true"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 
-  <button role="button" class="btn btn-primary" data-toggle="modal" data-target="#debit-modal-{account.uuid}">
+  <button role="button" class="btn btn-primary" data-toggle="modal" data-target="#debit-modal-{accountDto.iban}">
     <span class="glyphicon glyphicon-log-out" title="close account"></span>
     debit
   </button>
-  <div id="debit-modal-{account.uuid}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="debit-modal-label-{account.uuid}">
+  <div id="debit-modal-{accountDto.iban}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="debit-modal-label-{accountDto.iban}">
     <div class="modal-dialog" role="document">
-      <f:form name="transaction" object="{transaction}" action="debit" controller="Command">
-        <f:form.hidden name="account" value="{account}" />
+      <f:form name="transactionDto" object="{transactionDto}" action="debit" controller="Command">
+        <f:form.hidden name="iban" value="{accountDto.iban}" />
         <div class="modal-content">
           <div class="modal-header">
             <button role="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="debit-modal-label-{account.uuid}">Debit from #{account.number}</h4>
+            <h4 class="modal-title" id="debit-modal-label-{accountDto.iban}">Debit from {accountDto.iban}</h4>
           </div>
           <div class="modal-body">
             <div class="input-group">
               <span class="input-group-addon glyphicon glyphicon-euro"></span>
-              <f:form.textfield property="value" class="form-control" placeholder="{0.00 -> f:format.number(decimals:2)}" value="{transaction.value -> f:format.number(decimals:2)}" />
+              <f:form.textfield property="money" class="form-control" placeholder="{0.00 -> f:format.number(decimals:2)}" value="{transactionDto.value -> f:format.number(decimals:2)}" />
             </div>
           </div>
           <div class="modal-footer">

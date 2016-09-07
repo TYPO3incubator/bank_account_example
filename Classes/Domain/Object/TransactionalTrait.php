@@ -13,6 +13,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 
 /**
  * TransactionalTrait
@@ -20,12 +22,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
 trait TransactionalTrait
 {
     /**
-     * @var float
+     * @var Money
      */
-    protected $value;
+    protected $money;
 
     /**
-     * @var string
+     * @var TransactionReference
      */
     protected $reference;
 
@@ -40,31 +42,31 @@ trait TransactionalTrait
     protected $availabilityDate;
 
     /**
-     * @return float
+     * @return Money
      */
-    public function getValue(): float
+    public function getMoney(): Money
     {
-        return $this->value;
+        return $this->money;
     }
 
     /**
-     * @return string
+     * @return TransactionReference
      */
-    public function getReference(): string
+    public function getReference(): TransactionReference
     {
         return $this->reference;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTimeImmutable
      */
-    public function getEntryDate(): \DateTime
+    public function getEntryDate()
     {
         return $this->entryDate;
     }
 
     /**
-     * @return null|\DateTime
+     * @return null|\DateTimeImmutable
      */
     public function getAvailabilityDate()
     {

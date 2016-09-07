@@ -14,20 +14,19 @@ namespace H4ck3r31\BankAccountExample;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Event\AbstractAccountEvent;
-use H4ck3r31\BankAccountExample\Domain\Event\AbstractTransactionEvent;
-use H4ck3r31\BankAccountExample\Domain\Event\AssignedAccountEvent;
-use H4ck3r31\BankAccountExample\Domain\Event\DebitedAccountEvent;
-use H4ck3r31\BankAccountExample\Domain\Event\DepositedAccountEvent;
-use H4ck3r31\BankAccountExample\Domain\Model\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction;
-use H4ck3r31\BankAccountExample\Domain\Repository\AccountEventRepository;
-use H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository;
-use H4ck3r31\BankAccountExample\Domain\Repository\TransactionEventRepository;
-use H4ck3r31\BankAccountExample\Domain\Repository\TransactionRepository;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
+use H4ck3r31\BankAccountExample\Domain\Model\CommandHandlerBundle;
+use H4ck3r31\BankAccountExample\Domain\Model\Iban\Event\AssignedAccountNumberEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDebitTransactionEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDepositTransactionEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
+use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
+use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionEventRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\RelationalEvent;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
+use TYPO3\CMS\DataHandling\Core\Framework\Process\CommandBus;
+use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionPool;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityProjectionProvider;
 use TYPO3\CMS\DataHandling\Extbase\Persistence\EntityStreamProjection;
@@ -42,41 +41,101 @@ class Common
     const KEY_EXTENSION = 'bank_account_example';
     const STREAM_PREFIX = 'H4ck3r31-BankAccountExample';
 
-    const STREAM_PREFIX_BANK = self::STREAM_PREFIX . '/Bank';
+    const STREAM_PREFIX_BANK = self::STREAM_PREFIX . '/BankDto';
     const STREAM_PREFIX_ACCOUNT = self::STREAM_PREFIX . '/Account';
     const STREAM_PREFIX_TRANSACTION = self::STREAM_PREFIX . '/Transaction';
+
+    /**
+     * Defines TypoScript.
+     */
+    public static function defineTypoScript()
+    {
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptConstants(
+            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . static::KEY_EXTENSION . '/Configuration/TypoScript/constants.txt">'
+        );
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(
+            '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . static::KEY_EXTENSION . '/Configuration/TypoScript/setup.txt">'
+        );
+    }
 
     /**
      * Registers requirements for event sources processing with TYPO3.
      */
     public static function registerEventSources()
     {
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerTypeConverter(
+            \H4ck3r31\BankAccountExample\Domain\Property\TypeConverter\IbanTypeConverter::class
+        );
+
+        CommandBus::provide()->addHandlerBundle(
+            CommandHandlerBundle::instance(), [
+                Command\CreateAccountCommand::class,
+                Command\ChangeAccountHolderCommand::class,
+                Command\CloseAccountCommand::class,
+                Command\DepositMoneyCommand::class,
+                Command\DebitMoneyCommand::class,
+            ]
+        );
+
+        ProjectionManager::provide()
+            ->registerProjections([
+                new \H4ck3r31\BankAccountExample\Domain\Model\Iban\IbanProjection(),
+                new \H4ck3r31\BankAccountExample\Domain\Model\Account\AccountProjection(),
+                new \H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionProjection()
+            ]);
+
+
         // build up TypoScript mappings for Extbase
+        // (currently not used, since Extbase is just used for dispatching and view assignment)
         ExtensionUtility::instance()
             ->addMapping('tx_bankaccountexample_domain_model_account', Account::class)
-            ->addMapping('tx_bankaccountexample_domain_model_transaction', Transaction::class);
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', \H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction::class)
+            ->addMapping('tx_bankaccountexample_domain_model_transaction', \H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction::class);
 
         // tell the system that these database tables are somehow event-sourced
         // (currently not used, maybe this will be merged with ProjectionPool)
         SourceManager::provide()
             ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
             ->addSourcedTableName('tx_bankaccountexample_domain_model_transaction');
+    }
 
-        // define projection for the "Bank" stream, containing
+    /**
+     * @return \TYPO3\CMS\Core\Database\Connection
+     */
+    public static function getDatabaseConnection()
+    {
+        return \TYPO3\CMS\DataHandling\Core\Database\ConnectionPool::instance()
+            ->getOriginConnection();
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public static function getObjectManager()
+    {
+        return GeneralUtility::makeInstance(ObjectManager::class);
+    }
+
+    /**
+     * @deprecated
+     */
+    private function unusedAssignments()
+    {
+        // define projection for the "BankDto" stream, containing
         // relations (see RelationalEvent) to Account streams
         ProjectionPool::provide()
             ->enrolProjection(
                 '$' . static::STREAM_PREFIX_BANK
             )
             ->setProviderName(EntityProjectionProvider::class)
-            // issue how the Bank stream can continue with Account streams
+            // issue how the BankDto stream can continue with Account streams
             ->onStream(
-                AssignedAccountEvent::class,
+                AssignedAccountNumberEvent::class,
                 /**
                  * @param AssignedAccountEvent, $event
                  * @param EntityStreamProjection $projection
                  */
-                function(AssignedAccountEvent $event, EntityStreamProjection $projection)
+                function(AssignedAccountNumberEvent $event, EntityStreamProjection $projection)
                 {
                     $event->cancel();
                     $projection->triggerProjection(
@@ -97,13 +156,13 @@ class Common
             ->setProviderOptions([
                 'subjectName' => Account::class,
                 'eventRepositoryName' => AccountEventRepository::class,
-                'projectionRepositoryName' => AccountRepository::class,
+                'projectionRepositoryName' => AccountExtbaseRepository::class,
             ])
             // issue how any Account stream can continue with Transaction streams
             ->onStream(
                 RelationalEvent::class,
                 /**
-                 * @param DepositedAccountEvent|DebitedAccountEvent $event
+                 * @param AttachedDepositTransactionEvent|AttachedDebitTransactionEvent $event
                  * @param EntityStreamProjection $projection
                  */
                 function(RelationalEvent $event, EntityStreamProjection $projection)
@@ -124,17 +183,9 @@ class Common
             )
             ->setProviderName(EntityProjectionProvider::class)
             ->setProviderOptions([
-                'subjectName' => Transaction::class,
+                'subjectName' => AccountTransaction::class,
                 'eventRepositoryName' => TransactionEventRepository::class,
                 'projectionRepositoryName' => TransactionRepository::class,
             ]);
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    public static function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
     }
 }

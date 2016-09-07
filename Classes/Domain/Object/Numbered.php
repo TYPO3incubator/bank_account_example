@@ -22,5 +22,5 @@ interface Numbered
     /**
      * @return string
      */
-    public function getNumber(): string;
+    public function getAccountNumber(): string;
 }

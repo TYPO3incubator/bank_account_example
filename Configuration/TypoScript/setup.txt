@@ -1,0 +1,5 @@
+config.tx_extbase {
+   persistence.classes {
+
+   }
+}

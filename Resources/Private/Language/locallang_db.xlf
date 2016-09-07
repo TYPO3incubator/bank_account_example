@@ -9,11 +9,11 @@
 			<trans-unit id="tx_bankaccountexample_domain_model_account.closed">
 				<source>Closed</source>
 			</trans-unit>
-			<trans-unit id="tx_bankaccountexample_domain_model_account.holder">
-				<source>Holder</source>
+			<trans-unit id="tx_bankaccountexample_domain_model_account.iban">
+				<source>IBAN</source>
 			</trans-unit>
-			<trans-unit id="tx_bankaccountexample_domain_model_account.number">
-				<source>Number</source>
+			<trans-unit id="tx_bankaccountexample_domain_model_account.account_holder">
+				<source>Account Holder</source>
 			</trans-unit>
 			<trans-unit id="tx_bankaccountexample_domain_model_account.balance">
 				<source>Balance</source>
@@ -24,6 +24,21 @@
 			<trans-unit id="tx_bankaccountexample_domain_model_transaction">
 				<source>Financial Transaction</source>
 			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.transaction_id">
+				<source>Transaction ID</source>
+			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.type">
+				<source>Type</source>
+			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.type.none">
+				<source>none</source>
+			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.type.deposit">
+				<source>Deposit Transaction</source>
+			</trans-unit>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.type.debit">
+				<source>Debit Transaction</source>
+			</trans-unit>
 			<trans-unit id="tx_bankaccountexample_domain_model_transaction.entry_date">
 				<source>Entry Date</source>
 			</trans-unit>
@@ -33,8 +48,8 @@
 			<trans-unit id="tx_bankaccountexample_domain_model_transaction.reference">
 				<source>Reference</source>
 			</trans-unit>
-			<trans-unit id="tx_bankaccountexample_domain_model_transaction.value">
-				<source>Value</source>
+			<trans-unit id="tx_bankaccountexample_domain_model_transaction.money">
+				<source>Money</source>
 			</trans-unit>
 		</body>
 	</file>

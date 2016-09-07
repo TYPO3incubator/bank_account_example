@@ -5,11 +5,11 @@ defined('TYPO3_MODE') or die();
     'H4ck3r31.BankAccountExample',
     'Management',
     [
-        'Account' => 'list, new, show, edit',
+        'Management' => 'listBanks, listAccounts, new, show, edit',
         'Command' => 'create, show, update, deposit, debit, close',
     ],
     [
-        'Account' => 'list, new, show, edit',
+        'Management' => 'listBanks, listAccounts, new, show, edit',
         'Command' => 'create, show, update, deposit, debit, close',
     ]
 );

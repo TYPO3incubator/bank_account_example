@@ -14,107 +14,114 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Command;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
+use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
+use H4ck3r31\BankAccountExample\Domain\Model\DtoConverter;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionDto;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
-use H4ck3r31\BankAccountExample\Domain\ValidationModel\Account;
-use H4ck3r31\BankAccountExample\Domain\ValidationModel\Transaction;
-use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountDto;
+use H4ck3r31\BankAccountExample\Domain\Model\Bank\BankDto;
+use TYPO3\CMS\DataHandling\Core\Framework\Process\CommandBus;
 
 /**
  * CommandController
  */
-class CommandController extends ActionController
+class CommandController extends AbstractController
 {
     /**
-     * @inject
-     * @var \H4ck3r31\BankAccountExample\Domain\Repository\AccountRepository
+     * @param AccountDto $accountDto
+     * @param BankDto $bankDto
      */
-    protected $accountRepository;
-
-    /**
-     * @param Account $account
-     */
-    public function createAction(Account $account)
+    public function createAction(AccountDto $accountDto, BankDto $bankDto)
     {
         try {
-            Command\CommandHandler::instance()->execute(
-                Command\CreateCommand::create($account->getHolder(), $account->getNumber())
+            $command = Command\CreateAccountCommand::create(
+                DtoConverter::fromBankDto($bankDto),
+                AccountHolder::create($accountDto->getAccountHolder()),
+                $accountDto->getAccountNumber()
             );
+            CommandBus::provide()->handle($command);
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
-        $this->redirect('list', 'Account');
+        $this->redirect('listAccounts', 'Management', null, ['bankDto' => $bankDto->toArray()]);
     }
 
     /**
-     * @param Account $account
+     * @param AccountDto $accountDto
      */
-    public function updateAction(Account $account)
+    public function updateAction(AccountDto $accountDto)
     {
+        $iban = Iban::fromString($accountDto->getIban());
+        $bankDto = DtoConverter::ibanToBankDto($iban);
+
         try {
-            Command\CommandHandler::instance()->execute(
-                Command\ChangeHolderCommand::create($account->getUuidInterface(), $account->getHolder())
+            $command = Command\ChangeAccountHolderCommand::create(
+                $iban,
+                AccountHolder::create($accountDto->getAccountHolder())
             );
+            CommandBus::provide()->handle($command);
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
-        $this->redirect('list', 'Account');
+        $this->redirect('listAccounts', 'Management', null, ['bankDto' => $bankDto->toArray()]);
     }
 
     /**
-     * @param Account $account
-     * @param Transaction $transaction
+     * @param Iban $iban
+     * @param TransactionDto $transactionDto
      */
-    public function depositAction(Account $account, Transaction $transaction)
+    public function depositAction(Iban $iban, TransactionDto $transactionDto)
     {
         try {
-            Command\CommandHandler::instance()->execute(
-                Command\DepositCommand::create(
-                    $account->getUuidInterface(),
-                    $transaction->getValue(),
-                    $transaction->getReference(),
-                    $transaction->getAvailabilityDate()
-                )
+            $command = Command\DepositMoneyCommand::create(
+                $iban,
+                Money::create($transactionDto->getMoney()),
+                TransactionReference::create($transactionDto->getReference()),
+                $transactionDto->getAvailabilityDate()
             );
+            CommandBus::provide()->handle($command);
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
-        $this->redirect('show', 'Account', null, ['account' => $account]);
+        $this->redirect('show', 'Management', null, ['iban' => (string)$iban]);
     }
 
     /**
-     * @param Account $account
-     * @param Transaction $transaction
+     * @param Iban $iban
+     * @param TransactionDto $transactionDto
      */
-    public function debitAction(Account $account, Transaction $transaction)
+    public function debitAction(Iban $iban, TransactionDto $transactionDto)
     {
         try {
-            Command\CommandHandler::instance()->execute(
-                Command\DebitCommand::create(
-                    $account->getUuidInterface(),
-                    $transaction->getValue(),
-                    $transaction->getReference(),
-                    $transaction->getAvailabilityDate()
-                )
+            $command = Command\DebitMoneyCommand::create(
+                $iban,
+                Money::create($transactionDto->getMoney()),
+                TransactionReference::create($transactionDto->getReference()),
+                $transactionDto->getAvailabilityDate()
             );
+            CommandBus::provide()->handle($command);
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
-        $this->redirect('show', 'Account', null, ['account' => $account]);
+        $this->redirect('show', 'Management', null, ['iban' => (string)$iban]);
     }
 
     /**
-     * @param Account $account
+     * @param Iban $iban
      */
-    public function closeAction(Account $account)
+    public function closeAction(Iban $iban)
     {
         try {
-            Command\CommandHandler::instance()->execute(
-                Command\CloseCommand::create($account->getUuidInterface())
-            );
+            $command = Command\CloseAccountCommand::create($iban);
+            CommandBus::provide()->handle($command);
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
         }
-        $this->redirect('list', 'Account');
+        $bankDto = DtoConverter::ibanToBankDto($iban);
+        $this->redirect('listAccounts', 'Management', null, ['bankDto' => $bankDto->toArray()]);
     }
 }

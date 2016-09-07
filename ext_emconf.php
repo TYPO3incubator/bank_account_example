@@ -1,6 +1,6 @@
 <?php
 $EM_CONF[$_EXTKEY] = array(
-    'title' => 'Bank Account Example',
+    'title' => 'BankDto Account Example',
     'description' => 'Event Sourcing in TYPO3 CMS',
     'category' => 'example',
     'state' => 'alpha',

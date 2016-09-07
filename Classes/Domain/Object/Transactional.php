@@ -13,6 +13,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 
 /**
  * Transactional
@@ -20,22 +22,22 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
 interface Transactional
 {
     /**
-     * @return float
+     * @return Money
      */
-    public function getValue(): float;
+    public function getMoney(): Money;
 
     /**
-     * @return string
+     * @return TransactionReference
      */
-    public function getReference(): string;
+    public function getReference(): TransactionReference;
 
     /**
-     * @return \DateTime
+     * @return \DateTimeImmutable
      */
-    public function getEntryDate(): \DateTime;
+    public function getEntryDate();
 
     /**
-     * @return null|\DateTime
+     * @return null|\DateTimeImmutable
      */
     public function getAvailabilityDate();
 }

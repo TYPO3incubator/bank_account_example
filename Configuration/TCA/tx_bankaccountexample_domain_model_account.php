@@ -2,7 +2,7 @@
 return [
     'ctrl' => [
         'title'	=> 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account',
-        'label' => 'holder',
+        'label' => 'iban',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -10,14 +10,14 @@ return [
         'versioningWS' => true,
         'versioning_followPages' => true,
 
-        'searchFields' => 'holder,number,balance,transactions,',
+        'searchFields' => 'account_holder,number,balance,transactions,',
         'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_account.gif'
     ],
     'interface' => [
-        'showRecordFieldList' => 'closed, holder, number, balance, transactions',
+        'showRecordFieldList' => 'closed, iban, account_holder, balance, transactions',
     ],
     'types' => [
-        '1' => ['showitem' => 'closed, holder, number, balance, transactions'],
+        '1' => ['showitem' => 'closed, iban, account_holder, balance, transactions'],
     ],
     'columns' => [
         't3ver_label' => [
@@ -35,27 +35,24 @@ return [
             'config' => [
                 'type' => 'check',
             ],
-
         ],
-        'holder' => [
+        'iban' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.holder',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.iban',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
             ],
-
         ],
-        'number' => [
+        'account_holder' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.number',
+            'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.account_holder',
             'config' => [
                 'type' => 'input',
                 'size' => 30,
                 'eval' => 'trim'
             ],
-
         ],
         'balance' => [
             'exclude' => 1,
@@ -65,7 +62,6 @@ return [
                 'size' => 30,
                 'eval' => 'double2'
             ]
-
         ],
         'transactions' => [
             'exclude' => 1,
@@ -83,7 +79,6 @@ return [
                     'showAllLocalizationLink' => 1
                 ],
             ],
-
         ],
     ],
 ];

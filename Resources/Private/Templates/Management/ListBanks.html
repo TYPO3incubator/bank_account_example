@@ -1,0 +1,51 @@
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:bank="http://typo3.org/ns/H4ck3r31/BankAccountExample/ViewHelpers">
+
+<f:layout name="Default" />
+
+<f:section name="Header">
+  <h2>List of banks</h2>
+</f:section>
+
+<f:section name="Main">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>National Code</th>
+        <th>Branch Code</th>
+        <th>Bank Name</th>
+        <th>Bank Address</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <f:if condition="{banks}">
+        <f:else>
+          <tr>
+            <td colspan="5">No bank information available</td>
+          </tr>
+        </f:else>
+      </f:if>
+      <f:for each="{banks}" as="bank">
+        <tr>
+          <td>{bank.nationalCode}</td>
+          <td>{bank.branchCode}</td>
+          <td>{bank.name}</td>
+          <td>
+            <f:if condition="{bank.location.street}">{bank.location.street}<br></f:if>
+            {bank.location.zip} {bank.location.city}
+          </td>
+          <td>
+            <f:link.action action="listAccounts" class="btn btn-default" additionalAttributes="{role:'button'}"
+                           arguments="{bankDto:'{bank -> bank:toArray()}'}">
+              <span class="glyphicon glyphicon-search" title="show details"></span>
+            </f:link.action>
+          </td>
+        </tr>
+      </f:for>
+    </tbody>
+  </table>
+</f:section>
+
+</html>

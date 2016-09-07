@@ -1,0 +1,33 @@
+<html data-namespace-typo3-fluid="true"
+      xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:bank="http://typo3.org/ns/H4ck3r31/BankAccountExample/ViewHelpers">
+
+<f:layout name="Default" />
+
+<f:section name="Header">
+  <h2>Create new account</h2>
+</f:section>
+
+<f:section name="Main">
+  <f:form name="accountDto" object="{accountDto}" action="create" controller="Command" arguments="{bankDto:'{bankDto -> bank:toArray()}'}">
+    <div class="input-group">
+      <span class="input-group-addon glyphicon glyphicon-user"></span>
+      <f:form.textfield property="accountHolder" class="form-control" placeholder="Name of account holder" />
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon glyphicon glyphicon-tag"></span>
+      <f:form.textfield property="accountNumber" class="form-control" placeholder="Account number (optional)" />
+    </div>
+
+    <f:link.action action="list" class="btn btn-primary" additionalAttributes="{role:'button'}">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      back to list
+    </f:link.action>
+    <button class="btn btn-primary" role="button">
+      <span class="glyphicon glyphicon-plus"></span>
+      create account
+    </button>
+  </f:form>
+</f:section>
+
+</html>

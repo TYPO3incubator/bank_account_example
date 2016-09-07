@@ -1,25 +1,25 @@
 <html data-namespace-typo3-fluid="true"
       xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers">
 
-  <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#close-modal-{account.uuid}">
+  <button role="button" class="btn btn-danger" data-toggle="modal" data-target="#close-modal-{accountDto.iban}">
     <span class="glyphicon glyphicon-trash" title="close account"></span>
   </button>
-  <div id="close-modal-{account.uuid}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="close-modal-label-{account.uuid}">
+  <div id="close-modal-{accountDto.iban}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="close-modal-label-{accountDto.iban}">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button role="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="close-modal-label-{account.uuid}">Close account #{account.number}</h4>
+          <h4 class="modal-title" id="close-modal-label-{accountDto.iban}">Close account {accountDto.iban}</h4>
         </div>
         <div class="modal-body">
-          Do you really want to close account <strong>#{account.number}</strong>?
+          Do you really want to close account <strong>{accountDto.iban}</strong>?
         </div>
         <div class="modal-footer">
           <button role="button" class="btn btn-default" data-dismiss="modal">
             <span class="glyphicon glyphicon-remove"></span>
             cancel
           </button>
-          <f:link.action action="close" controller="Command" class="btn btn-danger" additionalAttributes="{role:'button'}" arguments="{account:account}">
+          <f:link.action action="close" controller="Command" class="btn btn-danger" additionalAttributes="{role:'button'}" arguments="{iban: accountDto.iban}">
             <span class="glyphicon glyphicon-trash"></span>
             close account
           </f:link.action>

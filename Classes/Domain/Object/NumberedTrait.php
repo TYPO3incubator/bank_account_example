@@ -22,13 +22,13 @@ trait NumberedTrait
     /**
      * @var string
      */
-    protected $number;
+    protected $accountNumber;
 
     /**
      * @return string
      */
-    public function getNumber(): string
+    public function getAccountNumber(): string
     {
-        return $this->number;
+        return $this->accountNumber;
     }
 }

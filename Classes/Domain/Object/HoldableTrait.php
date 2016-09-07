@@ -14,21 +14,23 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
+
 /**
  * HoldableTrait
  */
 trait HoldableTrait
 {
     /**
-     * @var string
+     * @var AccountHolder
      */
-    protected $holder;
+    protected $accountHolder;
 
     /**
-     * @return string
+     * @return AccountHolder
      */
-    public function getHolder(): string
+    public function getAccountHolder(): AccountHolder
     {
-        return $this->holder;
+        return $this->accountHolder;
     }
 }
