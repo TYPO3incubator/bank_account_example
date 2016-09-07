@@ -85,7 +85,7 @@ CREATE TABLE tx_bankaccountexample_projection_iban (
 	account_number varchar(16) DEFAULT '' NOT NULL,
 	iban varchar(34) DEFAULT '' NOT NULL,
 
-	PRIMARY KEY (national_code, branch_code, subsidiary_code, iban)
+	PRIMARY KEY (iban)
 
 );
 
