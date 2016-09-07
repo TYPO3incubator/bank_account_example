@@ -113,7 +113,7 @@ class DepositTransaction extends AbstractTransaction implements EventApplicable
     /**
      * @param CreatedDepositTransactionEvent $event
      */
-    protected function onCreatedDepositTransactionEvent(CreatedDepositTransactionEvent $event)
+    protected function applyCreatedDepositTransactionEvent(CreatedDepositTransactionEvent $event)
     {
         $this->transactionId = $event->getTransactionId();
         $this->iban = $event->getIban();

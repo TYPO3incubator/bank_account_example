@@ -228,7 +228,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
      * Event handling
      */
 
-    protected function onCreatedAccountEvent(Event\CreatedAccountEvent $event)
+    protected function applyCreatedAccountEvent(Event\CreatedAccountEvent $event)
     {
         $this->iban = $event->getIban();
         $this->accountHolder = $event->getAccountHolder();
@@ -238,7 +238,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
     /**
      * @param Event\ChangedAccountHolderEvent $event
      */
-    protected function onChangedAccountHolderEvent(Event\ChangedAccountHolderEvent $event)
+    protected function applyChangedAccountHolderEvent(Event\ChangedAccountHolderEvent $event)
     {
         $this->accountHolder = $event->getAccountHolder();
     }
@@ -246,7 +246,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
     /**
      * @param Event\ClosedAccountEvent $event
      */
-    protected function onClosedAccountEvent(Event\ClosedAccountEvent $event)
+    protected function applyClosedAccountEvent(Event\ClosedAccountEvent $event)
     {
         $this->closed = true;
     }
@@ -254,7 +254,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
     /**
      * @param Event\AttachedDepositTransactionEvent $event
      */
-    protected function onAttachedDepositTransactionEvent(Event\AttachedDepositTransactionEvent $event)
+    protected function applyAttachedDepositTransactionEvent(Event\AttachedDepositTransactionEvent $event)
     {
         $transaction = TransactionEventRepository::instance()
             ->findByDepositTransactionId($event->getTransactionId());
@@ -264,7 +264,7 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
     /**
      * @param Event\AttachedDebitTransactionEvent $event
      */
-    protected function onDebitedAccountEvent(Event\AttachedDebitTransactionEvent $event)
+    protected function applyDebitedAccountEvent(Event\AttachedDebitTransactionEvent $event)
     {
         $transaction = TransactionEventRepository::instance()
             ->findByDepositTransactionId($event->getTransactionId());

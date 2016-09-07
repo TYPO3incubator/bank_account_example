@@ -59,7 +59,7 @@ class ExistingIban implements EventApplicable
     /**
      * @param AssignedAccountNumberEvent $event
      */
-    protected function onAssignedAccountNumberEvent(AssignedAccountNumberEvent $event)
+    protected function applyAssignedAccountNumberEvent(AssignedAccountNumberEvent $event)
     {
         if ((string)$event->getIban() === (string)$this->iban) {
             $this->existingIban = $event->getIban();

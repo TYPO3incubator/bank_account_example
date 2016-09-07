@@ -70,7 +70,7 @@ class MaximumIban implements EventApplicable
     /**
      * @param AssignedAccountNumberEvent $event
      */
-    protected function onAssignedAccountNumberEvent(AssignedAccountNumberEvent $event)
+    protected function applyAssignedAccountNumberEvent(AssignedAccountNumberEvent $event)
     {
         if (!$event->getIban()->belongsTo($this->bank)) {
             return;

@@ -113,7 +113,7 @@ class DebitTransaction extends AbstractTransaction implements EventApplicable
     /**
      * @param CreatedDebitTransactionEvent $event
      */
-    protected function onCreatedDebitTransactionEvent(CreatedDebitTransactionEvent $event)
+    protected function applyCreatedDebitTransactionEvent(CreatedDebitTransactionEvent $event)
     {
         $this->transactionId = $event->getTransactionId();
         $this->iban = $event->getIban();
