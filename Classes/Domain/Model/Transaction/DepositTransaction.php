@@ -23,7 +23,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
 
 /**
- * Transaction
+ * DepositTransaction
  */
 class DepositTransaction extends AbstractTransaction implements EventApplicable
 {

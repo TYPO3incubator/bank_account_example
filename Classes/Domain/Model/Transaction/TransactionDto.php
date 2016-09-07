@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
- * Transaction
+ * TransactionDto
  */
 class TransactionDto extends AbstractProjectableEntity
 {

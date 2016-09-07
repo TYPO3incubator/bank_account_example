@@ -25,15 +25,15 @@ use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEvent
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlable;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundleTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlableTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
- * CommandHandlerBundlable
+ * CommandHandlerBundle
  */
 final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlable
 {
-    use CommandHandlerBundleTrait;
+    use CommandHandlerBundlableTrait;
 
     /**
      * @return CommandHandlerBundle

@@ -22,7 +22,7 @@ use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameCon
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
- * IbanProjectionRepository
+ * Repository organizing projections for Account
  */
 class IbanProjectionRepository
 {

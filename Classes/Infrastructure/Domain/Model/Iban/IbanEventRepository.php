@@ -27,7 +27,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 
 /**
- * IbanProjectionRepository
+ * Repository organizing events for Iban
  */
 class IbanEventRepository implements EventRepository
 {

@@ -20,16 +20,14 @@ use H4ck3r31\BankAccountExample\Domain\Model\Common\BranchCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\NationalCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\SubsidiaryCode;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundleTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
 
 /**
- * BankDto
+ * Bank
  */
 final class Bank implements RepresentableAsArray
 {
-    use CommandHandlerBundleTrait;
     use EventHandlerTrait;
 
     /**

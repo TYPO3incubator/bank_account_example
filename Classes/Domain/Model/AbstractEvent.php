@@ -29,7 +29,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\StorableEvent;
 
 /**
- * BaseEvent
+ * AbstractEvent
  */
 abstract class AbstractEvent extends BaseEvent implements StorableEvent
 {

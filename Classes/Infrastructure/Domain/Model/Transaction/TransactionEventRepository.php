@@ -28,7 +28,7 @@ use TYPO3\CMS\DataHandling\Core\EventSourcing\Store\EventStorePool;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 
 /**
- * The event repository for Transactions
+ * Repository organizing events for Transaction
  */
 class TransactionEventRepository implements EventRepository
 {

@@ -22,7 +22,7 @@ use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 
 /**
- * TransactionProjectionRepository
+ * Repository organizing projections for Transaction
  */
 class TransactionProjectionRepository
 {
