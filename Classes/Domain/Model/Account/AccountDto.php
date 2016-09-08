@@ -14,12 +14,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\DataTransferObject;
 
 /**
  * AccountDto
  */
-class AccountDto extends AbstractProjectableEntity
+class AccountDto implements DataTransferObject
 {
     /**
      * @var string

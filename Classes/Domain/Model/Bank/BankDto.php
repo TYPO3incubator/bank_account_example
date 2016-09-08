@@ -14,13 +14,13 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Bank;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\DataTransferObject;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
  * BankDto
  */
-class BankDto extends AbstractProjectableEntity implements RepresentableAsArray
+class BankDto implements DataTransferObject, RepresentableAsArray
 {
     /**
      * @var string
