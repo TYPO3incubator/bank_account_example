@@ -84,7 +84,7 @@ final class AccountProjection implements Projection
     {
         AccountProjectionRepository::instance()->update(
             (string)$event->getIban(),
-            ['accountHolder' => $event->getAccountHolder()]
+            ['accountHolder' => $event->getAccountHolder()->getValue()]
         );
     }
 
