@@ -278,10 +278,10 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
     /**
      * @param Event\AttachedDebitTransactionEvent $event
      */
-    protected function applyDebitedAccountEvent(Event\AttachedDebitTransactionEvent $event)
+    protected function applyAttachedDebitTransactionEvent(Event\AttachedDebitTransactionEvent $event)
     {
         $transaction = TransactionEventRepository::instance()
-            ->findByDepositTransactionId($event->getTransactionId());
+            ->findByDebitTransactionId($event->getTransactionId());
         $this->balance -= $transaction->getMoney()->getValue();
     }
 }
