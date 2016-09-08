@@ -85,11 +85,11 @@ final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlabl
             $command->getReference(),
             $command->getAvailabilityDate()
         );
-        TransactionEventRepository::instance()->add($transaction);
 
         $account = $this->fetchAccount($command);
         $account->attachDepositTransaction($transaction);
 
+        TransactionEventRepository::instance()->add($transaction);
         AccountEventRepository::instance()->add($account);
     }
 
@@ -105,11 +105,11 @@ final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlabl
             $command->getReference(),
             $command->getAvailabilityDate()
         );
-        TransactionEventRepository::instance()->add($transaction);
 
         $account = $this->fetchAccount($command);
         $account->attachDebitTransaction($transaction);
 
+        TransactionEventRepository::instance()->add($transaction);
         AccountEventRepository::instance()->add($account);
     }
 

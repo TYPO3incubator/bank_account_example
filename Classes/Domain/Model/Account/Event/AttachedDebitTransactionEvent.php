@@ -17,17 +17,17 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiableTrait;
-use Ramsey\Uuid\UuidInterface;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
+use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachable;
+use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachableTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
  * AttachedDebitTransactionEvent
  */
-class AttachedDebitTransactionEvent extends AbstractEvent implements Instantiable, TransactionIdentifiable
+class AttachedDebitTransactionEvent extends AbstractEvent implements Instantiable, TransactionAttachable
 {
-    use TransactionIdentifiableTrait;
+    use TransactionAttachableTrait;
 
     /**
      * @return AttachedDebitTransactionEvent
@@ -39,14 +39,14 @@ class AttachedDebitTransactionEvent extends AbstractEvent implements Instantiabl
 
     /**
      * @param Iban $iban
-     * @param UuidInterface $transactionId
+     * @param AbstractTransaction $transaction
      * @return AttachedDebitTransactionEvent
      */
-    public static function create(Iban $iban, UuidInterface $transactionId)
+    public static function create(Iban $iban, AbstractTransaction $transaction)
     {
         $event = static::instance();
         $event->iban = $iban;
-        $event->transactionId = $transactionId;
+        $event->transaction = $transaction;
         return $event;
     }
 }

@@ -15,12 +15,18 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  */
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * TransactionalTrait
  */
 trait TransactionalTrait
 {
+    /**
+     * @var UuidInterface
+     */
+    protected $transactionId;
+
     /**
      * @var Money
      */
@@ -40,6 +46,14 @@ trait TransactionalTrait
      * @var \DateTime
      */
     protected $availabilityDate;
+
+    /**
+     * @return UuidInterface
+     */
+    public function getTransactionId()
+    {
+        return $this->transactionId;
+    }
 
     /**
      * @return Money

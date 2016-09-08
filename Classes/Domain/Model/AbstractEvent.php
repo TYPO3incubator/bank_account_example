@@ -16,14 +16,15 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiableTrait;
+use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachable;
+use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachableTrait;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\StorableEvent;
@@ -57,13 +58,14 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
             $data['accountHolder'] = $this->getAccountHolder()->getValue();
         }
         if ($this instanceof Transactional) {
+            $data['transactionId'] = $this->getTransactionId()->toString();
             $data['money'] = $this->getMoney()->getValue();
             $data['reference'] = $this->getReference()->getValue();
             $data['entryDate'] = $this->getEntryDate()->format(\DateTime::W3C);
             $data['availabilityDate'] = $this->getAvailabilityDate()->format(\DateTime::W3C);
         }
-        if ($this instanceof TransactionIdentifiable) {
-            $data['transactionId'] = $this->getTransactionId()->toString();
+        if ($this instanceof TransactionAttachable) {
+            $data['transaction'] = $this->getTransaction()->toArray();
         }
 
         return $data;
@@ -83,14 +85,15 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
         }
         /** @var TransactionalTrait $this */
         if ($this instanceof Transactional) {
+            $this->transactionId = Uuid::fromString($data['transactionId']);
             $this->money = Money::create($data['money']);
             $this->reference = TransactionReference::create($data['reference']);
             $this->entryDate = new \DateTimeImmutable($data['entryDate']);
             $this->availabilityDate = new \DateTimeImmutable($data['availabilityDate']);
         }
-        /** @var TransactionIdentifiableTrait $this */
-        if ($this instanceof TransactionIdentifiable) {
-            $this->transactionId = Uuid::fromString($data['transactionId']);
+        /** @var TransactionAttachableTrait $this */
+        if ($this instanceof TransactionAttachable) {
+            $this->transaction = AbstractTransaction::buildFromProjection($data['transaction']);
         }
     }
 }

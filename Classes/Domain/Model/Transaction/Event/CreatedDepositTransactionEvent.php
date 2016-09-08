@@ -21,8 +21,6 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiable;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiableTrait;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\EntityEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
@@ -30,10 +28,9 @@ use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 /**
  * CreatedDepositTransactionEvent
  */
-class CreatedDepositTransactionEvent extends AbstractEvent implements Instantiable, EntityEvent, Transactional, TransactionIdentifiable
+class CreatedDepositTransactionEvent extends AbstractEvent implements Instantiable, EntityEvent, Transactional
 {
     use TransactionalTrait;
-    use TransactionIdentifiableTrait;
 
     /**
      * @return CreatedDepositTransactionEvent

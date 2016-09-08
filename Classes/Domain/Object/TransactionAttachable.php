@@ -14,23 +14,15 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
-use Ramsey\Uuid\UuidInterface;
+use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 
 /**
- * TransactionIdentifiableTrait
+ * Transactional
  */
-trait TransactionIdentifiableTrait
+interface TransactionAttachable
 {
     /**
-     * @var UuidInterface
+     * @return AbstractTransaction
      */
-    protected $transactionId;
-
-    /**
-     * @return UuidInterface
-     */
-    public function getTransactionId()
-    {
-        return $this->transactionId;
-    }
+    public function getTransaction();
 }

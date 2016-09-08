@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionIdentifiable;
+use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\EventRepository;
@@ -95,7 +95,7 @@ class TransactionEventRepository implements EventRepository
     }
 
     /**
-     * @param BaseEvent|TransactionIdentifiable $event
+     * @param BaseEvent|Transactional $event
      */
     public function addEvent(BaseEvent $event)
     {

@@ -15,12 +15,18 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  */
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * Transactional
  */
 interface Transactional
 {
+    /**
+     * @return UuidInterface
+     */
+    public function getTransactionId();
+
     /**
      * @return Money
      */

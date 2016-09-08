@@ -202,7 +202,7 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
 
         $event = Event\AttachedDepositTransactionEvent::create(
             $this->iban,
-            $transaction->getTransactionId()
+            $transaction
         );
 
         $this->manageEvent($event);
@@ -215,13 +215,13 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
     public function attachDebitTransaction(DebitTransaction $transaction) {
         $this->checkClosed();
 
-        if ($this->balance - $transaction->getMoney() < 0) {
+        if ($this->balance - $transaction->getMoney()->getValue() < 0) {
             throw new CommandException('Overdrawing account is not allowed', 1471604763);
         }
 
         $event = Event\AttachedDebitTransactionEvent::create(
             $this->iban,
-            $transaction->getTransactionId()
+            $transaction
         );
 
         $this->manageEvent($event);
@@ -270,9 +270,7 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
      */
     protected function applyAttachedDepositTransactionEvent(Event\AttachedDepositTransactionEvent $event)
     {
-        $transaction = TransactionEventRepository::instance()
-            ->findByDepositTransactionId($event->getTransactionId());
-        $this->balance += $transaction->getMoney()->getValue();
+        $this->balance += $event->getTransaction()->getMoney()->getValue();
     }
 
     /**
@@ -280,8 +278,6 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
      */
     protected function applyAttachedDebitTransactionEvent(Event\AttachedDebitTransactionEvent $event)
     {
-        $transaction = TransactionEventRepository::instance()
-            ->findByDebitTransactionId($event->getTransactionId());
-        $this->balance -= $transaction->getMoney()->getValue();
+        $this->balance -= $event->getTransaction()->getMoney()->getValue();
     }
 }
