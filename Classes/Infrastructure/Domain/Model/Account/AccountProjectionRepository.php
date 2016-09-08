@@ -35,7 +35,7 @@ class AccountProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(AccountProjectionRepository::class);
+        return Common::getObjectManager()->get(static::class);
     }
 
     /**
