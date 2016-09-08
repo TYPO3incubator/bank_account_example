@@ -20,11 +20,12 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameConverter;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\ProjectionRepository;
 
 /**
  * Repository organizing projections for Transaction
  */
-class TransactionProjectionRepository
+class TransactionProjectionRepository implements ProjectionRepository
 {
     const TABLE_NAME = 'tx_bankaccountexample_projection_transaction';
 
@@ -69,11 +70,11 @@ class TransactionProjectionRepository
             ->insert(static::TABLE_NAME, $data);
     }
 
-    public function update(string $transactionId, array $data)
+    public function update(string $identifier, array $data)
     {
         $data = DatabaseFieldNameConverter::toDatabase($data);
         Common::getDatabaseConnection()
-            ->update(static::TABLE_NAME, $data, ['transaction_id' => $transactionId]);
+            ->update(static::TABLE_NAME, $data, ['transaction_id' => $identifier]);
     }
 
     /**

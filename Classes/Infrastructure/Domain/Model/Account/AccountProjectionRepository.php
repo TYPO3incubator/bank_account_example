@@ -21,11 +21,12 @@ use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanProjectionRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameConverter;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\ProjectionRepository;
 
 /**
  * Repository organizing projections for Account
  */
-class AccountProjectionRepository
+class AccountProjectionRepository implements ProjectionRepository
 {
     const TABLE_NAME = 'tx_bankaccountexample_projection_account';
 
@@ -70,11 +71,11 @@ class AccountProjectionRepository
             ->insert(static::TABLE_NAME, $data);
     }
 
-    public function update(string $iban, array $data)
+    public function update(string $identifier, array $data)
     {
         $data = DatabaseFieldNameConverter::toDatabase($data);
         Common::getDatabaseConnection()
-            ->update(static::TABLE_NAME, $data, ['iban' => $iban]);
+            ->update(static::TABLE_NAME, $data, ['iban' => $identifier]);
     }
 
     /**
