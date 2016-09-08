@@ -34,7 +34,10 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.transaction_id',
             'config' => [
-                'type' => 'none',
+                'type' => 'input',
+                'size' => 30,
+                'max' => 255,
+                'eval' => 'trim,required',
             ]
         ],
 
@@ -56,7 +59,8 @@ return [
                         'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_transaction.type.debit',
                         \H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction::class,
                     ],
-                ]
+                ],
+                'eval' => 'required',
             ],
         ],
 
@@ -102,7 +106,8 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'double2'
+                'eval' => 'double2,required',
+                'default' => '0.00',
             ]
         ],
 

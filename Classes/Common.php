@@ -138,7 +138,9 @@ class Common
             ->setFactory(new AccountTcaCommandFactory('modify'))
             ->setProperties([
                 'account_holder' => true,
-            ]);
+            ])
+            ->forRelation('transactions')
+                ->setAttachAllowed(true);
         $tcaAccountTable->delete()
             ->setAllowed(true)
             ->setFactory(new AccountTcaCommandFactory('delete'));

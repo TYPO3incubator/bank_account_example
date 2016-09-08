@@ -42,7 +42,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim,required'
             ],
         ],
         'account_holder' => [
@@ -51,7 +51,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'trim'
+                'eval' => 'trim,required'
             ],
         ],
         'balance' => [
@@ -59,8 +59,10 @@ return [
             'label' => 'LLL:EXT:bank_account_example/Resources/Private/Language/locallang_db.xlf:tx_bankaccountexample_domain_model_account.balance',
             'config' => [
                 'type' => 'input',
+                'readOnly' => true,
                 'size' => 30,
-                'eval' => 'double2'
+                'eval' => 'double2',
+                'default' => '0.00',
             ]
         ],
         'transactions' => [
@@ -72,7 +74,7 @@ return [
                 'foreign_field' => 'account',
                 'maxitems' => 9999,
                 'appearance' => [
-                    'collapseAll' => 0,
+                    'expandSingle' => true,
                     'levelLinksPosition' => 'top',
                     'showSynchronizationLink' => 1,
                     'showPossibleLocalizationRecords' => 1,
