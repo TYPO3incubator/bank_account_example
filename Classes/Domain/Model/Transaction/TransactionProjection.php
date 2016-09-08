@@ -14,8 +14,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event\CreatedDebitTransactionEvent;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event\CreatedDepositTransactionEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDebitTransactionEvent;
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDepositTransactionEvent;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionProjectionRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\Projection;
@@ -31,8 +31,8 @@ final class TransactionProjection implements Projection
     public function listensTo()
     {
         return [
-            CreatedDepositTransactionEvent::class,
-            CreatedDebitTransactionEvent::class,
+            AttachedDepositTransactionEvent::class,
+            AttachedDebitTransactionEvent::class,
         ];
     }
 
@@ -41,37 +41,31 @@ final class TransactionProjection implements Projection
      */
     public function project(BaseEvent $event)
     {
-        if ($event instanceof CreatedDepositTransactionEvent) {
-            $this->projectCreatedDepositTransactionEvent($event);
+        if ($event instanceof AttachedDepositTransactionEvent) {
+            $this->projectAttachedDepositTransactionEvent($event);
         }
-        if ($event instanceof CreatedDebitTransactionEvent) {
-            $this->projectCreatedDebitTransactionEvent($event);
+        if ($event instanceof AttachedDebitTransactionEvent) {
+            $this->projectAttachedDebitTransactionEvent($event);
         }
     }
 
     /**
-     * @param CreatedDepositTransactionEvent $event
+     * @param AttachedDepositTransactionEvent $event
      */
-    private function projectCreatedDepositTransactionEvent(CreatedDepositTransactionEvent $event)
+    private function projectAttachedDepositTransactionEvent(AttachedDepositTransactionEvent $event)
     {
-        $transaction = DepositTransaction::instance();
-        $transaction->applyEvent($event);
-
         TransactionProjectionRepository::instance()->add(
-            $transaction->toArray()
+            $event->getTransaction()->toArray()
         );
     }
 
     /**
-     * @param CreatedDebitTransactionEvent $event
+     * @param AttachedDebitTransactionEvent $event
      */
-    private function projectCreatedDebitTransactionEvent(CreatedDebitTransactionEvent $event)
+    private function projectAttachedDebitTransactionEvent(AttachedDebitTransactionEvent $event)
     {
-        $transaction = DebitTransaction::instance();
-        $transaction->applyEvent($event);
-
         TransactionProjectionRepository::instance()->add(
-            $transaction->toArray()
+            $event->getTransaction()->toArray()
         );
     }
 }

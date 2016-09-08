@@ -29,6 +29,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 
 /**
  * Repository organizing events for Transaction
+ * @deprecated Transactions are handled in the bounds of Account
  */
 class TransactionEventRepository implements EventRepository
 {
@@ -83,6 +84,7 @@ class TransactionEventRepository implements EventRepository
 
     /**
      * @param AbstractTransaction $transaction
+     * @deprecated Not required anymore
      */
     public function add(AbstractTransaction $transaction)
     {
@@ -96,6 +98,7 @@ class TransactionEventRepository implements EventRepository
 
     /**
      * @param BaseEvent|Transactional $event
+     * @deprecated Not required anymore
      */
     public function addEvent(BaseEvent $event)
     {

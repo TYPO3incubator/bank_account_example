@@ -22,7 +22,6 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
-use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlable;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlableTrait;
@@ -89,7 +88,6 @@ final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlabl
         $account = $this->fetchAccount($command);
         $account->attachDepositTransaction($transaction);
 
-        TransactionEventRepository::instance()->add($transaction);
         AccountEventRepository::instance()->add($account);
     }
 
@@ -109,7 +107,6 @@ final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlabl
         $account = $this->fetchAccount($command);
         $account->attachDebitTransaction($transaction);
 
-        TransactionEventRepository::instance()->add($transaction);
         AccountEventRepository::instance()->add($account);
     }
 

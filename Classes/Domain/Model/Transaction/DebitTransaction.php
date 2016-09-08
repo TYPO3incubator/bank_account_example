@@ -99,7 +99,9 @@ class DebitTransaction extends AbstractTransaction
             $entryDate,
             $availabilityDate
         );
-        $transaction->manageEvent($event);
+        // Transactions are handled in the bounds of Account
+        // that's the reason why it's not published, but just applied
+        $transaction->applyEvent($event);
 
         return $transaction;
     }
