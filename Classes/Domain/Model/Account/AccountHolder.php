@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -30,7 +31,7 @@ class AccountHolder implements RepresentableAsString
         $value = trim($value);
 
         if (empty($value)) {
-            throw new \InvalidArgumentException('Account holder must not be empty');
+            throw new ValueObjectException('Account holder must not be empty');
         }
 
         return new static($value);

@@ -15,6 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Bank;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 
 /**
  * Location
@@ -29,10 +30,10 @@ class Location
     public static function createLocation(string $zip, string $city)
     {
         if (empty($zip)) {
-            throw new \InvalidArgumentException('ZIP must not be empty');
+            throw new ValueObjectException('ZIP must not be empty');
         }
         if (empty($city)) {
-            throw new \InvalidArgumentException('City must not be empty');
+            throw new ValueObjectException('City must not be empty');
         }
 
         return new static($zip, $city);

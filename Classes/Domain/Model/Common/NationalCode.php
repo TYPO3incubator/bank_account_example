@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -28,7 +29,7 @@ class NationalCode implements RepresentableAsString
     public static function create(string $nationalCode)
     {
         if (strlen($nationalCode) > 2) {
-            throw new \InvalidArgumentException('National code length exceeded');
+            throw new ValueObjectException('National code length exceeded');
         }
 
         return new static($nationalCode);

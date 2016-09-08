@@ -17,6 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\BranchCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\NationalCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\SubsidiaryCode;
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -31,10 +32,10 @@ class CheckDigits implements RepresentableAsString
     public static function create(string $checkDigits)
     {
         if (strlen($checkDigits) !== 2) {
-            throw new \InvalidArgumentException('Check digits length mismatch');
+            throw new ValueObjectException('Check digits length mismatch');
         }
         if (!is_numeric($checkDigits)) {
-            throw new \InvalidArgumentException('Check digits must be numeric');
+            throw new ValueObjectException('Check digits must be numeric');
         }
 
         return new static($checkDigits);

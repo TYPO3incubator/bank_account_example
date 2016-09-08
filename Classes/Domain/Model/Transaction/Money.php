@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -28,10 +29,10 @@ class Money implements RepresentableAsString
     public static function create(float $value)
     {
         if ($value === 0.0) {
-            throw new \InvalidArgumentException('Amount is zero');
+            throw new ValueObjectException('Amount is zero');
         }
         if ($value < 0) {
-            throw new \InvalidArgumentException('Amount is less than zero');
+            throw new ValueObjectException('Amount is less than zero');
         }
 
         return new static($value);

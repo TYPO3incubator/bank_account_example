@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -35,10 +36,10 @@ class BranchCode implements RepresentableAsString
     public static function create(string $branchCode, int $length, bool $numericOnly)
     {
         if (strlen($branchCode) > $length) {
-            throw new \InvalidArgumentException('Branch code length exceeded');
+            throw new ValueObjectException('Branch code length exceeded');
         }
         if ($numericOnly && !is_numeric($branchCode)) {
-            throw new \InvalidArgumentException('Branch code must be numeric');
+            throw new ValueObjectException('Branch code must be numeric');
         }
 
         $branchCode = str_pad($branchCode, $length, '0', STR_PAD_LEFT);

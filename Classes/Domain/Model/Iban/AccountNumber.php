@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -30,10 +31,10 @@ class AccountNumber implements RepresentableAsString
     public static function create(string $accountNumber, int $length, bool $numericOnly)
     {
         if (strlen($accountNumber) > $length) {
-            throw new \InvalidArgumentException('Account number length exceeded');
+            throw new ValueObjectException('Account number length exceeded');
         }
         if ($numericOnly && !is_numeric($accountNumber)) {
-            throw new \InvalidArgumentException('Account number must be numeric');
+            throw new ValueObjectException('Account number must be numeric');
         }
 
         $accountNumber = str_pad($accountNumber, $length, '0', STR_PAD_LEFT);

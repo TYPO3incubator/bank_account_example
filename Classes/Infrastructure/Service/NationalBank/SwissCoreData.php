@@ -23,6 +23,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Iban\CheckDigits;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\NationalCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\SubsidiaryCode;
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 final class SwissCoreData extends AbstractCoreData
@@ -155,7 +156,7 @@ final class SwissCoreData extends AbstractCoreData
      */
     public function reconstituteIban(string $iban) {
         if (strlen($iban) !== static::LENGTH_IBAN) {
-            throw new \InvalidArgumentException('IBAN length mismatch');
+            throw new ValueObjectException('IBAN length mismatch');
         }
 
         $nationalCode = NationalCode::create(substr($iban, 0, 2));

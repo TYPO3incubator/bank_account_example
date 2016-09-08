@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -30,10 +31,10 @@ class SubsidiaryCode implements RepresentableAsString
     public static function create(string $subsidiaryCode, int $length, bool $numericOnly)
     {
         if (strlen($subsidiaryCode) > $length) {
-            throw new \InvalidArgumentException('Subsidiary code length exceeded');
+            throw new ValueObjectException('Subsidiary code length exceeded');
         }
         if ($numericOnly && !is_numeric($subsidiaryCode)) {
-            throw new \InvalidArgumentException('Subsidiary code must be numeric');
+            throw new ValueObjectException('Subsidiary code must be numeric');
         }
 
         $subsidiaryCode = str_pad($subsidiaryCode, $length, '0', STR_PAD_LEFT);

@@ -14,6 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
 
 /**
@@ -30,7 +31,7 @@ class TransactionReference implements RepresentableAsString
         $value = trim($value);
 
         if (strlen($value) > 50) {
-            throw new \InvalidArgumentException('Transaction reference length exceeded');
+            throw new ValueObjectException('Transaction reference length exceeded');
         }
 
         return new static($value);
