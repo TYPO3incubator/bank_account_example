@@ -28,6 +28,8 @@ class Money implements RepresentableAsString
      */
     public static function create(float $value)
     {
+        $value = round($value, 2);
+
         if ($value === 0.0) {
             throw new ValueObjectException('Amount is zero');
         }
