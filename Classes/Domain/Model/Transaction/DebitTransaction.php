@@ -25,7 +25,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
 /**
  * DebitTransaction
  */
-class DebitTransaction extends AbstractTransaction implements EventApplicable
+class DebitTransaction extends AbstractTransaction
 {
     use EventHandlerTrait;
 

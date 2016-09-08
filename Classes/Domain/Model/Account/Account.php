@@ -22,15 +22,16 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\AggregateEntity;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
  * Account
  */
-class Account extends AbstractProjectableEntity implements EventApplicable, RepresentableAsArray
+class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
 {
     use EventHandlerTrait;
 
@@ -56,6 +57,11 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
         $account->balance = $data['balance'];
         return $account;
     }
+
+    /**
+     * @var UuidInterface
+     */
+    private $aggregateId;
 
     /**
      * @var Iban
@@ -88,6 +94,14 @@ class Account extends AbstractProjectableEntity implements EventApplicable, Repr
             'accountHolder' => (string)$this->accountHolder,
             'balance' => (float)$this->balance,
         ];
+    }
+
+    /**
+     * @return UuidInterface
+     */
+    public function getAggregateId()
+    {
+        return $this->aggregateId;
     }
 
     /**

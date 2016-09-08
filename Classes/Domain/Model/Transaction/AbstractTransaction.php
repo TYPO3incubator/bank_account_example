@@ -18,13 +18,13 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\AggregateEntity;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
-use TYPO3\CMS\DataHandling\Extbase\DomainObject\AbstractProjectableEntity;
 
 /**
  * AbstractTransaction
  */
-abstract class AbstractTransaction extends AbstractProjectableEntity implements EventApplicable, RepresentableAsArray
+abstract class AbstractTransaction implements EventApplicable, AggregateEntity, RepresentableAsArray
 {
     /**
      * @param array $data
@@ -36,6 +36,11 @@ abstract class AbstractTransaction extends AbstractProjectableEntity implements 
         $transactionType = $data['transactionType'];
         return $transactionType::buildFromProjection($data);
     }
+
+    /**
+     * @var UuidInterface
+     */
+    protected $aggregateId;
 
     /**
      * @var UuidInterface
@@ -84,19 +89,11 @@ abstract class AbstractTransaction extends AbstractProjectableEntity implements 
     }
 
     /**
-     * @return bool
+     * @return UuidInterface
      */
-    public function isDeposit()
+    public function getAggregateId()
     {
-        return ($this instanceof DepositTransaction);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDebit()
-    {
-        return ($this instanceof DebitTransaction);
+        return $this->aggregateId;
     }
 
     /**
@@ -145,6 +142,22 @@ abstract class AbstractTransaction extends AbstractProjectableEntity implements 
     public function getMoney()
     {
         return $this->money;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeposit()
+    {
+        return ($this instanceof DepositTransaction);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDebit()
+    {
+        return ($this instanceof DebitTransaction);
     }
 
     /**
