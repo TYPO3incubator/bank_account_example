@@ -20,6 +20,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
@@ -38,13 +39,15 @@ class ChangedAccountHolderEvent extends AbstractEvent implements Instantiable, H
     }
 
     /**
+     * @param UuidInterface $aggregateId
      * @param Iban $iban
      * @param AccountHolder $accountHolder
      * @return ChangedAccountHolderEvent
      */
-    public static function create(Iban $iban, AccountHolder $accountHolder)
+    public static function create(UuidInterface $aggregateId, Iban $iban, AccountHolder $accountHolder)
     {
         $event = static::instance();
+        $event->aggregateId = $aggregateId;
         $event->iban = $iban;
         $event->accountHolder = $accountHolder;
         return $event;

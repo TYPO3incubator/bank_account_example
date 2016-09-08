@@ -21,16 +21,14 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
-use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\AggregateEntity;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
 
 /**
  * Account
  */
-class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
+class Account implements EventApplicable, RepresentableAsArray
 {
     use EventHandlerTrait;
 
@@ -56,11 +54,6 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
         $account->balance = $data['balance'];
         return $account;
     }
-
-    /**
-     * @var UuidInterface
-     */
-    private $aggregateId;
 
     /**
      * @var Iban
@@ -93,14 +86,6 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
             'accountHolder' => (string)$this->accountHolder,
             'balance' => (float)$this->balance,
         ];
-    }
-
-    /**
-     * @return UuidInterface
-     */
-    public function getAggregateId()
-    {
-        return $this->aggregateId;
     }
 
     /**
@@ -170,7 +155,10 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
             throw new CommandException('Cannot close account since the balance is not zero', 1471473510);
         }
 
-        $event = Event\ClosedAccountEvent::create($this->iban);
+        $event = Event\ClosedAccountEvent::create(
+            $this->aggregateId,
+            $this->iban
+        );
         $this->manageEvent($event);
     }
 
@@ -186,6 +174,7 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
         }
 
         $event = Event\ChangedAccountHolderEvent::create(
+            $this->aggregateId,
             $this->iban,
             $accountHolder
         );
@@ -200,6 +189,7 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
         $this->checkClosed();
 
         $event = Event\AttachedDepositTransactionEvent::create(
+            $this->aggregateId,
             $this->iban,
             $transaction
         );
@@ -219,6 +209,7 @@ class Account implements EventApplicable, AggregateEntity, RepresentableAsArray
         }
 
         $event = Event\AttachedDebitTransactionEvent::create(
+            $this->aggregateId,
             $this->iban,
             $transaction
         );

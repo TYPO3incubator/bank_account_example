@@ -18,13 +18,12 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\AggregateEntity;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
 
 /**
  * AbstractTransaction
  */
-abstract class AbstractTransaction implements EventApplicable, AggregateEntity, RepresentableAsArray
+abstract class AbstractTransaction implements EventApplicable, RepresentableAsArray
 {
     /**
      * @param array $data
@@ -36,11 +35,6 @@ abstract class AbstractTransaction implements EventApplicable, AggregateEntity, 
         $transactionType = $data['transactionType'];
         return $transactionType::buildFromProjection($data);
     }
-
-    /**
-     * @var UuidInterface
-     */
-    protected $aggregateId;
 
     /**
      * @var UuidInterface
@@ -86,14 +80,6 @@ abstract class AbstractTransaction implements EventApplicable, AggregateEntity, 
             'entryDate' => $this->entryDate->format(\DateTime::W3C),
             'availabilityDate' => $this->availabilityDate->format(\DateTime::W3C),
         ];
-    }
-
-    /**
-     * @return UuidInterface
-     */
-    public function getAggregateId()
-    {
-        return $this->aggregateId;
     }
 
     /**

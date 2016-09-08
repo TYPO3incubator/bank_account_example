@@ -21,6 +21,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\EntityEvent;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
@@ -58,6 +59,7 @@ class CreatedDepositTransactionEvent extends AbstractEvent implements Instantiab
         \DateTime $availabilityDate
     ) {
         $event = static::instance();
+        $event->aggregateId = Uuid::uuid4();
         $event->iban = $iban;
         $event->transactionId = $transactionId;
         $event->money = $money;

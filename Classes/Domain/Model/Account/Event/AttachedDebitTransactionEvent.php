@@ -20,6 +20,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachable;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachableTrait;
+use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
@@ -38,13 +39,15 @@ class AttachedDebitTransactionEvent extends AbstractEvent implements Instantiabl
     }
 
     /**
+     * @param UuidInterface $aggregateId
      * @param Iban $iban
      * @param AbstractTransaction $transaction
      * @return AttachedDebitTransactionEvent
      */
-    public static function create(Iban $iban, AbstractTransaction $transaction)
+    public static function create(UuidInterface $aggregateId, Iban $iban, AbstractTransaction $transaction)
     {
         $event = static::instance();
+        $event->aggregateId = $aggregateId;
         $event->iban = $iban;
         $event->transaction = $transaction;
         return $event;
