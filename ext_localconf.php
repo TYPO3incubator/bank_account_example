@@ -14,4 +14,6 @@ defined('TYPO3_MODE') or die();
     ]
 );
 
+\H4ck3r31\BankAccountExample\Common::defineSettings();
 \H4ck3r31\BankAccountExample\Common::registerEventSources();
+\H4ck3r31\BankAccountExample\Common::registerTableCommands();
