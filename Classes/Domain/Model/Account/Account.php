@@ -234,6 +234,7 @@ class Account implements EventApplicable, RepresentableAsArray
 
     protected function applyCreatedAccountEvent(Event\CreatedAccountEvent $event)
     {
+        $this->aggregateId = $event->getAggregateId();
         $this->iban = $event->getIban();
         $this->accountHolder = $event->getAccountHolder();
         $this->balance = 0;
