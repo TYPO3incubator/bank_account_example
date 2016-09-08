@@ -73,8 +73,9 @@ class TransactionProjectionRepository implements ProjectionRepository
     public function update(string $identifier, array $data)
     {
         $data = DatabaseFieldNameConverter::toDatabase($data);
+        $identifier = ['transaction_id' => $identifier];
         Common::getDatabaseConnection()
-            ->update(static::TABLE_NAME, $data, ['transaction_id' => $identifier]);
+            ->update(static::TABLE_NAME, $data, $identifier);
     }
 
     /**

@@ -74,8 +74,9 @@ class AccountProjectionRepository implements ProjectionRepository
     public function update(string $identifier, array $data)
     {
         $data = DatabaseFieldNameConverter::toDatabase($data);
+        $identifier = ['iban' => $identifier];
         Common::getDatabaseConnection()
-            ->update(static::TABLE_NAME, $data, ['iban' => $identifier]);
+            ->update(static::TABLE_NAME, $data, $identifier);
     }
 
     /**

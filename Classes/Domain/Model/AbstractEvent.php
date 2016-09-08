@@ -52,7 +52,9 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
      */
     public function exportData()
     {
-        $data['iban'] = (string)$this->getIban();
+        $data = [
+            'iban' => (string)$this->getIban(),
+        ];
 
         if ($this instanceof Holdable) {
             $data['accountHolder'] = $this->getAccountHolder()->getValue();
