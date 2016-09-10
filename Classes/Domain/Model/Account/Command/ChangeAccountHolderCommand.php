@@ -36,11 +36,6 @@ class ChangeAccountHolderCommand extends AbstractAccountCommand implements Holda
     }
 
     /**
-     * @var string
-     */
-    protected $holder;
-
-    /**
      * @param Iban $iban
      * @param AccountHolder $accountHolder
      * @return ChangeAccountHolderCommand
