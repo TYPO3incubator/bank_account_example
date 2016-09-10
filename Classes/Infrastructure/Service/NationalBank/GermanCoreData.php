@@ -142,9 +142,10 @@ final class GermanCoreData extends AbstractCoreData
 
     /**
      * @param string $iban
+     * @param bool $verify
      * @return Iban
      */
-    public function reconstituteIban(string $iban) {
+    public function reconstituteIban(string $iban, bool $verify = true) {
         if (strlen($iban) !== static::LENGTH_IBAN) {
             throw new ValueObjectException('IBAN length mismatch');
         }
@@ -163,8 +164,15 @@ final class GermanCoreData extends AbstractCoreData
             substr($iban, 2, 2)
         );
 
-        CheckDigits::createFor($nationalCode, $branchCode, $subsidiaryCode, $accountNumber)
+        if ($verify) {
+            CheckDigits::createFor(
+                $nationalCode,
+                $branchCode,
+                $subsidiaryCode,
+                $accountNumber
+            )
             ->verify($checkDigits);
+        }
 
         return Iban::create(
             $nationalCode,

@@ -58,7 +58,8 @@ abstract class AbstractCoreData
 
     /**
      * @param string $iban
+     * @param bool $verify
      * @return Iban
      */
-    abstract public function reconstituteIban(string $iban);
+    abstract public function reconstituteIban(string $iban, bool $verify = true);
 }

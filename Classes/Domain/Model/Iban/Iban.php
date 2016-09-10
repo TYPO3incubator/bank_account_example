@@ -80,12 +80,14 @@ class Iban implements EventApplicable, RepresentableAsString, RepresentableAsArr
 
     /**
      * @param string $iban
+     * @param bool $verify
      * @return Iban
      */
-    public static function fromString(string $iban)
+    public static function fromString(string $iban, bool $verify = true)
     {
         $nationalCode = substr($iban, 0, 2);
-        return CoreDataFactory::createFor($nationalCode)->reconstituteIban($iban);
+        return CoreDataFactory::createFor($nationalCode)
+            ->reconstituteIban($iban, $verify);
     }
 
     /**
