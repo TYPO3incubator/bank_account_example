@@ -118,35 +118,37 @@ class Common
     {
         $tcaAccountTable = TcaCommandManager::provide()
             ->for(static::TCA_TABLE_NAME_ACCOUNT)
+            ->setDeniedPerDefault(true)
             ->setMapping([
                 'closed' => true,
                 'balance' => true,
                 'iban' => true,
                 'account_holder' => 'accountHolder',
             ]);
-        $tcaAccountTable->create()
+        $tcaAccountTable->onCreate()
             ->setAllowed(true)
-            ->setFactory(new AccountTcaCommandFactory('create'))
+            ->setFactoryName(AccountTcaCommandFactory::class)
             ->setProperties([
                 'iban' => true,
                 'account_holder' => true,
             ])
             ->forRelation('transactions')
                 ->setAttachAllowed(true);
-        $tcaAccountTable->modify()
+        $tcaAccountTable->onModify()
             ->setAllowed(true)
-            ->setFactory(new AccountTcaCommandFactory('modify'))
+            ->setFactoryName(AccountTcaCommandFactory::class)
             ->setProperties([
                 'account_holder' => true,
             ])
             ->forRelation('transactions')
                 ->setAttachAllowed(true);
-        $tcaAccountTable->delete()
+        $tcaAccountTable->onDelete()
             ->setAllowed(true)
-            ->setFactory(new AccountTcaCommandFactory('delete'));
+            ->setFactoryName(AccountTcaCommandFactory::class);
 
         $tcaTransactionTable = TcaCommandManager::provide()
             ->for(static::TCA_TABLE_NAME_TRANSACTION)
+            ->setDeniedPerDefault(true)
             ->setMapping([
                 'account' => true,
                 'money' => true,
@@ -156,10 +158,10 @@ class Common
                 'entry_date' => 'entryDate',
                 'availability_date' => 'availabilityDate',
             ]);
-        $tcaTransactionTable->create()
+        $tcaTransactionTable->onCreate()
             ->setAllowed(true)
             ->setParentRequired(true)
-            ->setFactory(new TransactionTcaCommandFactory('create'))
+            ->setFactoryName(AccountTcaCommandFactory::class)
             ->setProperties([
                 'type' => true,
                 'money' => true,
