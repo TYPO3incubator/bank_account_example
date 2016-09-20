@@ -23,14 +23,14 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlable;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandler;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlableTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
  * CommandHandlerBundle
  */
-final class CommandHandlerBundle implements Instantiable, CommandHandlerBundlable
+final class CommandHandlerBundle implements Instantiable, CommandHandler
 {
     use CommandHandlerBundlableTrait;
 

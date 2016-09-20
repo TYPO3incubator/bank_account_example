@@ -31,11 +31,6 @@ use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 class AccountEventRepository implements EventRepository
 {
     /**
-     * @var AccountEventRepository
-     */
-    protected static $repository;
-
-    /**
      * @return AccountEventRepository
      */
     public static function instance()

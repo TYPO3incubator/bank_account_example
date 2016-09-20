@@ -34,16 +34,11 @@ use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 class TransactionEventRepository implements EventRepository
 {
     /**
-     * @var TransactionEventRepository
-     */
-    protected static $repository;
-
-    /**
      * @return TransactionEventRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(TransactionEventRepository::class);
+        return Common::getObjectManager()->get(static::class);
     }
 
     /**
