@@ -29,7 +29,7 @@ use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountTcaPr
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Bank\NationalBankRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\AbstractCommand;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\AttachRelationCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\ChangeEntityCommand;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\ModifyEntityCommand;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\CreateEntityBundleCommand;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\DeleteEntityCommand;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\ModifyEntityBundleCommand;
@@ -262,7 +262,7 @@ final class AccountTcaCommandFactory implements TcaCommandFactory
     {
         $data = [];
         foreach ($bundleCommand->getCommands() as $command) {
-            if ($command instanceof ChangeEntityCommand) {
+            if ($command instanceof ModifyEntityCommand) {
                 $data = array_merge($data, $command->getData());
             }
         }

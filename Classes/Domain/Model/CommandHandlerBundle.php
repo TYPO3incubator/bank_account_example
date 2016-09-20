@@ -24,7 +24,7 @@ use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandler;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerBundlableTrait;
+use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\CommandHandlerTrait;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
 
 /**
@@ -32,7 +32,7 @@ use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
  */
 final class CommandHandlerBundle implements Instantiable, CommandHandler
 {
-    use CommandHandlerBundlableTrait;
+    use CommandHandlerTrait;
 
     /**
      * @return CommandHandlerBundle
