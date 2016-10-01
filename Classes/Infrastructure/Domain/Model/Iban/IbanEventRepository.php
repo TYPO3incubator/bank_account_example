@@ -36,7 +36,7 @@ class IbanEventRepository implements EventRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(IbanEventRepository::class);
+        return new static();
     }
 
     /**

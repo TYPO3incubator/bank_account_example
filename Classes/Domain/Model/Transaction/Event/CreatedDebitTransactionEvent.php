@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
@@ -37,7 +36,7 @@ class CreatedDebitTransactionEvent extends AbstractEvent implements Instantiable
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(static::class);
+        return new static();
     }
 
     /**

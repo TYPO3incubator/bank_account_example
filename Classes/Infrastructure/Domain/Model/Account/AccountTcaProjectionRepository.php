@@ -15,13 +15,8 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account;
  */
 
 use H4ck3r31\BankAccountExample\Common;
-use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
-use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanProjectionRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameConverter;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\ProjectionRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\TcaProjectionService;
 
@@ -37,7 +32,7 @@ class AccountTcaProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(static::class);
+        return new static();
     }
 
     /**

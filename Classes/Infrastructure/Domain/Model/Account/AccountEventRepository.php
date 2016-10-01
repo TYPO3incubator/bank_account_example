@@ -35,7 +35,7 @@ class AccountEventRepository implements EventRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(AccountEventRepository::class);
+        return new static();
     }
 
     /**

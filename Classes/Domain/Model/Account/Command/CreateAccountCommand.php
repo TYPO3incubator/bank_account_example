@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
@@ -33,7 +32,7 @@ class CreateAccountCommand extends AbstractAccountCommand implements Instantiabl
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(CreateAccountCommand::class);
+        return new static();
     }
 
     /**

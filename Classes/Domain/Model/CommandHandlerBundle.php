@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
@@ -39,7 +38,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(CommandHandlerBundle::class);
+        return new static();
     }
 
     /**

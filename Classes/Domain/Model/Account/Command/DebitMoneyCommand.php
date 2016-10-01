@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
@@ -33,7 +32,7 @@ class DebitMoneyCommand extends AbstractAccountCommand implements Transactional
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(DebitMoneyCommand::class);
+        return new static();
     }
 
     /**

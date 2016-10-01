@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event\CreatedDepositTransactionEvent;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
@@ -50,7 +49,7 @@ class DepositTransaction extends AbstractTransaction
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(static::class);
+        return new static();
     }
 
     /**

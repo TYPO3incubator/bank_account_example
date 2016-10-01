@@ -35,7 +35,7 @@ class CreatedAccountEvent extends AbstractEvent implements Instantiable, Holdabl
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(CreatedAccountEvent::class);
+        return new static();
     }
 
     /**

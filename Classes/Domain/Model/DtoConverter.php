@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountDto;
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
@@ -32,7 +31,7 @@ class DtoConverter
      */
     public static function ibanToBankDto(Iban $iban)
     {
-        $bankDto = Common::getObjectManager()->get(BankDto::class);
+        $bankDto = new BankDto();
         $bankDto->setNationalCode($iban->getNationalCode());
         $bankDto->setBranchCode($iban->getBranchCode());
         $bankDto->setSubsidiaryCode($iban->getSubsidiaryCode());
@@ -45,7 +44,7 @@ class DtoConverter
      */
     public static function toBankDto(Bank $bank)
     {
-        $bankDto = Common::getObjectManager()->get(BankDto::class);
+        $bankDto = new BankDto();
         $bankDto->setNationalCode($bank->getNationalCode());
         $bankDto->setBranchCode($bank->getBranchCode());
         $bankDto->setSubsidiaryCode($bank->getSubsidiaryCode());
@@ -83,7 +82,7 @@ class DtoConverter
      */
     public static function toAccountDto(Account $account)
     {
-        $accountDto = Common::getObjectManager()->get(AccountDto::class);
+        $accountDto = new AccountDto();
         $accountDto->setIban($account->getIban());
         $accountDto->setClosed($account->isClosed());
         $accountDto->setAccountHolder($account->getAccountHolder());
@@ -109,7 +108,7 @@ class DtoConverter
      */
     public static function toTransactionDto(AbstractTransaction $transaction)
     {
-        $transactionDto = Common::getObjectManager()->get(TransactionDto::class);
+        $transactionDto = new TransactionDto();
         $transactionDto->setDeposit($transaction->isDeposit());
         $transactionDto->setDebit($transaction->isDebit());
         $transactionDto->setMoney($transaction->getMoney()->getValue());

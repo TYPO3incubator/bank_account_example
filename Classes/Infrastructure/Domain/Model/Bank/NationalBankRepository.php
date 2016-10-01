@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Bank;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Infrastructure\Service\NationalBank;
 use H4ck3r31\BankAccountExample\Infrastructure\Service\NationalBank\CoreDataFactory;
 
@@ -22,7 +21,7 @@ final class NationalBankRepository
 {
     public static function instance()
     {
-        return Common::getObjectManager()->get(static::class);
+        return new static();
     }
 
     /**

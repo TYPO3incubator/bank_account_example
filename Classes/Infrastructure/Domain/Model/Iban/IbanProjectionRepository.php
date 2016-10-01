@@ -34,7 +34,7 @@ class IbanProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(IbanProjectionRepository::class);
+        return new static();
     }
 
     /**

@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
@@ -37,7 +36,7 @@ class Account implements EventApplicable, RepresentableAsArray
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(Account::class);
+        return new static();
     }
 
     /**

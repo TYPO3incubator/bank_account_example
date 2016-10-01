@@ -160,12 +160,4 @@ class Common
         return \TYPO3\CMS\DataHandling\Core\Database\ConnectionPool::instance()
             ->getOriginConnection();
     }
-
-    /**
-     * @return ObjectManager
-     */
-    public static function getObjectManager()
-    {
-        return GeneralUtility::makeInstance(ObjectManager::class);
-    }
 }

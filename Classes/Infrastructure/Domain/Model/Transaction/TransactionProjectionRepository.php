@@ -34,7 +34,7 @@ class TransactionProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(static::class);
+        return new static();
     }
 
     /**

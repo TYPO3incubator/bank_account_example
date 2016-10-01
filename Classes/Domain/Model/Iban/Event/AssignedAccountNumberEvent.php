@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban\Event;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
@@ -29,7 +28,7 @@ class AssignedAccountNumberEvent extends AbstractEvent implements Instantiable
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(AssignedAccountNumberEvent::class);
+        return new static();
     }
 
     /**

@@ -14,7 +14,6 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use Ramsey\Uuid\UuidInterface;
@@ -30,7 +29,7 @@ class ClosedAccountEvent extends AbstractEvent implements Instantiable
      */
     public static function instance()
     {
-        return Common::getObjectManager()->get(ClosedAccountEvent::class);
+        return new static();
     }
 
     /**
