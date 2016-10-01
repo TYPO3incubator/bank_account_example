@@ -14,10 +14,6 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Service\NationalBank;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
-use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use H4ck3r31\BankAccountExample\Domain\Model\Common\NationalCode;
-
 class CoreDataFactory
 {
     /**

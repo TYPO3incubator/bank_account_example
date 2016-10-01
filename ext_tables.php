@@ -2,7 +2,7 @@
 defined('TYPO3_MODE') or die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    $_EXTKEY,
+    \H4ck3r31\BankAccountExample\Common::KEY_EXTENSION,
     'Configuration/TypoScript',
     'BankAccountExample'
 );

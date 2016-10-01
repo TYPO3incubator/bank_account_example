@@ -18,12 +18,10 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountTcaCommandFactory;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\CommandHandlerBundle;
 use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\CommandBus;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Tca\TcaCommandManager;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * Common
