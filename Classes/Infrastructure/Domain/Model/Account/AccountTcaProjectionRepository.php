@@ -14,16 +14,15 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameConverter;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\ProjectionRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\TcaProjectionService;
+use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\GenericEntity\UniversalProjectionRepository;
 
 /**
  * Repository organizing TCA projections for Account
  */
-class AccountTcaProjectionRepository implements ProjectionRepository
+class AccountTcaProjectionRepository extends UniversalProjectionRepository
 {
     const TABLE_NAME = 'tx_bankaccountexample_domain_model_account';
 
@@ -32,7 +31,9 @@ class AccountTcaProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return new static();
+        $repository = static::create(static::TABLE_NAME);
+        $repository->forAll();
+        return $repository;
     }
 
     /**
@@ -47,21 +48,25 @@ class AccountTcaProjectionRepository implements ProjectionRepository
         );
     }
 
+    /**
+     * @param array $data
+     */
     public function add(array $data)
     {
         $data = TcaProjectionService::mapFieldNames(static::TABLE_NAME, $data);
         $data = TcaProjectionService::addCreateFieldValues(static::TABLE_NAME, $data);
-        Common::getDatabaseConnection()
-            ->insert(static::TABLE_NAME, $data);
+        parent::add($data);
     }
 
+    /**
+     * @param string $identifier
+     * @param array $data
+     */
     public function update(string $identifier, array $data)
     {
         $data = DatabaseFieldNameConverter::toDatabase($data);
         $data = TcaProjectionService::mapFieldNames(static::TABLE_NAME, $data);
         $data = TcaProjectionService::addUpdateFieldValues(static::TABLE_NAME, $data);
-        $identifier = [\TYPO3\CMS\DataHandling\Common::FIELD_UUID => $identifier];
-        Common::getDatabaseConnection()
-            ->update(static::TABLE_NAME, $data, $identifier);
+        parent::update($identifier, $data);
     }
 }

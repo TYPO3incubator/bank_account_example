@@ -14,15 +14,14 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Common;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Repository\ProjectionRepository;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\TcaProjectionService;
+use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\GenericEntity\UniversalProjectionRepository;
 
 /**
  * Repository organizing TCA projections for Transaction
  */
-class TransactionTcaProjectionRepository implements ProjectionRepository
+class TransactionTcaProjectionRepository extends UniversalProjectionRepository
 {
     const TABLE_NAME = 'tx_bankaccountexample_domain_model_transaction';
 
@@ -31,7 +30,9 @@ class TransactionTcaProjectionRepository implements ProjectionRepository
      */
     public static function instance()
     {
-        return new static();
+        $repository = static::create(static::TABLE_NAME);
+        $repository->forAll();
+        return $repository;
     }
 
     /**
@@ -46,16 +47,25 @@ class TransactionTcaProjectionRepository implements ProjectionRepository
         );
     }
 
+    /**
+     * @param array $data
+     */
     public function add(array $data)
     {
         $data = TcaProjectionService::mapFieldNames(static::TABLE_NAME, $data);
         $data = TcaProjectionService::addCreateFieldValues(static::TABLE_NAME, $data);
-        Common::getDatabaseConnection()
-            ->insert(static::TABLE_NAME, $data);
+        parent::add($data);
     }
 
+    /**
+     * @param string $identifier
+     * @param array $data
+     */
     public function update(string $identifier, array $data)
     {
-        throw new \RuntimeException('Updating Transaction projections is denied');
+        throw new \RuntimeException(
+            'Updating Transaction projections is denied',
+            1475433008
+        );
     }
 }
