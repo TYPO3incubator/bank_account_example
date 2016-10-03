@@ -10,6 +10,11 @@ return [
         'dividers2tabs' => 1,
         'versioningWS' => true,
         'versioning_followPages' => true,
+        'eventSourcing' => [
+            'listenEvents' => true,
+            'recordEvents' => false,
+            'projectEvents' => false,
+        ],
 
         'searchFields' => 'transaction_id,entry_date,availability_date,reference,money,',
         'iconfile' => 'EXT:bank_account_example/Resources/Public/Icons/tx_bankaccountexample_domain_model_transaction.gif'

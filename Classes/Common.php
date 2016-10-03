@@ -18,7 +18,6 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountTcaCommandFactory;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\CommandHandlerBundle;
 use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\DataHandling\Core\EventSourcing\SourceManager;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\CommandBus;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\ProjectionManager;
 use TYPO3\CMS\DataHandling\Core\Framework\Process\Tca\TcaCommandManager;
@@ -80,12 +79,6 @@ class Common
                 new \H4ck3r31\BankAccountExample\Domain\Model\Account\AccountTcaProjection(),
                 new \H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionTcaProjection(),
             ]);
-
-        // tell the system that these database tables are somehow event-sourced
-        // (currently not used, maybe this will be merged with ProjectionPool)
-        SourceManager::provide()
-            ->addSourcedTableName('tx_bankaccountexample_domain_model_account')
-            ->addSourcedTableName('tx_bankaccountexample_domain_model_transaction');
     }
 
     /**
