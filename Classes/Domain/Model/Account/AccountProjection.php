@@ -20,8 +20,8 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\ChangedAccountHolderE
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\ClosedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\CreatedAccountEvent;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountProjectionRepository;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\Projection;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\Projection;
 
 /**
  * AccountProjection

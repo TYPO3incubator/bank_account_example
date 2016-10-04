@@ -27,17 +27,17 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountTcaProjectionRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Bank\NationalBankRepository;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\AbstractCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\AttachRelationCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\ModifyEntityCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\CreateEntityBundleCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\DeleteEntityCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Command\ModifyEntityBundleCommand;
-use TYPO3\CMS\DataHandling\Core\Domain\Object\Bundle;
-use TYPO3\CMS\DataHandling\Core\Domain\Object\Meta\EntityReference;
-use TYPO3\CMS\DataHandling\Core\Framework\Process\Tca\TcaCommand;
-use TYPO3\CMS\DataHandling\Core\Framework\Process\Tca\TcaCommandEntityBehavior;
-use TYPO3\CMS\DataHandling\Core\Framework\Process\Tca\TcaCommandFactory;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\AbstractCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\AttachRelationCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\ModifyEntityCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\CreateEntityBundleCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\DeleteEntityCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Command\ModifyEntityBundleCommand;
+use TYPO3\CMS\DataHandling\DataHandling\Domain\Model\GenericEntity\Aspect\Bundle;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Meta\EntityReference;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\TcaCommand\TcaCommand;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\TcaCommand\TcaCommandEntityBehavior;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\TcaCommand\TcaCommandFactory;
 
 /**
  * AccountTcaCommandFactory

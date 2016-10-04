@@ -14,8 +14,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Bank;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Model\DataTransferObject;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\DataTransferObject;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
 
 /**
  * BankDto

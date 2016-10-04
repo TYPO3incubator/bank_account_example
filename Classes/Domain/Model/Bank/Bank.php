@@ -20,8 +20,8 @@ use H4ck3r31\BankAccountExample\Domain\Model\Common\BranchCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\NationalCode;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\SubsidiaryCode;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
 
 /**
  * Bank

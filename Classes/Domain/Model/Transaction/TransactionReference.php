@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsString;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsString;
 
 /**
  * TransactionReference

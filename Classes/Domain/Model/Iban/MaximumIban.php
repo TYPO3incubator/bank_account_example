@@ -17,8 +17,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Event\AssignedAccountNumberEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Infrastructure\Service\NationalBank\CoreDataFactory;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
 
 /**
  * MaximumIban

@@ -22,7 +22,7 @@ use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
 
 /**
  * CreatedDepositTransactionEvent

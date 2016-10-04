@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Command\DomainCommand;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Command\DomainCommand;
 
 /**
  * AbstractAccountCommand

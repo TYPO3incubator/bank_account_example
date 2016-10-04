@@ -20,9 +20,9 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
 use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Handler\EventHandlerTrait;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\RepresentableAsArray;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
 
 /**
  * Account

@@ -26,8 +26,8 @@ use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachable;
 use H4ck3r31\BankAccountExample\Domain\Object\TransactionAttachableTrait;
 use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Framework\Domain\Event\StorableEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\StorableEvent;
 
 /**
  * AbstractEvent

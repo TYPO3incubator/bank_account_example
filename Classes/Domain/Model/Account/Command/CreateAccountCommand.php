@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
 
 /**
  * CreateAccountCommand

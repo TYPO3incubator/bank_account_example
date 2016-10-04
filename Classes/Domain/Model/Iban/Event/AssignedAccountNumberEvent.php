@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban\Event;
 
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use TYPO3\CMS\DataHandling\Core\Framework\Object\Instantiable;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
 
 /**
  * AssignedAccountNumberEvent

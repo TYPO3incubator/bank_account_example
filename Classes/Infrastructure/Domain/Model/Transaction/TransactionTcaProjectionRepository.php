@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction;
  */
 
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Framework\Process\Projection\TcaProjectionService;
+use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\TcaProjectionService;
 use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\GenericEntity\UniversalProjectionRepository;
 
 /**
