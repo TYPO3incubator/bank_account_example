@@ -32,7 +32,6 @@ class Common
 
     const STREAM_PREFIX_BANK = self::STREAM_PREFIX . '/BankDto';
     const STREAM_PREFIX_ACCOUNT = self::STREAM_PREFIX . '/Account';
-    const STREAM_PREFIX_TRANSACTION = self::STREAM_PREFIX . '/Transaction';
 
     const TCA_TABLE_NAME_ACCOUNT = 'tx_bankaccountexample_domain_model_account';
     const TCA_TABLE_NAME_TRANSACTION = 'tx_bankaccountexample_domain_model_transaction';
