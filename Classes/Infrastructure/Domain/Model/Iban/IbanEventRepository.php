@@ -49,7 +49,7 @@ class IbanEventRepository implements EventRepository
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
 
         $existingIban = new ExistingIban($iban);
-        Saga::instance()->tell($existingIban, $eventSelector);
+        Saga::create($eventSelector)->tell($existingIban);
 
         return $existingIban->getExistingIban();
     }
@@ -64,7 +64,7 @@ class IbanEventRepository implements EventRepository
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
 
         $maximumIban = new MaximumIban($bank);
-        Saga::instance()->tell($maximumIban, $eventSelector);
+        Saga::create($eventSelector)->tell($maximumIban);
 
         return $maximumIban->incrementAccountNumber();
     }

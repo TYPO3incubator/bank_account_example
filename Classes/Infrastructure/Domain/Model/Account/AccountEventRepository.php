@@ -48,10 +48,8 @@ class AccountEventRepository implements EventRepository
     {
         $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . (string)$iban;
         $eventSelector = EventSelector::instance()->setStreamName($streamName);
-        $account = Saga::instance()
-            ->constraint($eventId, $type)
-            ->tell(Account::instance(), $eventSelector);
-        return $account;
+        $saga = Saga::create($eventSelector)->constraint($eventId, $type);
+        return Account::buildFromSaga($saga);
     }
 
     public function add(Account $account)

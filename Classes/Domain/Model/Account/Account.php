@@ -23,6 +23,7 @@ use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventReposi
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
+use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\Saga;
 
 /**
  * Account
@@ -32,11 +33,14 @@ class Account implements EventApplicable, RepresentableAsArray
     use EventHandlerTrait;
 
     /**
+     * @param Saga $saga
      * @return Account
      */
-    public static function instance()
+    public static function buildFromSaga(Saga $saga)
     {
-        return new static();
+        $account = new static();
+        $saga->tell($account);
+        return $account;
     }
 
     /**
@@ -45,7 +49,7 @@ class Account implements EventApplicable, RepresentableAsArray
      */
     public static function buildFromProjection(array $data)
     {
-        $account = static::instance();
+        $account = new static();
         $account->projected = true;
         $account->iban = Iban::fromString($data['iban']);
         $account->closed = (bool)$data['closed'];
@@ -73,6 +77,13 @@ class Account implements EventApplicable, RepresentableAsArray
      * @var float
      */
     private $balance = 0.0;
+
+    /**
+     * Disable public instantiation.
+     */
+    private function __construct()
+    {
+    }
 
     /**
      * @return array
@@ -137,7 +148,7 @@ class Account implements EventApplicable, RepresentableAsArray
         }
 
         $event = Event\CreatedAccountEvent::create($iban, $accountHolder);
-        $account = static::instance();
+        $account = new static();
         $account->manageEvent($event);
 
         return $account;

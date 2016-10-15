@@ -19,9 +19,11 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDepositTransa
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\ChangedAccountHolderEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\ClosedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\CreatedAccountEvent;
+use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountProjectionRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\Projection;
+use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\Saga;
 
 /**
  * AccountProjection
@@ -69,9 +71,12 @@ final class AccountProjection implements Projection
      */
     private function projectCreatedAccountEvent(CreatedAccountEvent $event)
     {
-        $account = Account::instance();
-        $account->applyEvent($event);
-
+        $account = AccountEventRepository::instance()
+            ->findByIban(
+                $event->getIban(),
+                $event->getEventId(),
+                Saga::EVENT_INCLUDING
+            );
         AccountProjectionRepository::instance()->add(
             $account->toArray()
         );
