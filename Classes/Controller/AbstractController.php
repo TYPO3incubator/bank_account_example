@@ -14,8 +14,8 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
-use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;

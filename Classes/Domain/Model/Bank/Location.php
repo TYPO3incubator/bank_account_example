@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Bank;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
-use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
 
 /**
  * Location

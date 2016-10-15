@@ -17,8 +17,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
-use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
-use H4ck3r31\BankAccountExample\Domain\Object\TransactionalTrait;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\Transactional;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionalTrait;
 
 /**
  * DebitMoneyCommand

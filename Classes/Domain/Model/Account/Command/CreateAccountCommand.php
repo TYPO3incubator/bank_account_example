@@ -16,8 +16,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
-use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
-use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\Holdable;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\HoldableTrait;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
 
 /**

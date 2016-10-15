@@ -16,7 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event\CreatedDepositTransactionEvent;
-use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\CommandException;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
 

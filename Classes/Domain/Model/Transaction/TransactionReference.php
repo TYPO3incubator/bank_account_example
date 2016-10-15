@@ -14,7 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Object\ValueObjectException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsString;
 
 /**

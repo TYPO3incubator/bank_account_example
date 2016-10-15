@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Object;
+namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,13 +14,23 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
+
 /**
- * Numbered
+ * HoldableTrait
  */
-interface Numbered
+trait HoldableTrait
 {
     /**
-     * @return string
+     * @var AccountHolder
      */
-    public function getAccountNumber(): string;
+    protected $accountHolder;
+
+    /**
+     * @return AccountHolder
+     */
+    public function getAccountHolder(): AccountHolder
+    {
+        return $this->accountHolder;
+    }
 }

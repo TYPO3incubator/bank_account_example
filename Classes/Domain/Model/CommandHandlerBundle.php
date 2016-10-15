@@ -19,7 +19,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
-use H4ck3r31\BankAccountExample\Domain\Object\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\CommandException;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Command\CommandHandler;

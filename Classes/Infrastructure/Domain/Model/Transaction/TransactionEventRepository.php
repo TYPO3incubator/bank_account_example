@@ -18,7 +18,7 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
-use H4ck3r31\BankAccountExample\Domain\Object\Transactional;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\Transactional;
 use Ramsey\Uuid\UuidInterface;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\Base\EventRepository;

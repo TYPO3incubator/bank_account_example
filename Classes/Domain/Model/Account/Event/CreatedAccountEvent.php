@@ -17,8 +17,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use H4ck3r31\BankAccountExample\Domain\Object\Holdable;
-use H4ck3r31\BankAccountExample\Domain\Object\HoldableTrait;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\Holdable;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\HoldableTrait;
 use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
 

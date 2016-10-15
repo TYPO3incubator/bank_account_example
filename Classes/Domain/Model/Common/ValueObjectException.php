@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Object;
+namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -14,23 +14,9 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  * The TYPO3 project - inspiring people to share!
  */
 
-use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
-
 /**
- * HoldableTrait
+ * ValueObjectException
  */
-trait HoldableTrait
+class ValueObjectException extends \InvalidArgumentException
 {
-    /**
-     * @var AccountHolder
-     */
-    protected $accountHolder;
-
-    /**
-     * @return AccountHolder
-     */
-    public function getAccountHolder(): AccountHolder
-    {
-        return $this->accountHolder;
-    }
 }

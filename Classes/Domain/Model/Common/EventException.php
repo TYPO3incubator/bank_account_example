@@ -1,5 +1,5 @@
 <?php
-namespace H4ck3r31\BankAccountExample\Domain\Object;
+namespace H4ck3r31\BankAccountExample\Domain\Model\Common;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -15,8 +15,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Object;
  */
 
 /**
- * CommandException
+ * EventException
  */
-class CommandException extends \TYPO3\CMS\Extbase\Exception
+class EventException extends \TYPO3\CMS\Extbase\Exception
 {
 }
