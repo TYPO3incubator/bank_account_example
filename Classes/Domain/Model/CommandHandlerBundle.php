@@ -77,7 +77,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
      */
     protected function handleDepositMoneyCommand(Command\DepositMoneyCommand $command)
     {
-        $transaction = DepositTransaction::createTransaction(
+        $transaction = DepositTransaction::create(
             $command->getIban(),
             $command->getMoney(),
             $command->getReference(),
@@ -96,7 +96,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
      */
     protected function handleDebitMoneyCommand(Command\DebitMoneyCommand $command)
     {
-        $transaction = DebitTransaction::createTransaction(
+        $transaction = DebitTransaction::create(
             $command->getIban(),
             $command->getMoney(),
             $command->getReference(),

@@ -17,13 +17,12 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
 
 /**
  * AbstractTransaction
  */
-abstract class AbstractTransaction implements EventApplicable, RepresentableAsArray
+abstract class AbstractTransaction implements RepresentableAsArray
 {
     /**
      * @param array $data
@@ -34,6 +33,14 @@ abstract class AbstractTransaction implements EventApplicable, RepresentableAsAr
         /** @var AbstractTransaction $transactionType */
         $transactionType = $data['transactionType'];
         return $transactionType::buildFromProjection($data);
+    }
+
+
+    /**
+     * Disable public instantiation.
+     */
+    protected function __construct()
+    {
     }
 
     /**

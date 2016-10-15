@@ -14,26 +14,22 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Event\CreatedDepositTransactionEvent;
-use H4ck3r31\BankAccountExample\Domain\Model\Common\CommandException;
 use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
 
 /**
  * DepositTransaction
  */
 class DepositTransaction extends AbstractTransaction
 {
-    use EventHandlerTrait;
-
     /**
      * @param array $data
      * @return DepositTransaction
      */
     public static function buildFromProjection(array $data)
     {
-        $transaction = static::instance();
+        $transaction = new static();
         $transaction->projected = true;
         $transaction->transactionId = Uuid::fromString($data['transactionId']);
         $transaction->iban = Iban::fromString($data['iban']);
@@ -45,35 +41,13 @@ class DepositTransaction extends AbstractTransaction
     }
 
     /**
-     * @return DepositTransaction
-     */
-    public static function instance()
-    {
-        return new static();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTransactionType()
-    {
-        return get_class($this);
-    }
-
-
-    /**
-     * Command handlers
-     */
-
-    /**
      * @param Iban $iban
      * @param Money $money
      * @param TransactionReference $reference
      * @param \DateTime|null $availabilityDate
      * @return DepositTransaction
-     * @throws CommandException
      */
-    public static function createTransaction(
+    public static function create(
         Iban $iban,
         Money $money,
         TransactionReference $reference,
@@ -84,42 +58,27 @@ class DepositTransaction extends AbstractTransaction
         if ($availabilityDate === null) {
             $availabilityDate = $entryDate;
         } elseif ($availabilityDate < $entryDate) {
-            throw new CommandException('Availability date cannot be before entry date', 1471512962);
+            throw new ValueObjectException(
+                'Availability date cannot be before entry date',
+                1471512963
+            );
         }
 
-        $transaction = static::instance();
-        $transactionId = Uuid::uuid4();
-
-        $event = CreatedDepositTransactionEvent::create(
-            $iban,
-            $transactionId,
-            $money,
-            $reference,
-            $entryDate,
-            $availabilityDate
-        );
-        // Transactions are handled in the bounds of Account
-        // that's the reason why it's not published, but just applied
-        $transaction->applyEvent($event);
-
+        $transaction = new static();
+        $transaction->transactionId = Uuid::uuid4();
+        $transaction->iban = $iban;
+        $transaction->money = $money;
+        $transaction->reference = $reference;
+        $transaction->entryDate = $entryDate;
+        $transaction->availabilityDate = $availabilityDate;
         return $transaction;
     }
 
-
-    /*
-     * Event handling
-     */
-
     /**
-     * @param CreatedDepositTransactionEvent $event
+     * @return string
      */
-    protected function applyCreatedDepositTransactionEvent(CreatedDepositTransactionEvent $event)
+    protected function getTransactionType()
     {
-        $this->transactionId = $event->getTransactionId();
-        $this->iban = $event->getIban();
-        $this->money = $event->getMoney();
-        $this->reference = $event->getReference();
-        $this->entryDate = $event->getEntryDate();
-        $this->availabilityDate = $event->getAvailabilityDate();
+        return get_class($this);
     }
 }
