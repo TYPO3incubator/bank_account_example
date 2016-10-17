@@ -89,7 +89,7 @@ class TransactionProjectionRepository implements ProjectionRepository
         }
 
         $data = DatabaseFieldNameConverter::fromDatabase($data);
-        return AbstractTransaction::buildFromProjection($data);
+        return AbstractTransaction::fromArray($data);
     }
 
     /**

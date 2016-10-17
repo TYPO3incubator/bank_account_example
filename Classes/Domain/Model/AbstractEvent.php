@@ -95,7 +95,7 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
         }
         /** @var TransactionAttachableTrait $this */
         if ($this instanceof TransactionAttachable) {
-            $this->transaction = AbstractTransaction::buildFromProjection($data['transaction']);
+            $this->transaction = AbstractTransaction::fromArray($data['transaction']);
         }
     }
 }

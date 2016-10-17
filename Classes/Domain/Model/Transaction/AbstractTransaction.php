@@ -28,11 +28,11 @@ abstract class AbstractTransaction implements RepresentableAsArray
      * @param array $data
      * @return AbstractTransaction
      */
-    public static function buildFromProjection(array $data)
+    public static function fromArray(array $data)
     {
         /** @var AbstractTransaction $transactionType */
         $transactionType = $data['transactionType'];
-        return $transactionType::buildFromProjection($data);
+        return $transactionType::fromArray($data);
     }
 
 

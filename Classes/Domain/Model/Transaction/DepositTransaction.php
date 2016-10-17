@@ -27,7 +27,7 @@ class DepositTransaction extends AbstractTransaction
      * @param array $data
      * @return DepositTransaction
      */
-    public static function buildFromProjection(array $data)
+    public static function fromArray(array $data)
     {
         $transaction = new static();
         $transaction->projected = true;
