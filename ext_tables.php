@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') or die();
+defined('TYPO3_MODE') || die();
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
     \H4ck3r31\BankAccountExample\Common::KEY_EXTENSION,

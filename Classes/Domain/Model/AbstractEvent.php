@@ -17,15 +17,10 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountHolder;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction\Money;
-use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\HoldableTrait;
-use H4ck3r31\BankAccountExample\Domain\Model\Common\Transactional;
-use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionalTrait;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachable;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachableTrait;
-use Ramsey\Uuid\Uuid;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\StorableEvent;
 
@@ -59,13 +54,6 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
         if ($this instanceof Holdable) {
             $data['accountHolder'] = $this->getAccountHolder()->getValue();
         }
-        if ($this instanceof Transactional) {
-            $data['transactionId'] = $this->getTransactionId()->toString();
-            $data['money'] = $this->getMoney()->getValue();
-            $data['reference'] = $this->getReference()->getValue();
-            $data['entryDate'] = $this->getEntryDate()->format(\DateTime::W3C);
-            $data['availabilityDate'] = $this->getAvailabilityDate()->format(\DateTime::W3C);
-        }
         if ($this instanceof TransactionAttachable) {
             $data['transaction'] = $this->getTransaction()->toArray();
         }
@@ -84,14 +72,6 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
         /** @var HoldableTrait $this */
         if ($this instanceof Holdable) {
             $this->accountHolder = AccountHolder::create($data['accountHolder']);
-        }
-        /** @var TransactionalTrait $this */
-        if ($this instanceof Transactional) {
-            $this->transactionId = Uuid::fromString($data['transactionId']);
-            $this->money = Money::create($data['money']);
-            $this->reference = TransactionReference::create($data['reference']);
-            $this->entryDate = new \DateTimeImmutable($data['entryDate']);
-            $this->availabilityDate = new \DateTimeImmutable($data['availabilityDate']);
         }
         /** @var TransactionAttachableTrait $this */
         if ($this instanceof TransactionAttachable) {
