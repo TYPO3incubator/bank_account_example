@@ -52,10 +52,10 @@ class AccountEventRepository implements EventRepository
         return Account::buildFromSaga($saga);
     }
 
-    public function add(Account $account)
+    public function commit(Account $account)
     {
         foreach ($account->getRecordedEvents() as $event) {
-            $this->addEvent($event);
+            $this->commitEvent($event);
         }
 
         ProjectionManager::provide()->projectEvents($account->getRecordedEvents());
@@ -65,7 +65,7 @@ class AccountEventRepository implements EventRepository
     /**
      * @param BaseEvent|SpecificEvent $event
      */
-    public function addEvent(BaseEvent $event)
+    public function commitEvent(BaseEvent $event)
     {
         $iban = (string)$event->getIban();
         $streamName = Common::STREAM_PREFIX_ACCOUNT . '/' . $iban;

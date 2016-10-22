@@ -69,10 +69,10 @@ class IbanEventRepository implements EventRepository
         return $maximumIban->incrementAccountNumber();
     }
 
-    public function add(Iban $iban)
+    public function commit(Iban $iban)
     {
         foreach ($iban->getRecordedEvents() as $event) {
-            $this->addEvent($event);
+            $this->commitEvent($event);
         }
 
         ProjectionManager::provide()->projectEvents($iban->getRecordedEvents());
@@ -82,7 +82,7 @@ class IbanEventRepository implements EventRepository
     /**
      * @param BaseEvent $event
      */
-    public function addEvent(BaseEvent $event)
+    public function commitEvent(BaseEvent $event)
     {
         $streamName = Common::STREAM_PREFIX . '/IBAN';
 

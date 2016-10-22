@@ -57,8 +57,8 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
             $command->getAccountHolder()
         );
 
-        IbanEventRepository::instance()->add($iban);
-        AccountEventRepository::instance()->add($account);
+        IbanEventRepository::instance()->commit($iban);
+        AccountEventRepository::instance()->commit($account);
     }
 
     /**
@@ -69,7 +69,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
         $account = $this->fetchAccount($command);
         $account->changeAccountHolder($command->getAccountHolder());
 
-        AccountEventRepository::instance()->add($account);
+        AccountEventRepository::instance()->commit($account);
     }
 
     /**
@@ -87,7 +87,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
         $account = $this->fetchAccount($command);
         $account->attachDepositTransaction($transaction);
 
-        AccountEventRepository::instance()->add($account);
+        AccountEventRepository::instance()->commit($account);
     }
 
     /**
@@ -106,7 +106,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
         $account = $this->fetchAccount($command);
         $account->attachDebitTransaction($transaction);
 
-        AccountEventRepository::instance()->add($account);
+        AccountEventRepository::instance()->commit($account);
     }
 
     /**
@@ -118,7 +118,7 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
         $account = $this->fetchAccount($command);
         $account->closeAccount();
 
-        AccountEventRepository::instance()->add($account);
+        AccountEventRepository::instance()->commit($account);
     }
 
     /**
