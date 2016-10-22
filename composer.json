@@ -4,7 +4,19 @@
 	"description": "Bank Account Example - Event Sourcing in TYPO3 CMS",
 	"homepage": "https://h4ck3r31.net/",
 	"license": ["GPL-2.0+"],
+	"authors": [
+		{
+			"name": "Oliver Hader",
+			"email": "oliver@typo3.org"
+		}
+	],
 	"minimum-stability": "dev",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "git@github.com:TYPO3Incubator/data_handling.git"
+		}
+	],
 	"require": {
 		"php" : "^7.0",
 		"typo3/cms-data-handling": "*"
