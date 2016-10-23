@@ -247,7 +247,7 @@ class Account implements EventApplicable, RepresentableAsArray
         $this->aggregateId = $event->getAggregateId();
         $this->iban = $event->getIban();
         $this->accountHolder = $event->getAccountHolder();
-        $this->balance = 0;
+        $this->balance = 0.0;
     }
 
     /**
@@ -258,10 +258,7 @@ class Account implements EventApplicable, RepresentableAsArray
         $this->accountHolder = $event->getAccountHolder();
     }
 
-    /**
-     * @param Event\ClosedAccountEvent $event
-     */
-    protected function applyClosedAccountEvent(Event\ClosedAccountEvent $event)
+    protected function applyClosedAccountEvent()
     {
         $this->closed = true;
     }

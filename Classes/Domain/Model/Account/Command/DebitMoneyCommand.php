@@ -39,14 +39,14 @@ class DebitMoneyCommand extends AbstractAccountCommand implements Transactional
      * @param Iban $iban
      * @param Money $money
      * @param TransactionReference $reference
-     * @param null|\DateTime $availabilityDate
+     * @param null|\DateTimeImmutable $availabilityDate
      * @return DebitMoneyCommand
      */
     public static function create(
         Iban $iban,
         Money $money,
         TransactionReference $reference,
-        \DateTime $availabilityDate = null
+        \DateTimeImmutable $availabilityDate = null
     ) {
         $command = static::instance();
         $command->iban = $iban;

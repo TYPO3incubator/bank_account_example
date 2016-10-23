@@ -38,12 +38,12 @@ trait TransactionalTrait
     protected $reference;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     protected $entryDate;
 
     /**
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     protected $availabilityDate;
 

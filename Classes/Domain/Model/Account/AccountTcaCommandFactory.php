@@ -195,7 +195,7 @@ final class AccountTcaCommandFactory implements TcaCommandFactory
         $iban = Iban::fromString($accountData['iban'] ?? null);
         $money = Money::create($data['money'] ?? null);
         $reference = TransactionReference::create($data['reference'] ?? '');
-        $availabilityDate = new \DateTime($data['availability_date'] ?? null);
+        $availabilityDate = new \DateTimeImmutable($data['availability_date'] ?? null);
 
         if ($data['type'] === DepositTransaction::class) {
             $this->deferredCommands->detach($transactionCommand);

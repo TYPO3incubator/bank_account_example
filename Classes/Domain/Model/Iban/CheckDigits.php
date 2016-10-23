@@ -54,7 +54,7 @@ class CheckDigits implements RepresentableAsString
         SubsidiaryCode $subsidiaryCode,
         AccountNumber $accountNumber
     ) {
-        $value = static::substituteCharacters(
+        $value = self::substituteCharacters(
             $branchCode . $subsidiaryCode . $accountNumber . $nationalCode . '00'
         );
 

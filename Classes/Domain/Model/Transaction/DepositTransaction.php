@@ -44,16 +44,16 @@ class DepositTransaction extends AbstractTransaction
      * @param Iban $iban
      * @param Money $money
      * @param TransactionReference $reference
-     * @param \DateTime|null $availabilityDate
+     * @param \DateTimeImmutable|null $availabilityDate
      * @return DepositTransaction
      */
     public static function create(
         Iban $iban,
         Money $money,
         TransactionReference $reference,
-        \DateTime $availabilityDate = null
+        \DateTimeImmutable $availabilityDate = null
     ) {
-        $entryDate = new \DateTime('now');
+        $entryDate = new \DateTimeImmutable('now');
 
         if ($availabilityDate === null) {
             $availabilityDate = $entryDate;
