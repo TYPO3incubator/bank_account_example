@@ -30,7 +30,6 @@ class DebitTransaction extends AbstractTransaction
     public static function fromArray(array $data)
     {
         $transaction = new static();
-        $transaction->projected = true;
         $transaction->transactionId = Uuid::fromString($data['transactionId']);
         $transaction->iban = Iban::fromString($data['iban']);
         $transaction->money = Money::create($data['money']);
