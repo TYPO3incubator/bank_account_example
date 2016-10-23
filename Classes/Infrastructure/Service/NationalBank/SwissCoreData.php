@@ -137,7 +137,7 @@ final class SwissCoreData extends AbstractCoreData
 
             $bank = new Bank(
                 NationalCode::create('CH'),
-                $this->convertBranchCode($branchCode),
+                $this->convertBranchCode((string)$branchCode),
                 $this->getSubsidiaryCode(),
                 $bankName,
                 $address

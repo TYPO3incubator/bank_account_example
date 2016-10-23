@@ -84,7 +84,7 @@ class TransactionProjectionRepository implements ProjectionRepository
      */
     private function buildOne($data)
     {
-        if (empty($data)) {
+        if (empty($data) || !is_array($data)) {
             return null;
         }
 
