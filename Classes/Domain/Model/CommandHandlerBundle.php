@@ -16,6 +16,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model;
 
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ReconstitutionException;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DebitTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\DepositTransaction;
@@ -123,11 +124,21 @@ final class CommandHandlerBundle implements Instantiable, CommandHandler
 
     /**
      * @param Command\AbstractAccountCommand $command
-     * @return Account|null
+     * @return Account
+     * @throws ReconstitutionException
      */
     private function fetchAccount(Command\AbstractAccountCommand $command)
     {
-        return AccountEventRepository::instance()
+        $account = AccountEventRepository::instance()
             ->findByIban($command->getIban());
+
+        if (!($account instanceof Account)) {
+            throw new ReconstitutionException(
+                'Could not reconstitute account',
+                1477207653
+            );
+        }
+
+        return $account;
     }
 }

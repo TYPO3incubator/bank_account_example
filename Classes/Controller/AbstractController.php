@@ -14,8 +14,12 @@ namespace H4ck3r31\BankAccountExample\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
+use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\CommandException;
+use H4ck3r31\BankAccountExample\Domain\Model\Common\ReconstitutionException;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
@@ -65,10 +69,44 @@ abstract class AbstractController extends ActionController
             $this->addFlashMessage($exception->getMessage());
         } catch (CommandException $exception) {
             $this->addFlashMessage($exception->getMessage());
+        } catch (ReconstitutionException $exception) {
+            $this->addFlashMessage($exception->getMessage(), '', AbstractMessage::ERROR);
         }
 
         if (!empty($this->finalRedirect)) {
             call_user_func_array([$this, 'redirect'], $this->finalRedirect);
         }
+    }
+
+    /**
+     * @param $bank
+     * @return Bank
+     * @throws ReconstitutionException
+     */
+    protected function assertReconstitutedBank($bank)
+    {
+        if (!($bank instanceof Bank)) {
+            throw new ReconstitutionException(
+                'Could not reconstitute bank',
+                1477207651
+            );
+        }
+        return $bank;
+    }
+
+    /**
+     * @param $account
+     * @return Account
+     * @throws ReconstitutionException
+     */
+    protected function assertReconstitutedAccount($account)
+    {
+        if (!($account instanceof Account)) {
+            throw new ReconstitutionException(
+                'Could not reconstitute account',
+                1477207652
+            );
+        }
+        return $account;
     }
 }

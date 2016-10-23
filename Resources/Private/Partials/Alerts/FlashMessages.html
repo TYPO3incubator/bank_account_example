@@ -3,9 +3,19 @@
 
 <f:flashMessages as="flashMessages">
   <f:for each="{flashMessages}" as="flashMessage">
-    <div class="alert alert-warning" role="alert">
-      {flashMessage.message}
-    </div>
+    <f:if condition="{flashMessage.severity} == 2">
+      <f:then>
+        <div class="alert alert-danger" role="alert">
+          <strong>Error</strong>
+          {flashMessage.message}
+        </div>
+      </f:then>
+      <f:else>
+        <div class="alert alert-warning" role="alert">
+          {flashMessage.message}
+        </div>
+      </f:else>
+    </f:if>
   </f:for>
 </f:flashMessages>
 

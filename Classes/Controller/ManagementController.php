@@ -56,7 +56,9 @@ class ManagementController extends AbstractController
      */
     public function listAccountsAction(BankDto $bankDto)
     {
-        $bank = DtoConverter::fromBankDto($bankDto);
+        $bank = $this->assertReconstitutedBank(
+            DtoConverter::fromBankDto($bankDto)
+        );
         $accountDtos = array_map(
             DtoConverter::toAccountDtoClosure(),
             AccountProjectionRepository::instance()->findByBank($bank)
@@ -83,9 +85,10 @@ class ManagementController extends AbstractController
     public function showAction(Iban $iban)
     {
         $bankDto = DtoConverter::ibanToBankDto($iban);
-        $accountDto = DtoConverter::toAccountDto(
+        $account = $this->assertReconstitutedAccount(
             AccountProjectionRepository::instance()->findByIban($iban)
         );
+        $accountDto = DtoConverter::toAccountDto($account);
 
         $transactions = array_map(
             DtoConverter::toTransactionDtoClosure(),
@@ -102,7 +105,9 @@ class ManagementController extends AbstractController
      */
     public function editAction(Iban $iban)
     {
-        $account = AccountProjectionRepository::instance()->findByIban($iban);
+        $account = $this->assertReconstitutedAccount(
+            AccountProjectionRepository::instance()->findByIban($iban)
+        );
         $accountDto = DtoConverter::toAccountDto($account);
         $bankDto = DtoConverter::ibanToBankDto($iban);
 

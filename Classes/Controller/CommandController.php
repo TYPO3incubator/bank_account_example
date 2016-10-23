@@ -39,7 +39,7 @@ class CommandController extends AbstractController
         $this->finalRedirect = ['listAccounts', 'Management', null, ['bankDto' => $bankDto->toArray()]];
 
         $command = Command\CreateAccountCommand::create(
-            DtoConverter::fromBankDto($bankDto),
+            $this->assertReconstitutedBank(DtoConverter::fromBankDto($bankDto)),
             AccountHolder::create($accountDto->getAccountHolder()),
             $accountDto->getAccountNumber()
         );
