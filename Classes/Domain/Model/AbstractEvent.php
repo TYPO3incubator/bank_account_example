@@ -62,10 +62,10 @@ abstract class AbstractEvent extends BaseEvent implements StorableEvent
     }
 
     /**
-     * @param array|null $data
+     * @param array $data
      * @return void
      */
-    public function importData($data)
+    public function importData(array $data)
     {
         $this->iban = Iban::fromString($data['iban']);
 
