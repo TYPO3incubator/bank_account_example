@@ -180,7 +180,7 @@ class Account implements EventApplicable, RepresentableAsArray
         $this->checkClosed();
 
         if ((string)$this->accountHolder === (string)$accountHolder) {
-            return;
+            throw new CommandException('Account holder has not been changed', 1478866955);
         }
 
         $event = Event\ChangedAccountHolderEvent::create(
