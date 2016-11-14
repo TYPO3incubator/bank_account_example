@@ -23,7 +23,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionDto;
 use H4ck3r31\BankAccountExample\Domain\Model\Transaction\TransactionReference;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountDto;
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\BankDto;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Command\CommandBus;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Command\CommandBus;
 
 /**
  * CommandController

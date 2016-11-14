@@ -17,7 +17,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Common\RepresentableAsArray;
 
 /**
  * AbstractTransaction

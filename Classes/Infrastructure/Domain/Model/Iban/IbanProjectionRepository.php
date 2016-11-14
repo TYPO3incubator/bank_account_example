@@ -20,7 +20,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Iban\AccountNumber;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\DatabaseFieldNameConverter;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\Base\ProjectionRepository;
+use TYPO3\CMS\EventSourcing\Infrastructure\Domain\Model\Base\ProjectionRepository;
 
 /**
  * Repository organizing projections for Account

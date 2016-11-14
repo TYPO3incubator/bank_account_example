@@ -21,8 +21,8 @@ use H4ck3r31\BankAccountExample\Domain\Model\Common\Holdable;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\HoldableTrait;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachable;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachableTrait;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\StorableEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\StorableEvent;
 
 /**
  * AbstractEvent

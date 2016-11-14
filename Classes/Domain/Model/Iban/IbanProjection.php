@@ -16,8 +16,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
 
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Event\AssignedAccountNumberEvent;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanProjectionRepository;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\Projection;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Projection\Projection;
 
 /**
  * IbanProjection

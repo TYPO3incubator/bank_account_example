@@ -15,7 +15,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Model\Common\ValueObjectException;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsString;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Common\RepresentableAsString;
 
 /**
  * AccountNumber

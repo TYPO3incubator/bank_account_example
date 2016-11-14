@@ -14,7 +14,7 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\DataTransferObject;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\DataTransferObject;
 
 /**
  * TransactionDto

@@ -15,8 +15,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Iban;
  */
 
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Event\AssignedAccountNumberEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\EventApplicable;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\EventHandlerTrait;
 
 /**
  * ExistingIban

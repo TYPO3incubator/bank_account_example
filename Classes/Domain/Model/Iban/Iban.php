@@ -21,10 +21,10 @@ use H4ck3r31\BankAccountExample\Domain\Model\Iban\Event\AssignedAccountNumberEve
 use H4ck3r31\BankAccountExample\Domain\Model\Bank\Bank;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Iban\IbanEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Service\NationalBank\CoreDataFactory;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventApplicable;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\EventHandlerTrait;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsArray;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\RepresentableAsString;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\EventApplicable;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\EventHandlerTrait;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Common\RepresentableAsArray;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Common\RepresentableAsString;
 use TYPO3\CMS\Extbase\Mvc\Exception\CommandException;
 
 /**

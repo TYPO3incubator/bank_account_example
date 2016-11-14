@@ -20,7 +20,7 @@ use H4ck3r31\BankAccountExample\Domain\Model\Transaction\AbstractTransaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachable;
 use H4ck3r31\BankAccountExample\Domain\Model\Common\TransactionAttachableTrait;
 use Ramsey\Uuid\UuidInterface;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Common\Instantiable;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Common\Instantiable;
 
 /**
  * AttachedDepositTransactionEvent

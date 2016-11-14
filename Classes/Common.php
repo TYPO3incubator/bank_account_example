@@ -18,9 +18,9 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\AccountTcaCommandFactory;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Command;
 use H4ck3r31\BankAccountExample\Domain\Model\CommandHandlerBundle;
 use Ramsey\Uuid\Uuid;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Command\CommandBus;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\ProjectionManager;
 use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\TcaCommand\TcaCommandManager;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Command\CommandBus;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Projection\ProjectionManager;
 
 /**
  * Common
@@ -147,7 +147,7 @@ class Common
      */
     public static function getDatabaseConnection()
     {
-        return \TYPO3\CMS\DataHandling\Core\Database\ConnectionPool::instance()
+        return \TYPO3\CMS\EventSourcing\Core\Database\ConnectionPool::instance()
             ->getOriginConnection();
     }
 }

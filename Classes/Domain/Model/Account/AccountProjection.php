@@ -21,9 +21,9 @@ use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\ClosedAccountEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\CreatedAccountEvent;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountEventRepository;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Account\AccountProjectionRepository;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\Projection;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\Saga;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Projection\Projection;
+use TYPO3\CMS\EventSourcing\Infrastructure\EventStore\Saga;
 
 /**
  * AccountProjection

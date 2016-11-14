@@ -18,12 +18,12 @@ use H4ck3r31\BankAccountExample\Common;
 use H4ck3r31\BankAccountExample\Domain\Model\AbstractEvent as SpecificEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Account;
 use H4ck3r31\BankAccountExample\Domain\Model\Iban\Iban;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\Domain\Model\Base\EventRepository;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\Saga;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\EventSelector;
-use TYPO3\CMS\DataHandling\DataHandling\Infrastructure\EventStore\EventStorePool;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\ProjectionManager;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Projection\ProjectionManager;
+use TYPO3\CMS\EventSourcing\Infrastructure\Domain\Model\Base\EventRepository;
+use TYPO3\CMS\EventSourcing\Infrastructure\EventStore\Saga;
+use TYPO3\CMS\EventSourcing\Infrastructure\EventStore\EventSelector;
+use TYPO3\CMS\EventSourcing\Infrastructure\EventStore\EventStorePool;
 
 /**
  * Repository organizing events for Account

@@ -17,8 +17,8 @@ namespace H4ck3r31\BankAccountExample\Domain\Model\Transaction;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDebitTransactionEvent;
 use H4ck3r31\BankAccountExample\Domain\Model\Account\Event\AttachedDepositTransactionEvent;
 use H4ck3r31\BankAccountExample\Infrastructure\Domain\Model\Transaction\TransactionProjectionRepository;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Event\BaseEvent;
-use TYPO3\CMS\DataHandling\Core\Domain\Model\Base\Projection\Projection;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Event\BaseEvent;
+use TYPO3\CMS\EventSourcing\Core\Domain\Model\Base\Projection\Projection;
 
 /**
  * TransactionProjection
