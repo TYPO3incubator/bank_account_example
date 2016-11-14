@@ -10,7 +10,6 @@
 			"email": "oliver@typo3.org"
 		}
 	],
-	"minimum-stability": "dev",
 	"repositories": [
 		{
 			"type": "vcs",
@@ -19,7 +18,7 @@
 	],
 	"require": {
 		"php" : "^7.0",
-		"typo3/cms-data-handling": "*"
+		"typo3/cms-data-handling": "^0.2.1"
 	},
 	"replace": {
 		"bank_account_example": "*"
