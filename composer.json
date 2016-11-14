@@ -18,7 +18,7 @@
 	],
 	"require": {
 		"php" : "^7.0",
-		"typo3/cms-data-handling": "^0.2.1"
+		"typo3/cms-data-handling": "^0.2.2"
 	},
 	"replace": {
 		"bank_account_example": "*"
