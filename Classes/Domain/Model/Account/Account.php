@@ -174,6 +174,7 @@ class Account implements EventApplicable, RepresentableAsArray
 
     /**
      * @param AccountHolder $accountHolder
+     * @throws CommandException
      */
     public function changeAccountHolder(AccountHolder $accountHolder)
     {
